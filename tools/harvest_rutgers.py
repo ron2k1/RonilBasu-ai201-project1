@@ -192,6 +192,19 @@ def _comment_count(raw: str) -> int:
 BOT_AUTHORS = {"automoderator", "ru_bot", "remindmebot", "sneakpeekbot"}
 DEAD = {"[deleted]", "[removed]", ""}
 
+# Flairs the community itself uses to mark "this is venting, not information".
+# Cheaper and more accurate than trying to infer it from the text.
+DROP_FLAIRS = {"rant/vent", "rant", "vent", "crashout", "shitpost", "meme", "memes"}
+
+# This corpus is committed to a public repo that gets graded. Reddit is candid;
+# a slur in a submitted assignment is a different thing. A post that opens this
+# way is dropped whole, a reply that does is dropped on its own so the rest of
+# the thread survives.
+SLURS = re.compile(
+    r"\b(retard\w*|f[a4]gg\w*|n[i1]gg\w+|tr[a4]nn(?:y|ie|ies)|sp[i1]c|ch[i1]nk|k[i1]ke)\b",
+    re.I,
+)
+
 
 def build_stage(raw_dir: Path, max_replies: int) -> None:
     posts_dir = raw_dir / "posts"
@@ -245,12 +258,23 @@ def _parse_post(page: str, max_replies: int) -> dict | None:
     if not title:
         return None
 
-    body_block = re.search(r'<div class="post_body">(.*?)</div>\s*</div>', page, re.S)
+    # Anchor on the inner "md" wrapper, which is where Redlib puts rendered
+    # markdown. Without it, a link post (which has no self-text) matches the
+    # outer div and drags the page footer and the "You are about to leave
+    # Redlib" interstitial into the document.
+    body_block = re.search(
+        r'<div class="post_body">\s*<div class="md">(.*?)</div>\s*</div>', page, re.S
+    )
     body = _to_text(body_block.group(1)) if body_block else ""
 
     created = re.search(r'<span class="created" title="([^"]+)"', page)
     permalink = re.search(r'href="(/r/rutgers/comments/[^"?]+)"', page)
     flair = re.search(r'class="post_flair"[^>]*><span>([^<]*)</span>', page)
+
+    if flair and flair.group(1).strip().lower() in DROP_FLAIRS:
+        return None
+    if SLURS.search(body) or SLURS.search(title):
+        return None
 
     replies = _parse_comments(page, max_replies)
 
@@ -325,6 +349,8 @@ def _parse_comments(page: str, limit: int) -> list[tuple[int, str]]:
         if author in BOT_AUTHORS or text.lower() in DEAD:
             continue
         if len(text) < 80 or score < 2:
+            continue
+        if SLURS.search(text):
             continue
         if not _is_answer(text):
             continue
