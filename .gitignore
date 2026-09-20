@@ -25,3 +25,7 @@ Thumbs.db
 
 # NOTE: results/ is deliberately NOT ignored. Your run logs are evidence that
 # the test actually happened, and they're part of what gets graded. Commit them.
+
+# Raw scraped HTML for the rutgers corpus. Re-fetchable; the cleaned
+# documents in corpora/rutgers/documents/ are what actually gets committed.
+.harvest/

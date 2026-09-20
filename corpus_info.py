@@ -10,6 +10,10 @@ from pathlib import Path
 import config
 
 BLURBS = {
+    "rutgers": (
+        "Real r/rutgers threads about Rutgers-New Brunswick, scraped and "
+        "cleaned. Long guide posts sit next to short back-and-forth threads."
+    ),
     "campus_life": (
         "Short posts about student life. ~88 documents of 1–3 paragraphs. "
         "Useful information usually sits in a single sentence."
