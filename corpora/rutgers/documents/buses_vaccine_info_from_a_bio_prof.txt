@@ -1,0 +1,116 @@
+THREAD: Vaccine Info (from a bio prof)
+
+Edit: Let me start with this: If you or someone you know is having trouble getting an appointment, see this group for a very helpful guide.
+
+​
+
+More edit: This video is a step-by-step guide. And follow this twitter account and this one and turn on notifications.
+
+​
+
+Original post:
+
+So judging by the state of the subreddit, we've all seen the announcement about the fall (yay!), but there are of course people who are nervous or have questions about the vaccines.
+
+​
+
+Well, I happen to know a little bit about this stuff (my specialty is viral evolution), so I'm going to try to provide some info and if anyone has any questions, try to answer them.
+
+​
+
+So these are RNA vaccines, meaning they bring a little bit of RNA into your cells. RNA (or mRNA, if you want to be more specific) is the stuff that's "read" by your cells to make proteins. In this case, we're giving our cells the instructions to make a viral protein, which our immune system can then see and go "A HA, viral protein!"
+
+Then we make antibodies and T cells for that protein, so if you happen to be exposed to the real thing, you're ready to go. As always, there's an xkcd for this.
+
+​
+
+The RNA doesn't do much in your cells. It only last about five minutes before it breaks down. It can't modify your DNA. Once it's gone, these vaccines work like a lot of others in that there are viral proteins present that can't hurt you, but your immune system can target them in preparation for the real thing. The only difference is that instead of these viral proteins being injected (like a yearly flu vaccine, for example), your cells made them.
+
+​
+
+Are there side effects? In many people, yes. BUT! They're mostly things like aches or a mild fever, and those are good side effects, because those things are your immune system ramping up. And because these vaccines are prepared differently from others (like the flue shot, for example), I've read that people are less likely to have allergic reactions (I'm not a medical doctor consult a medical doctor if you've had an allergic reaction to a vaccine in the past).
+
+​
+
+These vaccines work REALLY well. 95% effective means that for any given activity, your risk of contracting a COVID infection is reduced by 95% if you are vaccinated. It doesn't mean 5% of vaccinated people get COVID, or that there's a 5% chance of getting COVID if you're vaccinated. It's a reduction in risk. So if you think of everything you do as a probability distribution, some things are very safe, some things are less so. Once you're vaccinated, take every point on that curve and drop it by 95%. That's what 95% efficacy means for a vaccine.
+
+And I should note that that is incredible. A really good flu vaccine is like 70% effective.
+
+​
+
+How long does this protection last? We’re not sure. There are 4 coronaviruses that circulate all the time and cause a common cold. Immunity to those lasts 1-3 years, and depends on how long you continue to respond to the virus and how much the virus changes. In general, responses in younger people remain stronger for longer. These vaccines are designed to be more robust than a natural infection (hence the side effects), so while we don’t yet know for sure, the ability to respond to the virus will probably last at least a few years (and this is why you should get vaccinated even if you had COVID – protection from the vaccine will be stronger and last longer than what you get from a natural infection).
+
+​
+
+And then the question of how long they will be protective will hinge on how much the virus changes. So far, the vaccines are effective against the new variants circulating. I could see a future where we get a combo flu/COVID shot every fall to keep up with the newest variants. Nobody knows for sure, but I wouldn’t be surprised. That shouldn't be too challenging, from a technical perspective, now that we have the vaccines in the first place. Modifying that is a lot easier than, you know, inventing them.
+
+​
+
+So. Once you can, please get vaccinated. Remote teaching sucks compared to in person. These vaccines are safe, effective, and basically marvels of biotechnology.
+
+​
+
+If you have any questions about anything I didn't cover, AMA.
+
+​
+
+One more edit: Want to add a bit about herd immunity.
+
+Many people can't get vaccinated. People may be allergic to the vaccine, or immunocompromised, or some other reason. So they're vulnerable to the virus as long as it's circulating.
+
+So what we want to do is for everyone else to get vaccinated, which prevents the virus from circulating. Once a high enough percentage are vaccinated, there aren't enough vulnerable hosts for the virus to persist in the population - this is called "herd immunity". We can actually calculate what that threshold is: 1-(1/R0), where R0 is the average number of people infected from a single infected person in a completely susceptible population. For this virus, if I recall, R0 is between 3 and 4. So let's say it's 4 - that means we need 1-(1/4) = 3/4 = 0.75 = 75% of the population vaccinated to prevent it from circulating. These numbers are approximate, get the actual numbers from public health sources.
+
+This works because a vaccinated person is MUCH less likely to be infected - 95% less likely for Pfizer and Moderna - and also MUCH less likely to transmit the virus if they are infected - about 90% less likely based on the data so far. So for a vaccinated person, that's 1/10th (transmission) of 1/20th (infection), or just 1/200th, as likely to be a link in a transmission chain between two unvaccinated people, compared to an unvaccinated person. That's a huge difference. So when a sufficient threshold of the population is vaccinated, the virus cannot circulate, and the people who can't get vaccinated are protected.
+
+This is what needs to happen for things to go back to "normal", which is why everyone who is not medically unable to get the vaccine should get it as soon as they are eligible.
+
+--- reply 1 (34 votes) ---
+The data we have show that it reduces asymptomatic transmission by about 90%.
+
+That's specifically for Pfizer if I recall, but I would think the others are in the same ballpark.
+
+--- reply 2 (32 votes) ---
+I'm so happy you posted something! I had you a couple years ago for bio and I remember how much you loved talking about viruses and such, so I've wondered what you thought about the pandemic and about the vaccines!
+
+I just have one quick question: do you think that people who had very little/no side effects should get an antibody test a few weeks after the second dose? Or would that just be overkill?
+
+That's my only question, but I hope that this post gets a lot of exposure so that, not only can more people be educated on this virus and vaccine, but so that they can also educate others who are or spread misinformation. I am always disappointed to see how many people refuse to take the vaccine because "I don't know what's in it" "how did they make it so fast", try and use some conspiracy theory as an excuse not to take it, or think that their DNA can be altered by mRNA.
+
+--- reply 3 (32 votes) ---
+We can't say with absolute certainty, because we've only been giving these to people for about a year at this point, but there shouldn't be anything different from any other vaccines, and the rate of long-term side-effects from other vaccinations are vanishingly low. Like the rate of severe side effects from the influenza vaccine is in the order of one in ten million. Look at it this way: the walk or drive to wherever you're going to get the vaccine is very likely several orders of magnitude riskier than the vaccine itself.
+
+--- reply 4 (20 votes) ---
+I think you'll be fine. NJ is doing pretty well so far (I think almost a 3rd of the state has gotten at least one shot already). Getting an appointment can take a few days, but it's doable if you know what you're doing. How does one know what they're doing? See this group for an always-up-to-date guide. Everyone over 16 will be eligible by May 1st at the latest (and probably sooner), so getting set for the fall should be fine.
+
+--- reply 5 (19 votes) ---
+You're welcome.
+
+We do have long-term (decades) studies of RNA vaccines in other animals, just not humans, and they are just as safe, if not safer, than other vaccines. One of the reasons we were able to develop these so fast is several companies had been working on mRNA ebola vaccines. So the risks are not at all completely unknown. If anything, because of the nature of an RNA vaccine compared to an attenuated vaccine (for example polio (until a few years ago), or the up-the-nose flu vaccine), the risks are almost certainly lower.
+
+It's also not the case that we have no idea how long the protection will last. Coronaviruses mutate relatively slowly as RNA viruses go, much closer to the rate of DNA viruses, so we probably don't have to worry about something like a yearly turnover like the flu, and vaccine design is pretty well understood. At the very least for the two-shot vaccines (Pfizer and Moderna), the actual antibodies are expected to persist for years (and the data so far support that - it's in line with the many other boosted vaccines that operate on the same principle).
+
+Let me put it this way: The risk of serious complications (like, require hospitalization) for influenza is about 1 in a thousand (depending on age, etc), and the risk of comparably serious reactions to the flu vaccine are somewhere in the neighborhood of 1 in ten million. COVID is more dangerous than influenza across all age groups except very young children, and the RNA vaccines are, as far as we can tell so far, and in all likelihood will continue to be, less likely than the flu vaccine to result in a serious side effect. So based on what we know right now, getting vaccinated is the best option.
+
+And that's not considering the public health side of things, where the point is also to protect people who themselves cannot get vaccinated.
+
+--- reply 6 (18 votes) ---
+I'd say you can use your GB knowledge to explain how it can't modify your DNA, but providing correct information in response to misconceptions like that often hardens the views rather than causing them to change. A more effective approach is to say something like "I understand there are concerns over the safety of this new type of vaccine, but well-informed people, including the people who are responsible for developing and distributing the vaccine, accept the safety and efficacy data enough to recommend that their own families are vaccinated as soon as possible". Trust > facts, in many cases. Which makes me sad. But human brains are basically defective when it comes to changing views in light of new information.
+
+And thank you :)
+
+--- reply 7 (16 votes) ---
+I've had multiple friends with 4.0s tell me that they don't want to take an mRNA vaccine because they don't want anything messing with their DNA :')
+Also sidenote I'm taking gen bio 2 and I wanted to say you're probably the best prof I've had so far
+
+--- reply 8 (12 votes) ---
+Related question for you (since I have your ear!).
+
+I have a weak immune system and my body cannot build resistance to viruses. In practice, I have to be careful with vaccines and anything with a live virus has always been a no-go. I have had my first Pfizer shot and had no reaction—piece of cake. The mRNA is such a crazy-great advancement.
+
+But I also wonder if my system may have just sluffed it off completely and did not build any anti-bodies from the experience.
+
+I've read the CDC guidance—or as much as I can understand it and have spoken to my Doctors.
+
+I know that all of this is being written in real time and that you can dispense medical advice, but… From a bio-analysis, do you think the mRNA might trigger a different antibody response for someone like me, or is it all the same reaction? (I'm thinking same.) Do you think it might wash through my system with no response-lesson learned? Is there a way to tell or tests I should be taking?
+
+(And, if you know of any EBV studies along this line at Rutgers, I would be glad to participate!)

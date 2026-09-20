@@ -1,0 +1,66 @@
+THREAD: I got tired of using six different Rutgers tools to plan a semester, so I built AtlasRU!!
+TOPIC: Schedule
+
+Hey r/rutgers! I’m a student here, and after months of building, testing, and constantly changing things based on feedback, I’m really excited to finally share AtlasRU.
+
+Planning classes usually means jumping between WebReg, CSP, Degree Navigator, Rate My Professors, a course sniper, and screenshots of your friends’ schedules.
+
+AtlasRU brings all of that into one place:
+
+- Professor ratings and course descriptions beside every section
+
+- Filters for courses you’ve completed or actually have the prerequisites for
+
+- Schedule generation, conflict checking, and calendar export
+
+- Graduation tracking and an interactive prerequisite roadmap
+
+- Seat alerts for closed sections
+
+- Friend schedule overlays to find shared free time
+
+- An AI advisor for course and degree questions
+
+Around 20 Rutgers students have been testing it since June, and a lot of what’s there now came directly from their suggestions.
+
+Try AtlasRU: https://atlasru.com
+
+Especially if you’re an incoming freshman, or just someone who wants help figuring out their schedule, give it a try and see what it recommends!!
+
+I also made an Instagram launch post showing everything in action: https://www.instagram.com/p/DbBSCK8AO0W/?igsh=b2x6ZW5lYTJyZjdw
+
+I’m genuinely so excited to finally put this out. Check out the app and the Instagram post, and tell me what you think! Every bug report, confusing screen, missing feature, or random idea helps me make AtlasRU better for Rutgers students!!
+
+￼
+
+￼
+
+--- reply 1 (11 votes) ---
+Ha, I built CSP (Constraint Satisfaction Problem Course Schedule Planner) a lifetime ago. Can't believe it's still being used. Your app looks great. Should be something that RU supports
+
+--- reply 2 (5 votes) ---
+It all comes from official Rutgers systems like the Webreg, Degree Navigator, official course synopsis pages, and getINVOLVED.
+
+AtlasRU basically organizes all that Rutgers data into one place so it’s much easier to use than jumping between different sites. Nothing personal is pulled from other students, and your transcript or degree progress stays tied only to your own account!!
+
+--- reply 3 (4 votes) ---
+AI definitely helped me speed up development a ton! I’m just hoping I can use it to build something useful and give back to the Rutgers community :)
+
+--- reply 4 (3 votes) ---
+No way, that’s awesome!! I’m sure CSP has helped a ton of Rutgers students over the years, so it’s really cool hearing this from the person who made it!! Thank you so much!!
+
+--- reply 5 (3 votes) ---
+great work!! I just tried it out and it's pretty cool. I love the comparing friends' schedules feature!!
+
+--- reply 6 (3 votes) ---
+I’m a big fan too!! Love RUBus.live, genuinely one of the best things built for Rutgers students, so this means a lot coming from you.
+
+The main stack is Next.js, React, TypeScript, and Tailwind on the frontend, with NestJS, Prisma, and PostgreSQL on the backend. We also have a separate Python pipeline for processing Rutgers course, professor, prerequisite, and degree-requirement data!
+
+--- reply 7 (3 votes) ---
+Not yet, but I’m adding support for dual majors and additional minors over the next few days! For now, you can still search for the other major or minor in the Graduation tab to see which requirements you’ve completed! The update will make them show up there by default!!
+
+--- reply 8 (2 votes) ---
+Update: this is live now!! You can add additional majors and minors under Settings → Edit profile and degree, and they’ll all show up together in the Graduation tab instead of only your primary major!
+
+It also handles courses that count toward multiple programs, so you can actually see where requirements overlap! Thanks again for asking about this!! Your comment genuinely helped move it up my list!!

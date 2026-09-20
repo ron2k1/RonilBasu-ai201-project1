@@ -1,0 +1,81 @@
+THREAD: ALL PRE-CALC/CALC1 STUDENTS: The RUReady Test, new for Fall 2019
+
+Starting in Fall 2019, all students enrolling in either Precalculus (111, or 115) or Calculus I (135 or 151) will be required to take the "RU Ready Test" (or RURT).
+
+Full details can be found here: The RU Ready Test.
+
+(Before you satisfy your urge to pass judgement on this test, please read the link above. In particular, the consequence for failing is applied only after failing the test THREE times.)
+
+You will take this test in your first recitation (or first lecture if your recitation meets on Mondays), and you will have up to two more attempts to pass the test before September 18. If you do not pass the test or if you do not take it, the consequence is a score reduction of 25 points on the first midterm exam, if you stay in the course. (Note that 25 points on the first exam constitutes 5% of the total course grade for Math 135.)
+
+Please spread the word.
+
+So what are your options if you fail the test or if you don't think you can cut it in Calculus I?
+
+- Drop Calculus I before the general deadline of September 10. (You will have your score on the first attempt back before this date.)
+
+- Drop down from Calculus I to Precalculus on or before September 20. If you drop down from Calculus I after September 10, you must see Professor Lew Hirsch. You will not be given a grade of W. This option is only for dropping down from CALC1 to Precalculus.
+
+The above options really are the preferred options for students who fail the RURT three times since these students have shown no mastery of precalculus. We have a lot of data to support the conclusion that these students would almost certainly fail Calculus I, and we don't want that happening. We want you in the course where you can actually succeed. So students who fail the RURT three times are strongly recommended to drop down to Precalculus on or before September 20.
+
+The Math Department is working on Plan B for those students who cannot drop back to the prior course because they already have credit for it. There is a new course called "Math 123 -- Preparation for Calculus I" which starts on October 15 and is designed to reinforce the essential skills needed to succeed in Calculus I. However, space is very limited. The Math Department may be able to handle a small number of students who should have dropped back to Precalculus by September 20 at the time of the first midterm, but capacity for Math 123 will be very limited, and students who fail the RURT three times should not count on this option being available.
+
+edit 1: One last comment about math courses and advising. In general, do not trust what other students tell you about how the precalculus or calculus courses are run. Many of you first-year students will hear vague and bizarre statements about magical curves and advice about "just saying above the class average". You may also hear that "all you really need from precalculus are trig identities".
+
+Don't listen to any of this advice.
+
+Not only are the calculus courses going through many changes, which started a few semesters ago, much of this advice was never true to begin with. If you want real advice or information about your course, ask your professor, ask the coordinator (that's me for Math 135), ask the math adviser, or read the department web pages for the course. Don't ask your friends.
+
+(If you want to contact me personally with a question, please do so via your Rutgers email, not via Reddit DM.)
+
+edit 2: You can discuss the supposed fairness of this test, but I assure you that this test will happen for Fall 2019 and for all foreseeable semesters. The test is also not optional. I am willing to explain some of the department's rationale for this test and the associated rules, but the primary purpose of this post is to get the word out. There is a sample set of questions on the department web site, and all first-year students are getting plenty of advanced notice. The more channels we can reach, the better.
+
+I also strongly urge you all to actually read the FAQ before passing judgment. For instance, students have three attempts to pass this test, and it is on material that they should already ostensibly know, assuming they took their placement exam honestly.
+
+edit 3: Some of you have indicated that you have not received any prior notice of the RURT. In particular, non-first-year students and non-SAS students may not have gotten the notice. We are working on getting this message out through more channels and making its existence more visible. We are also looking into why certain students did not get prior notice. I apologize for this confusion, but be assured that the Math Department is capable of sending an email blast to all and only those students registered for a Precalculus or Calculus I course. You do not have to rely on Reddit to find these things, but this Reddit post has been very helpful to me in identifying problems we need to fix. Thank you for your continued input.
+
+edit 4: Updated some language about Math 123. Space is very limited, and students who fail the RURT three times should not count on Math 123 being available. The preferred option for such students is to drop down to Precalculus by September 20.
+
+--- reply 1 (39 votes) ---
+Lol I’ve taken up till differential equations, and looking at the sample questions I’d definitely bomb it the first time around 😬
+
+EDIT: If I were to take this exam in the beginning of calc 1, I would have definitely failed. I studied my ass off for the first exam and pulled out with an 88 and subsequently passed the course with an A. If I were to take this exam even now, since the topics aren’t fresh and might take a bit to come back, I would fail. I have gotten an A in Calc 1-3 and Diff Eq. which just goes to show that this “rule” is idiotic to say the least. I honestly believe that the 25 point reduction is unfair under any circumstance. I get that there are 3 tries allowed, so make it a small portion of the overall grade or have it count towards the midterm if anything. Smacking 25 points off the midterm right off the bat was probably the worst thing you could do.
+
+--- reply 2 (32 votes) ---
+What the fuck. I have no nicer way to say this.
+
+A 25 point reduction on the midterm seems far from fair. If someone bombs this test, why punish them by completely eliminating their chances of getting a good grade in the class? Students should be able to study and work hard to get a good grade, not have their semester ruined by the Math Departments weird social experiment
+
+ETA: if this test really works, there’s zero reason to give assess a 25 point reduction. If the logic is bad placement score=not prepared for class, then the students grade should potentially reflect that, without having to add an additional 25 point reduction. If someone’s not prepared their grade will be bad anyways. If they get a good grade despite the test, punishing them is just ridiculous
+
+--- reply 3 (27 votes) ---
+^
+
+This guy right here is exhibit A of why this test is bullshit. Work your ass off during the semester - get a good grade. I can’t imagine the rage I would have if I busted my ass to get an A and got the ultimate RU screw and end the class with a C+.
+
+--- reply 4 (23 votes) ---
+Exactly what I was thinking. If they are trying to avoid underprepared students from taking such courses, why let them place in at all? A 25 point reduction for failing basically a placement exam is ridiculous.
+
+--- reply 5 (20 votes) ---
+My biggest beef with this is the shameless RU pun. Also I feel like this was announced too late. The idea itself holds water.
+
+--- reply 6 (19 votes) ---
+Upvote for visibility, but this is fucking bullshit.
+
+I understand the frustration that results from professors teaching introductory classes where a substantial portion of the students simply don't belong. These students may drag down the pace of the class, or for stadium-sized lectures, they just get left behind. You then have to deal with an onslaught of angry students mad about their poor grades.
+
+But this is no different than when charter schools try (and succeed) at selectively choosing their enrollment. It's easy to live up to state and federal education standards when you can systematically exclude students from situations that are correlated with lower performance; poverty, disability, broken homes, malnourishment, etc.
+
+This is the same "pull yourself up by your bootstraps" libertarian meritocracy bullshit that conveniently ignores that lots of students don't have long bootstraps, or even fucking boots to begin with. Which, given your extension comment history, seems to match your philosophy about things, at least regarding education.
+
+And I'm the last one who wants to coddle college students, as this op-ed I wrote in the Daily Targum 13 years ago will show. But still, we have to be understanding that some students who otherwise would succeed over the length of the course... you know, after the professor does her/his job... will be excluded.
+
+It's your fucking job to help students learn and develop their skills. And from your ratings, you are really good at it. So keep doing it. How many students have you written about, or have praised your teaching skills, that would have been excluded from your introductory Calculus courses if they had to take this RUReady test?
+
+It seems like your philosophy has made an impression on your fellow Mathematics department faculty members. Thank god I tested out of all these intro courses via AP exams. And I got a 5, so miss me with that "well a 4 still means you aren't prepared" bullshit.
+
+--- reply 7 (16 votes) ---
+You will not get any argument from anyone in the math department against that idea. In fact, it's the first solution we came up with. Unfortunately, it's a non-starter elsewhere. The online placement exam is here to stay.
+
+--- reply 8 (11 votes) ---
+Perhaps they need to go back to making the placement tests occur in person (rather than online), like in the old days.

@@ -1,0 +1,87 @@
+THREAD: Do you guys actually think the computer science program is good?
+
+Let me preface this by saying I am not a student who is just salty because he is failing (I am a near 4.0 student). I also have many friends who are working at big 4 companies who graduated from Rutgers.
+
+This brings me to my main point, which is that students who do well from Rutgers do well NOT because the curriculum made them great programmers, but because they were good students who made it through the curriculum. This is obvious when you see the percentage of students with such low scores who still manage to pass a class, yet if you ask them what they learned they would be hard troubled to give you an acceptable answer.
+
+Students from Rutgers who "make it" to top companies or have great GPA's are just hard working students who put up with all the bull shit that goes on, and excel anyway.
+
+I am going to use myself as an example (not because /r/iamverysmart, but because it is easier for me to share my own experiences.)
+
+First, the TAs and grading. There are two primary problems with them. I am in CS 214 at the moment, and it has been nearly a month since we submitted our last project, and some students STILL HAVE NOT RECEIVED A GRADE YET.
+
+Can someone please tell me if this is the way it is in other schools? If it is then I apologize, I will stop bitching. But if not, this is completely unacceptable. It should not take a month to get grades back. And this is not the only course it happens in, for cs 314 it took nearly a month TO GET A HOMEWORK ASSIGNMENT RETURNED TO US.
+
+Further more, on assignments and exams the TAs who grade just simply grade incorrectly. I can't tell you how many times I've gone back to a TA after receiving my exam wondering why my answer was incorrect. Mind you, I was not even "arguing" for points back, I simply showed them my exam and was like "how is this wrong?" and they are like "oops it's correct here you go have full points".
+
+So why can't they just double check while grading? This is so infuriating because they take forever to grade, and then take forever to respond to emails, so to actually fix your grade it takes so god damn long.
+
+And this semester when they tested one of our projects for CS 214, THEIR OWN GRADING SCRIPT WAS INCORRECT, so a bunch of students had wrong grades and it took forever to actually get resolved. I know this is not the first case where so many grades in cs 214 were incorrect.
+
+Another big thing is sometimes TAs don't even show up to their office hours! This has happened to me in data structures, prin prog, systems, discrete. Like what the hell??
+
+Not to mention, the TAs themselves are often not even that good at going over the material during recitation so most students don't even go as it is just a huge waste of time.
+
+Add on top of the fact that professors take forever to respond to emails, and honestly most of them are not even that good at teaching so I have to teach myself everything most of the time.
+
+How the hell can this CS program be regarded so highly? It is such a mess. And again I want to reiterate that it is definitely possible to succeed after going through this undergrad program, but I feel like the people who do succeed are just hard workers who pushed through all the bull shit, rather than the program actually developing good programmers.
+
+What do you guys think?
+
+I've taken 5 math courses here at rutgers (precalc to calc 3 & lin alg) and NONE of them have been this disorganized, none of them have had pitiful grading on exams, and all the TAs are usually really helpful and good at teaching.
+
+Also, as you can see my main gripe isn't necessarily about the content of the curriculum. I am just a junior but for the most part I feel like I have learned enough to a point where I can teach myself everything else I need to know to be successful in this industry. If I dropped out right now I would be confident in myself to be able to land a job at a big N. My main concern is how the program is run, primarily the laziness of professors and TAs.
+
+Edit: If I am just really unlucky with TAs and professors, let me know that too. But this seems to be a shared experience between me and my friends so having outside input will let me know if it's only us or if everyone feels this way.
+
+--- reply 1 (29 votes) ---
+I'm earlier on in the CS curriculum but I have the same feeling that you ultimately have. The program could, indeed, be managed better. One possible reason might be the fact that there are quite a lot of students in CS at RU nowadays. At least, relatively to previous years' numbers over the past decade or so. The issue is that we need more faculty in the department.
+
+Not sure if I would call the professors lazy, but some of the TAs in the department are massively overworked. While it's still part of their job to grade and do so thoroughly, I can understand why a lot of them likely don't even double-check. Should they? Yes, of course! But it there are 220 odd students in a class and only a few TAs assigned to said course, some of them might have to cut corners unfortunately.
+
+That's just the way I see it. Others' mileage may vary. In short: increase faculty and perhaps make it a bit more rigorous to gain admission into the major (e.g. an additional required course before applying to the major. Just a suggestion.)
+
+--- reply 2 (19 votes) ---
+Okay...some thoughts from a professor from outside of RU (I'm an RU alum).
+
+- Departments are (generally) not judged based on how well they teach. Nor are faculty members. They are based on the quality and (to a lesser extent) the quantity of their research. Research universities are notorious for that. Rutgers routinely scores well by that standard.
+
+- Rutgers scores well in most surveys due to #1. You can get deep is almost any area of CS that you want but for the "commodity courses", your experience will vary. As an undergrad, I was able to get some incredible experience. Much of it wasn't from the courses I had to take -- it was the "extra" things I did (colloquia, working on campus in IT, etc.).
+
+- Some TAs are lazy, some TAs are overworked and some TAs don't have sufficient guidance from the professor. As a professor, I have seen all three of these. I've had TAs that don't do anything that's inconvenient for them, particularly around when their own exams or milestones are due. I've also have had TAs that say "how high?" when I say "jump". I've actually never had a TA that was been particularly overworked but I'm sure they exist. I have also had TAs do nothing simply because I wasn't telling them to do something so that was my fault.
+
+- Re: Grading times, a month is a long time, particularly for something that's potentially a major part of your grade. I have co-taught classes where it's actually extremely time-consuming to grade certain projects and finding the time to do it well can be challenging particularly if it's something that you can't delegate to a TA. I try to budget my time (and assignments) around getting them back in no more than a week.
+
+- Your feedback is really valuable and it should be seen by the department leadership. I'm sure that the department faculty (most of them at least) wish to have a teaching/learning experience that reflects Rutgers's research standing. I know I would.
+
+--- reply 3 (16 votes) ---
+i just transferred to rutgers from a community college after getting my associates in CS, and im so incredibly dissapointed with rutgers, and CS department.
+
+--- reply 4 (9 votes) ---
+Ok I see your point about how some TAs may be overworked, still doesn't make it any less frustrating...
+
+Especially when the same problem of grading happens in every class. It began in data structures, then discrete, then systems, etc etc.
+
+Imagine how many students are losing points just because they don't check their exam papers to make sure they are actually graded correctly. I guess this only further proves my point that good students (the ones who check this stuff) just put up with the bullshit and succeed anyway, but it shouldn't be that way. Even 'bad' students deserve to have the grade they earned.
+
+I agree rutgers needs to hire more staff for the CS department because it is becoming a little ridiculous.
+
+--- reply 5 (9 votes) ---
+Pretty sure the CS department is on probation with the university for basically everything you just described. Not sure, though, just what I heard. You'll be hard-pressed to go to any university that has a "good" CS program. In CS the people that usually succeed are the ones that you described that will succeed regardless. Having said that, I think all the issues with management at Rutgers that you talked about were spot on and I think it's enough to classify the CS program here as complete fucking shit because the content might be important but at some point its a university and I'm here to learn not fucking fight the administration to try and understand what's going on.
+
+--- reply 6 (8 votes) ---
+Here’s the secret about being a TA, no one actually pedagogically teaches you how to be a TA. “Good” TA’s are up to the department and, ultimately, dependent on how good the course professor is at being an efficient leader regarding communication and delegation skills.
+
+--- reply 7 (7 votes) ---
+Exactly. I agree completely.
+
+I actually didn't mean to minimise the situation we face with grading sometimes. A month to get anything back is unacceptable. Full stop. I apologise if that wasn't made clear in my OP.
+
+I was just trying to shed some light on one of the reasons why bullshit like this happens far too often. Of course, that doesn't mean it's acceptable.
+
+I just put up with stuff like this, personally. In any course. I always double check stuff that's returned. It's definitely annoying, but to a certain degree, it is what it is, so to speak. Not too much we can do.
+
+--- reply 8 (6 votes) ---
+Yeah... so that means the CS program is not doing a good job with their TAs...
+
+My goal here isn’t to shit on TAs individually. It’s to bring attention to a system that is not working so well.

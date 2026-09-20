@@ -1,0 +1,51 @@
+THREAD: A CS students guide to landing top internships.
+
+I know there is a stigma on this sub of there being too many CS students, but if you could excuse this one post from the scrutiny I would appreciate it because I feel like a lot of kids are underestimating themselves.
+
+Rutgers, flaws and all, is a great computer science school. And they have the opportunities that you need to get top tech internships. Top tech internships turn into top tech jobs. Top tech jobs pay anywhere from $140,000 to $200,000 and beyond. The floor for Rutgers CS is decent, you could not do any of this and apply straight out of college to an almost 6 figure job. But why do that when a little bit of extra studying can go a long way.
+
+I am mostly going to be talking to freshmen/sophomores who have two summers leftover. If you are a junior with 0 internships it's not too late, its just gonna be harder to do by the time you graduate. Nothing stopping you from climbing companies as a full-time early career employee though.
+
+Internship step one - projects. Rutgers electives are pretty good at giving you substantial projects as long as you choose the right ones. That being said, if you are barely out of 112 you are gonna have to do a couple of things on your own. In Java, I would say building a REST API (google it) or some simple physics simulator using a 3rd party library are decent places to start. As time goes on your projects should get progressively more complex and be done with less and less internet help. But also you will have electives building out cool projects so you should be fine by the time you graduate.
+
+Step two - resume. Find a template online. Google "good software engineering internship resume." There are so many great resources. Pretty much anything can be googled and I think that immersing yourself in the YouTubers that talk about this stuff for a few weeks is a great way to get in the job hunt mindset. Resume should include clubs, leadership, experience, and if you are struggling to fill it in then classes you've taken.
+
+Step three - interview prep. Leetcode.com is your best friend. 112 will set you up nicely to start solving easy problems. Easy problems turn into medium problems, once you can solve medium problems you should focus on time. If you can solve most mediums in less than 25 minutes the world is yours. Try to solve problems on your own but don't be afraid to take a hint if you don't know where to start or a solution if you don't know how to finish. Really make sure you read and understand the solutions
+
+Step three - apply. Capital one hires from Rutgers a lot. Pay a lot too. Amazon has a low hiring bar. Apple/Facebook/Amazon has programs meant for sophomores and freshmen (like an internship for an internship). If you cant get in there, apply to local companies. Any random company with web developers, startups out of new york, anything. This is a numbers game. Apply everywhere, every interview bombed or not is a learning experience, and if you aren't hearing back at all then you probably need to tweak your resume. To find internships you can google them, use job board sights or ask around.
+
+If you are a freshman or sophomore you should go like this local internship or freshmen program at big tech -> big tech internship (Amazon, Google, other medium to large sized startups) -> any job you want. If you start early you could be looking at $200k+ starting salaries. If you only have one summer, use the elective projects to your advantage or build a couple over the weekend and apply,apply,apply. I am sure you will land something decent and you can use that to get a newgrad role at a big tech companies.
+
+You just need to treat this like a 2 credit elective every semester and you will land a killer job. It is really within reach. The resources are here and I genuinely believe you can do it.
+
+Ask me anything and I will reply/update the post if I missed anything.
+
+--- reply 1 (7 votes) ---
+Definitely more difficult but not impossible. Internships won’t make or break you from landing a job, you’d just have to make up for it in other areas as you already are doing (projects, leetcoding skills, high gpa, etc.)
+
+--- reply 2 (6 votes) ---
+Nice one OP, making everyone believe that 200k jobs are handed out like halloween candy to market your youtube channel. Everyone, prepare for your internship/new grad competition to grow as your 5k+ CS classmates all join in to become leetcode grinding monkeys in hopes of that easy-as-pie FAANG compensation.
+
+--- reply 3 (6 votes) ---
+It's not just to "market my YouTube channel" this is the type of stuff I talk about on there but this post came from a discussion I had in the comments of another post on r/Rutgers. They dont get handed out like Halloween candy, I don't say that either, I do say with a little bit of planning and some slow and steady hard work you can achieve it though. Also 200k is a nice round number but it's gonna by more like $160-$180k total comp for a majority of top companies. These companies are big enough and they can hire so much that it's less a matter of competition with each other and more a matter of meeting the hiring bar. There is definitely an over saturation at say the 70th to 80th percentile of software engineering new grads. I'm saying in this post that it isn't too much more work to go from that to the 90th+ percentile where you are playing a very different game than in other parts of the job market.
+
+--- reply 4 (5 votes) ---
+The most prestigious entry level jobs are going to people who have had intern experience (and more accurately, those who interned at that company usually), but your first job out of school doesn't make or break your career.
+
+Speaking personally as an engineer with a couple of years of experience, I had a hell of a time getting an interview for internships even though my GPA and projects were pretty good. I eventually did get an internship summer before senior year, stayed on with that company full time for the past few years, and now I'm being headhunted on LinkedIn by recruiters several times a week.
+
+The overall problem is no one wants to take a chance on an unproven worker, but take that more like hope than despair: even if your first job out of college is crap, use it as a springboard to something better.
+
+--- reply 5 (3 votes) ---
+Yes, basically. Apply to whatever you can get into now, then next summer shoot for FAMG after you leetcode this spring and build your own project or two. Them for new grad you can shoot for something else if you want.
+
+--- reply 6 (2 votes) ---
+Lmao never. Fuck those things. I legitimately just like teaching, and documenting what I learn. I start most youtube videos with some sort of disclaimer that I am not a mastermind on everything and this should be treated as more of a conversation or recitation than a lecture. In every video, I point out where I don't know things or am just theorizing. Go watch a couple before you make bold assumptions.
+
+Not everything is some greedy cash grab. I enjoy making the videos, they help me think, I enjoy teaching people, I enjoy the process. I don't even have 1000 subs, I am a peasant content creator. If I wanted to blow up and make digital marketing money, I would, I know how, and it's really not rocket science. But I think long-term success in creating content will come from a genuine, slow, and steady approach.
+
+--- reply 7 (2 votes) ---
+Nothing is impossible, but it's certainly harder. also swe jobs could honestly care less about your GPA, but it's still a good thing. Also just because you don't hit "FAANG" straight out of college, doesn't mean you can't have an awesome job. And it doesn't mean you can hit it 1-3 years after you graduate.
+
+--- reply 8 (2 votes) ---
+You can definitely land an amazing job without any experience. You just have to work a lot harder which is doable and may need some more projects to show off on your resume and make sure u keep up with leetcode. Plus you don’t need to get FAANG straight out of college. You can work somewhere else first for a few years and show that experience and then apply to FAANG within a couple years after graduation.
