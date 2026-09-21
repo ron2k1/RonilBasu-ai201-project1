@@ -22,10 +22,20 @@ to it, write down what you saw, and move on. That's a real observation about
 your pipeline, not giving up.
 """
 
+import re
 from dataclasses import dataclass
 
 import config
 from ingest import Document
+
+# The shape harvest_rutgers.py writes: a THREAD/TOPIC header, the post body,
+# then one "--- reply 3 (274 votes) ---" marker per comment. The chunker cuts
+# on those markers first, because they are where one person stops talking and
+# another starts.
+HEADER_PREFIXES = ("THREAD:", "TOPIC:")
+REPLY_MARKER = re.compile(r"^(--- reply \d+ \(-?\d+ votes\) ---)$", re.M)
+PARAGRAPH_BREAK = re.compile(r"\n\s*\n")
+SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
 
 
 @dataclass
@@ -80,24 +90,150 @@ def fallback_split(
     return chunks
 
 
+def _header_and_segments(text: str) -> tuple[str, list[str]]:
+    """
+    Pull the THREAD/TOPIC header off a document and cut the rest where the
+    document itself already breaks: one segment per reply, one per paragraph
+    of the original post.
+
+    The reply marker is kept at the top of its segment. It costs about thirty
+    characters and it tells the model two things worth knowing — that this is
+    somebody answering rather than asking, and how many people agreed.
+    """
+    lines = text.splitlines()
+    header = "\n".join(ln for ln in lines if ln.startswith(HEADER_PREFIXES)).strip()
+    body = "\n".join(ln for ln in lines if not ln.startswith(HEADER_PREFIXES)).strip()
+
+    # re.split with a capturing group gives [post, marker, reply, marker, ...]
+    parts = REPLY_MARKER.split(body)
+
+    segments: list[str] = []
+    post = parts[0].strip()
+    if post:
+        segments += [p.strip() for p in PARAGRAPH_BREAK.split(post) if p.strip()]
+    for i in range(1, len(parts) - 1, 2):
+        marker, reply = parts[i].strip(), parts[i + 1].strip()
+        if reply:
+            segments.append(f"{marker}\n{reply}")
+
+    return header, segments
+
+
+def _tail_sentences(text: str, overlap: int) -> str:
+    """The last whole sentences of `text`, up to about `overlap` characters."""
+    if overlap <= 0:
+        return ""
+    tail = ""
+    for sentence in reversed(SENTENCE_END.split(text.strip())):
+        candidate = f"{sentence} {tail}".strip() if tail else sentence
+        if tail and len(candidate) > overlap:
+            break
+        tail = candidate
+    return tail
+
+
+def _split_long(segment: str, cap: int, overlap: int) -> list[str]:
+    """
+    Cut a single over-long segment at sentence ends, repeating the tail of each
+    piece at the head of the next.
+
+    Overlap only happens here. A reply that fits under the cap is never cut, so
+    there is nothing to repair and no duplicated text in the store.
+    """
+    if len(segment) <= cap:
+        return [segment]
+
+    pieces: list[str] = []
+    current = ""
+    for sentence in SENTENCE_END.split(segment):
+        while len(sentence) > cap:          # one sentence longer than the cap
+            pieces.append(sentence[:cap].strip())
+            sentence = sentence[cap - overlap :]
+        if not current:
+            current = sentence
+        elif len(current) + 1 + len(sentence) <= cap:
+            current = f"{current} {sentence}"
+        else:
+            pieces.append(current.strip())
+            # The tail is whole sentences, so it can be longer than `overlap`
+            # asks for. Carry it only if the next piece still fits underneath
+            # the cap — the cap wins over the overlap, every time.
+            tail = _tail_sentences(current, overlap)
+            fits = tail and len(tail) + 1 + len(sentence) <= cap
+            current = f"{tail} {sentence}".strip() if fits else sentence
+    if current.strip():
+        pieces.append(current.strip())
+    return pieces
+
+
+def _merge_small(pieces: list[str], floor: int, cap: int) -> list[str]:
+    """Fold anything under `floor` into its neighbour, as long as it still fits."""
+    merged: list[str] = []
+    for piece in pieces:
+        if not merged:
+            merged.append(piece)
+            continue
+        too_small = len(piece) < floor or len(merged[-1]) < floor
+        fits = len(merged[-1]) + 2 + len(piece) <= cap
+        if too_small and fits:
+            merged[-1] = f"{merged[-1]}\n\n{piece}"
+        else:
+            merged.append(piece)
+    return merged
+
+
 def split_documents(documents: list[Document]) -> list[Chunk]:
     """
-    Split documents into chunks. ⚠️ REPLACE THE BODY OF THIS IN MILESTONE 3.
+    Boundary-first chunking for r/rutgers threads.
 
-    Right now it just calls the fallback. That is the plain, generic behaviour
-    the brief is talking about.
+    A Reddit thread is not prose, it is a stack of separate opinions, and the
+    fixed-size splitter could not see that: on this corpus it ended 86.8% of its
+    chunks mid-sentence and left 35.7% of them with no thread title and no reply
+    marker, so the chunk no longer said what it was about. Its smallest pieces
+    were 7, 10 and 32 characters.
 
-    When you write your own strategy, set `produced_by` to
-    "chunker.py::split_documents" so your README's Sample Chunks section names
-    the right function. `app.py chunks` prints that string for you.
+    Four passes, in this order:
 
-    Things worth thinking about before you write any code:
-      - Are your documents short posts or long guides?
-      - Is the useful information in one sentence, or spread over a paragraph?
-      - Would splitting on paragraph breaks keep more thoughts intact than
-        splitting on a character count?
+      1. Cut where the document already breaks — one segment per reply, one per
+         paragraph of the original post.
+      2. Cut a segment again only if it passes CHUNK_SIZE, and then at a
+         sentence end, carrying CHUNK_OVERLAP characters of the previous
+         sentence forward.
+      3. Merge anything under CHUNK_MIN into its neighbour.
+      4. Prepend the thread title to every chunk, so a chunk retrieved on its
+         own still says which thread it came from.
+
+    The header is charged against the cap rather than added on top of it, which
+    keeps every chunk inside CHUNK_SIZE end to end.
     """
-    return fallback_split(documents)
+    cap = config.CHUNK_SIZE
+    floor = config.CHUNK_MIN
+    overlap = config.CHUNK_OVERLAP
+
+    chunks: list[Chunk] = []
+    for doc in documents:
+        header, segments = _header_and_segments(doc.text)
+        # Whatever the header costs is room the body no longer has. The floor
+        # is the lower bound so a pathologically long title cannot squeeze the
+        # body down to nothing.
+        budget = max(floor, cap - len(header) - 2)
+
+        pieces: list[str] = []
+        for segment in segments:
+            pieces += _split_long(segment, budget, overlap)
+        pieces = _merge_small(pieces, floor, budget)
+
+        for index, piece in enumerate(pieces):
+            chunks.append(
+                Chunk(
+                    text=f"{header}\n\n{piece}" if header else piece,
+                    source=doc.source,
+                    index=index,
+                    produced_by="chunker.py::split_documents",
+                )
+            )
+
+    return chunks
 
 
 def describe(chunks: list[Chunk]) -> str:

@@ -27,8 +27,22 @@ CORPUS = os.getenv("AI201_CORPUS", "rutgers")
 # These are deliberately plain, generic numbers. Milestone 3 is where you
 # replace them with numbers that fit the documents you actually read.
 
-CHUNK_SIZE = 800        # characters per chunk
-CHUNK_OVERLAP = 120     # characters shared between neighbouring chunks
+# These are a ceiling and a floor, not a window. split_documents cuts on reply
+# and paragraph boundaries first; only a segment longer than CHUNK_SIZE gets
+# cut again, and only at a sentence end.
+#
+# 800: the 90th percentile reply in this corpus is 668 characters, so 800 keeps
+#      more than nine replies in ten intact. Only 4.2% of natural segments
+#      exceed it.
+# 200: the fixed-size chunker left fragments of 7, 10 and 32 characters. Below
+#      roughly 200 a piece of a Reddit thread answers nothing, so anything
+#      smaller gets merged into its neighbour.
+# 120: overlap only applies where a long segment had to be cut mid-thought.
+#      Cutting on boundaries means there is usually nothing to repair.
+
+CHUNK_SIZE = 800        # ceiling: split a segment only once it passes this
+CHUNK_MIN = 200         # floor: merge anything smaller into its neighbour
+CHUNK_OVERLAP = 120     # carried back only when a long segment is split
 
 
 # ─── Retrieval (Milestone 4) ─────────────────────────────────────────────────
