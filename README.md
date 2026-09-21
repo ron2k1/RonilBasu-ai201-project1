@@ -2,30 +2,32 @@
 
 **Ronil Basu** — corpus: `rutgers`, 80 real r/rutgers threads about Rutgers–New Brunswick, harvested and cleaned by `tools/harvest_rutgers.py`.
 
-> **This file is your submission.** Fill it in as you go — most sections get
-> written during the milestone that produces them, not at the end.
->
-> How the starter works, and every command you'll need, is in `RUNNING.md`.
-> Leave that file alone.
->
-> **Paste everything as text.** No screenshots, no video. A typed table gets
-> full credit; a picture of the same table gets none.
->
-> Delete these instruction blocks as you replace them. The `<!-- -->` comments
-> are notes to you and don't show up when the page renders — you can leave them
-> or remove them.
-
 ---
 
 # Unit 1
 
 ## What This Does
 
-<!-- Three or four sentences. Which corpus you picked, and the kinds of
-     questions your system answers. Write it for someone who has never seen
-     this repo.
+This answers questions about Rutgers–New Brunswick from 80 real r/rutgers
+threads — the things students tell each other rather than the things the
+university publishes. I built the corpus myself with `tools/harvest_rutgers.py`
+instead of using one of the three provided, so the documents are uneven in the
+way real scraped text is: a guide post somebody spent an afternoon writing sits
+next to a four-reply question thread, 1,067 characters at the short end and
+16,017 at the long end.
 
-     Milestone 5. -->
+It handles questions with a specific answer somewhere in that pile — where to
+study on Busch at 2am, what to weigh before converting a class to Pass/No
+Credit, which food places near campus students think are overrated. Every answer
+cites the thread file it came from, and because the sources are anonymous
+students rather than the registrar, answers say *what students said* rather than
+stating it as policy.
+
+When the corpus doesn't cover something it says so instead of guessing, and that
+refusal is decided in my code by a distance cutoff before the model is called at
+all — a refused question costs zero API calls. That catches genuinely unrelated
+questions and, as it turned out, one of my own five test questions whose answer
+is not really in the corpus.
 
 ## Chunking Strategy
 
@@ -168,45 +170,123 @@ carries nothing.
 
 ## Sample Answer
 
-<!-- One complete question and answer, pasted as text, with the source line
-     visible. Milestone 4. -->
+**Question:** Where can I study on Busch campus late at night?
 
-**Question:**
-
-**Answer:**
+**Answer:** (`python app.py ask "Where can I study on Busch campus late at night?"`)
 
 ```
+  (best distance 0.438, cutoff 0.6)
+
+According to `campus_why_no_24_hour_library.txt`, you can go to ARC and SERC on Busch since both are open 24 hours. One student suggests using an open classroom or going to the second floor of SERC, specifically pointing out a quiet spot at the end of the TA office hallway near the stairwell.
+
+Sources retrieved: campus_why_no_24_hour_library.txt, food_general_things_new_students_should_know.txt, housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt
+
+1 model calls this session, 1016 tokens (943 in, 73 out)
 ```
 
-**My relevance cutoff:**
+The chunk that answer came from is Sample Chunk 2 above. "One student suggests"
+is the grounding instruction doing something I added in this milestone — see
+below.
 
-<!-- The number you set in config.py, and how you got there.
+And the same command on a question my corpus does not cover, which never
+reaches the model at all:
 
-     You ran five questions your corpus covers and the five in OUT_OF_SCOPE
-     that it clearly doesn't, and wrote down the best distance for each. What
-     did those two groups look like? Where was the gap? Put the actual numbers
-     here — the table below wants all ten rows.
+```
+$ python app.py ask "What can I do if the section I need is already closed on WebReg?"
+  (best distance 0.744, cutoff 0.6)
 
-     Milestone 4. -->
+I don't have enough information about that.
+
+0 model calls this session
+```
+
+**My relevance cutoff: 0.60**
+
+All ten best distances, `TOP_K = 5`:
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| Which food places near campus do students think are overrated? | yes | **0.2157** |
+| What should I think about before converting a class to Pass/No Credit? | yes | **0.4037** |
+| Where can I study on Busch campus late at night? | yes | **0.4377** |
+| Which bus do I take from College Avenue to Livingston? | topic yes, answer no | **0.4533** |
+| ↑ *cutoff sits here: 0.60* | | |
+| What can I do if the section I need is already closed on WebReg? | one passing mention | **0.7443** |
+| What is the capital of Mongolia? | no | 0.7778 |
+| What is the recommended dosage of ibuprofen for a headache? | no | 0.8175 |
+| How do I change the oil in a diesel engine? | no | 0.8410 |
+| Who won the 1994 World Cup? | no | 0.8429 |
+| How do I write a for loop in Rust? | no | 0.8588 |
+
+**The two groups did not split where I expected.** I assumed the gap would fall
+between my five questions and the five out-of-scope ones. It doesn't — that gap
+is 0.7443 to 0.7778, only 0.0335 wide, and the thing sitting on the wrong side
+of it is one of *my own* questions.
+
+The real split is between questions my corpus can answer (0.2157–0.4533) and
+questions it can't (0.7443 and up), and that gap is **0.29 wide**. The
+registration question belongs in the second group: `SPN` appears exactly once in
+80 documents, in passing, inside an answer to a different question, and the
+chunk holding it sits at distance **0.826** — further from the question than
+four of my five out-of-scope questions are. So refusing it is the system being
+right, not the system missing.
+
+Midpoint of 0.4533 and 0.7443 is 0.599, so the cutoff is **0.60**. That is the
+number the starter shipped with, which I noticed only after arriving at it. What
+each direction costs me, concretely:
+
+- **0.76** — in the naive gap — admits the registration question and hands the
+  model five chunks that cannot answer it. The gate exists so that decision
+  isn't left to the model.
+- **0.45** loses the bus question at 0.4533, which does retrieve the right
+  threads even though nothing in them names the LX.
+
+I also swept `TOP_K` across 3, 5, 8, 12 and 20. Nothing changed until 12, where
+the SPN chunk appears at rank 11 — 0.826 away. Paying for seven more chunks on
+every question to reach one that far off is buying noise, so `TOP_K` stays at 5.
+
+**What I changed in `GROUNDING_INSTRUCTION`:** two rules, both aimed at this
+corpus rather than at grounding in general.
+
+1. *Only name filenames that appear in a `[from ...]` line above.* My filenames
+   are generated from thread titles, so a convincing one is easy to assemble out
+   of the words in a question — and a fabricated citation passes criterion 2
+   while being worse than no citation, because it looks checkable.
+2. *These are anonymous student posts, not official policy — report what
+   students said.* That rule is why the sample answer above says "One student
+   suggests" instead of stating a quiet spot in SERC as a fact about Rutgers.
 
 ## How I Used AI
 
-<!-- Two specific moments. For each: what you asked for, what came back, and
-     what you changed about it.
+**1. The chunker's overlap, which I had to catch by measuring rather than
+reading.** I gave Claude my numbers — cut on reply boundaries, 800 ceiling, 200
+floor, one sentence of overlap where a segment has to be split — and asked for
+the implementation. What came back did all four passes correctly and looked
+right. Then I had it print min and max chunk length against the corpus, and one
+chunk came out at **875 characters**, over the cap the overlap was supposed to
+respect. The cause was in the overlap itself: it carried the last *whole*
+sentence forward, and when that sentence was 600 characters long, tail plus next
+sentence blew straight past 800. What I changed was the precedence — the tail is
+now carried only if the next piece still fits underneath the cap, so the cap
+wins over the overlap every time. I would not have found it by reading the code,
+because the code does exactly what the description says.
 
-     "I asked Claude to write the chunking function from my notes. It ignored
-     the overlap, so I added that myself" is the level of detail we're after.
-     "I used AI to help me code" is not.
-
-     Milestone 5. -->
-
-**1.**
-
-**2.**
+**2. Pasting sample chunks into this README, which quietly corrupted them.** I
+asked for the five chunks from `app.py chunks -n 5` to be written into the Sample
+Chunks section. They came back transcribed, and on checking them against the
+files, three of the five had the corpus's curly apostrophes silently turned into
+straight ones — `they're` where the document actually says `they’re`. Small, but this
+README is supposed to be evidence about my code, and evidence that disagrees
+with the thing it describes is worthless. So I changed the approach instead of
+the text: `tools/sync_readme_chunks.py` now generates those fenced blocks
+straight out of the `Chunk` objects, and refuses if the README names a chunk
+label the corpus no longer produces or claims a `produced by` the chunk itself
+disagrees with. It exits 0 when nothing needed changing, so it works as a check
+as well as a fixer. Same problem
+had already bitten me in Milestone 1, when the harvester's post-body regex
+over-matched on link posts and dragged "You are about to leave Redlib" into ten
+documents — both times the lesson was to check the output against the source
+rather than read the code and believe it.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
