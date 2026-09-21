@@ -21,13 +21,40 @@ Swap them for your own if you like. Keep five of them either way: criterion 3
 names a target of "4 of 5", and four of three is not a thing.
 """
 
+# Five topics, deliberately not five of the same topic. The corpus covers 16,
+# unevenly — academics has 9 documents and registration has 3 — so these are
+# spread from the thickest coverage to the thinnest on purpose. Question 4 sits
+# on the thinnest, and I expect it to be the hard one.
+#
+# Each `expects` is a proper noun rather than a general word, because "the bus"
+# appears in an answer that is right and in an answer that is waffle, and "LX"
+# only appears in one of them.
 QUESTIONS = [
-    # {"question": "...", "expects": "..."},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
+    {
+        # campus — 4 documents
+        "question": "Where can I study on Busch campus late at night?",
+        "expects": "SERC",
+    },
+    {
+        # academics — 9 documents, the thickest topic in the corpus
+        "question": "What should I think about before converting a class to Pass/No Credit?",
+        "expects": "P/NC",
+    },
+    {
+        # buses — 4 documents
+        "question": "Which bus do I take from College Avenue to Livingston?",
+        "expects": "LX",
+    },
+    {
+        # registration — 3 documents, the thinnest topic in the corpus
+        "question": "What can I do if the section I need is already closed on WebReg?",
+        "expects": "SPN",
+    },
+    {
+        # food — 5 documents
+        "question": "Which food places near campus do students think are overrated?",
+        "expects": "Krispy Pizza",
+    },
 ]
 
 # Questions from a different world entirely. Your gate should refuse all five.
