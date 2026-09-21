@@ -10,24 +10,36 @@
 
 This answers questions about Rutgers–New Brunswick from 80 real r/rutgers
 threads — the things students tell each other rather than the things the
-university publishes. I built the corpus myself with `tools/harvest_rutgers.py`
-instead of using one of the three provided, so the documents are uneven in the
-way real scraped text is: a guide post somebody spent an afternoon writing sits
-next to a four-reply question thread, 1,067 characters at the short end and
-16,017 at the long end.
+university publishes.
 
-It handles questions with a specific answer somewhere in that pile — where to
-study on Busch at 2am, what to weigh before converting a class to Pass/No
-Credit, which food places near campus students think are overrated. Every answer
-cites the thread file it came from, and because the sources are anonymous
-students rather than the registrar, answers say *what students said* rather than
-stating it as policy.
+I threw out all three provided corpora and built my own. Two reasons. The first
+is that I go to Rutgers, so I can tell whether an answer is actually right: when
+the system tells me about a quiet spot on the second floor of SERC, I know
+whether that's true, and I can't say that about a corpus of invented campus
+posts. The second is that scraping it myself meant I owned the problems. Reddit
+blocks direct scraping, so `tools/harvest_rutgers.py` goes through a mirror and
+solves a proof-of-work challenge to get the HTML, then cleans it in a separate
+stage that needs no scraping library at all — so anyone grading this can re-run
+the build without installing what I installed.
 
-When the corpus doesn't cover something it says so instead of guessing, and that
-refusal is decided in my code by a distance cutoff before the model is called at
-all — a refused question costs zero API calls. That catches genuinely unrelated
-questions and, as it turned out, one of my own five test questions whose answer
-is not really in the corpus.
+That choice is also why the documents are lumpy in a way the provided corpora
+aren't. A guide post somebody spent an afternoon writing sits next to a
+four-reply question thread: 1,067 characters at the short end, 16,017 at the
+long end. That spread is the entire reason Milestone 3 was interesting for me.
+
+The questions it handles are the ones with a specific answer somewhere in that
+pile — where to study on Busch at 2am, what to weigh before converting a class
+to Pass/No Credit, which food places near campus students think are overrated.
+Every answer cites the thread file it came from. Because my sources are
+anonymous students and not the registrar, I made answers report *what students
+said* rather than stating it as policy — one person with four upvotes is not the
+same claim as a rule.
+
+When the corpus doesn't cover something, the system says so instead of guessing,
+and I decide that in my own code with a distance cutoff before the model is ever
+called — a refused question costs zero API calls. That catches questions from
+another world entirely, and it also caught one of my own five test questions,
+which turned out to be about something my corpus barely mentions.
 
 ## Chunking Strategy
 
@@ -35,15 +47,18 @@ is not really in the corpus.
 - **Chunk floor:** 200 characters — anything smaller gets merged into a neighbour
 - **Overlap:** 120 characters, and only where a segment was too long to keep whole
 
-My documents are Reddit threads, and a thread is not prose. It is a stack of
-separate people answering the same question, already separated by markers my
-harvester writes (`--- reply 4 (33 votes) ---`). The information that answers a
-question is almost always *one person's reply*, start to finish. So the unit I
-want in the vector store is one reply, not 800 characters of whatever happened
-to be adjacent.
+I ran the starter's chunker first and read what it gave me, which is how I
+ended up rewriting it. Reading my own documents back, the thing that struck me
+is that a Reddit thread is not prose. It's a stack of separate people answering
+the same question, and my harvester already writes the seams between them
+(`--- reply 4 (33 votes) ---`). When I looked at which text actually answered
+anything, it was almost always *one person's reply*, start to finish. Nobody
+answers half a question and hands off. So the unit I want in the vector store is
+one reply — not 800 characters of whatever happened to sit next to it.
 
-That made the size question measurable instead of a guess. I measured the
-corpus before writing anything (80 documents, 1,336 natural segments):
+Once I'd decided that, the numbers stopped being a guess and became something I
+could measure, so I measured the corpus before writing a line of the new
+chunker (80 documents, 1,336 natural segments):
 
 | | min | p50 | p75 | p90 | max |
 |---|---|---|---|---|---|
@@ -68,11 +83,14 @@ not want the same sentence embedded twice across 800 chunks for no reason.
 3. Merge anything under 200 into its neighbour.
 4. Prepend the thread title to every chunk.
 
-Pass 4 is the one I did not plan and added after reading the first output. The
-starter left 86.8% of its chunks with no thread title in them at all, so a chunk
-about "the H lot" had nothing in it saying it was about parking at Rutgers. The
-title costs about 40 characters and is charged against the 800 rather than added
-on top, so a chunk is still 800 end to end.
+Pass 4 wasn't in my plan. I added it after reading the first batch of chunks and
+realising I couldn't tell what half of them were about. The starter left 86.8%
+of its chunks with no thread title anywhere in them, so a chunk discussing "the
+H lot" had nothing inside it saying it was about parking, or Rutgers, or
+anything. I knew what it meant because I'd just scraped it; the embedding model
+had no such advantage. So I put the thread title on the front of every chunk and
+charged its ~40 characters *against* the 800 rather than adding it on top, so a
+chunk is still 800 end to end and my cap doesn't quietly become 840.
 
 What it changed, measured the same way on both:
 
@@ -104,8 +122,9 @@ than reading:
 
 ## Sample Chunks
 
-All five printed by `python app.py chunks -n 5`, spread evenly across the corpus
-rather than picked — including the one that doesn't work.
+These are the five `python app.py chunks -n 5` gave me, spread evenly across the
+corpus. I deliberately did not go shopping for five flattering ones — I took the
+spread as printed, which is why chunk 3 is sitting in here doing nothing.
 
 **Chunk 1** — source: `academics_a_message_about_p_nc_from_a_faculty_member_please_read_thi.txt#0` — produced by: `chunker.py::split_documents`
 
@@ -152,22 +171,32 @@ THREAD: Rutgers on 9/11
 Residence Life did a really good job getting people away from their TV’s and getting their mind off the events. There were a lot of group activities that took place on 9/11 and the days after. Spending time in the common areas, we learned a lot about our dorm mates that week.
 ```
 
-**Reading them against "could someone answer a question using only this?":**
-chunks 2, 4 and 5 each stand on their own — chunk 2 answers where to study at
-night on Busch, chunk 4 answers whether Krispy Pizza is worth it and names three
-alternatives, chunk 5 answers what Residence Life did on 9/11. Chunk 1 is a
-whole post and reads as one, though it is an introduction that points at the
-faculty comment rather than containing it.
+I read all five against the question the milestone asks — *could someone answer
+something using only this, without reading what came before or after?*
 
-Chunk 3 is the useful failure. It is a structurally perfect chunk — one complete
-reply, 191 characters, thread title attached — and it answers nothing, because
-the underlying comment is somebody being nice rather than somebody knowing
-something. No chunk size fixes that. It is an ingest problem: my harvester's
-`_is_answer()` filter in `tools/harvest_rutgers.py` drops replies that are
-*questions*, and has no notion of a reply that is on topic and still empty. I am
-leaving it in rather than hand-picking a nicer sample, because I expect it to
-turn up again in unit 2 as a retrieval result that matches a question and
-carries nothing.
+Chunks 2, 4 and 5 pass. Chunk 2 tells you where to study at night on Busch and
+names the building. Chunk 4 tells you Krispy Pizza isn't worth it and gives you
+three places to go instead. Chunk 5 tells you what Residence Life actually did
+on 9/11. Each one is one person's whole thought with the thread title on it, and
+I could hand any of them to somebody with no other context. Chunk 1 is a whole
+post and reads as one, though I'd note it's an *introduction* pointing at a
+faculty comment rather than the comment itself — it tells you the answer exists
+and where, which is weaker than telling you the answer.
+
+Chunk 3 is the one I want to point at, because it's the failure I found useful.
+Structurally it is perfect: one complete reply, 191 characters, inside both my
+floor and my cap, thread title attached. And it answers nothing, because the
+person writing it was being nice rather than being informative. No chunk size
+fixes that — I could set the cap anywhere and this chunk would still be empty.
+
+What it actually exposes is a gap one stage earlier, in my own harvester.
+`_is_answer()` in `tools/harvest_rutgers.py` throws away replies that are
+*questions*, which I wrote in Milestone 1 after seeing follow-up questions get
+retrieved as though they were answers. It has no notion of a reply that is on
+topic, well-formed, and still says nothing. I could have swapped this chunk for
+a nicer one and nobody would have known, but I'd rather have it on the page: I
+expect it back in unit 2 as a retrieval hit that matches a question and carries
+no information, and when that happens I'll already know where to look.
 
 ## Sample Answer
 
@@ -219,10 +248,24 @@ All ten best distances, `TOP_K = 5`:
 | Who won the 1994 World Cup? | no | 0.8429 |
 | How do I write a for loop in Rust? | no | 0.8588 |
 
-**The two groups did not split where I expected.** I assumed the gap would fall
-between my five questions and the five out-of-scope ones. It doesn't — that gap
-is 0.7443 to 0.7778, only 0.0335 wide, and the thing sitting on the wrong side
-of it is one of *my own* questions.
+**I wrote a prediction into `criteria.md` before I measured any of this, and I
+got it wrong.** Under criterion 3 I said: *"I am predicting the Rust question is
+the one that gets through."* My reasoning was that 10 of my 80 documents are CS
+and data-science threads, so a programming question should land closest to them.
+
+Rust came back the **furthest away of all ten**, at 0.8588. The closest
+out-of-scope question was the capital of Mongolia. When I went and read those CS
+threads again, the reason was obvious in hindsight: they talk about *which
+professor to take* and *whether to do a minor*, not about code. A question about
+`for` loop syntax shares almost no vocabulary with them. I was reasoning about
+topic the way I think about it, and the embedding model is reasoning about
+words. That's the most useful thing I learned in this milestone, and I only
+learned it because I had to commit to a number before I could see the answer.
+
+**The two groups also did not split where I expected.** I assumed the gap would
+fall between my five questions and the five out-of-scope ones. It doesn't — that
+gap is 0.7443 to 0.7778, only 0.0335 wide, and the thing sitting on the wrong
+side of it is one of *my own* questions.
 
 The real split is between questions my corpus can answer (0.2157–0.4533) and
 questions it can't (0.7443 and up), and that gap is **0.29 wide**. The
@@ -259,31 +302,52 @@ corpus rather than at grounding in general.
 
 ## How I Used AI
 
-**1. The chunker's overlap, which I had to catch by measuring rather than
-reading.** I gave Claude my numbers — cut on reply boundaries, 800 ceiling, 200
-floor, one sentence of overlap where a segment has to be split — and asked for
-the implementation. What came back did all four passes correctly and looked
-right. Then I had it print min and max chunk length against the corpus, and one
-chunk came out at **875 characters**, over the cap the overlap was supposed to
-respect. The cause was in the overlap itself: it carried the last *whole*
-sentence forward, and when that sentence was 600 characters long, tail plus next
-sentence blew straight past 800. What I changed was the precedence — the tail is
-now carried only if the next piece still fits underneath the cap, so the cap
-wins over the overlap every time. I would not have found it by reading the code,
-because the code does exactly what the description says.
+**1. I specified the chunker, Claude implemented it, and the bug was in the one
+rule I hadn't thought hard enough about.** I did the measuring first — reply
+lengths, paragraph lengths, what percentage of segments cross which cap — and
+came to the spec myself: cut on reply boundaries, 800 ceiling, 200 floor, one
+sentence of overlap where a segment has to be hard-split. I handed Claude those
+four rules and asked for the implementation rather than asking it what to do,
+because the decision was the part I wanted to own.
 
-**2. Pasting sample chunks into this README, which quietly corrupted them.** I
-asked for the five chunks from `app.py chunks -n 5` to be written into the Sample
-Chunks section. They came back transcribed, and on checking them against the
-files, three of the five had the corpus's curly apostrophes silently turned into
-straight ones — `they're` where the document actually says `they’re`. Small, but this
-README is supposed to be evidence about my code, and evidence that disagrees
-with the thing it describes is worthless. So I changed the approach instead of
-the text: `tools/sync_readme_chunks.py` now generates those fenced blocks
-straight out of the `Chunk` objects, and refuses if the README names a chunk
-label the corpus no longer produces or claims a `produced by` the chunk itself
-disagrees with. It exits 0 when nothing needed changing, so it works as a check
-as well as a fixer. Same problem
+What came back did all four passes and read correctly to me. I didn't trust that
+— I'd already been burned in Milestone 1 by code that read fine — so before
+accepting it I had it print min and max chunk length across all 80 documents.
+One chunk came back at **875 characters**, over my own cap.
+
+The bug was inside the overlap rule, and it was arguably my spec's fault as much
+as the implementation's: "carry one sentence forward" is ambiguous when a
+sentence is 600 characters long, and nothing in what I'd written said which of
+my two numbers wins. So I made that call explicitly — the tail is carried only
+if the next piece still fits underneath the cap, so the ceiling beats the
+overlap every time — and had it changed to match. Reading the code would never
+have caught this, because the code did exactly what I'd asked for. Only the
+measurement disagreed.
+
+**2. I asked for my sample chunks to be pasted into this README, and they came
+back quietly corrupted.** Straightforward request: take the five chunks
+`app.py chunks -n 5` printed and put them in the Sample Chunks section. They came
+back *transcribed* rather than copied, and when I diffed them against the actual
+files, three of the five had the corpus's curly apostrophes silently flattened
+into straight ones — `they're` where my document actually says `they’re`.
+
+Nobody would have marked me down for it. But this section is supposed to be
+evidence about my code, and evidence that doesn't match the thing it describes
+is worth nothing — and it would have gone on being wrong every time I re-chunked
+and re-pasted. So rather than fixing the three characters, I changed the process
+so the class of mistake can't recur: `tools/sync_readme_chunks.py` generates
+those fenced blocks directly from the `Chunk` objects, and hard-fails if the
+README names a chunk label my corpus no longer produces — which happens on every
+re-chunk, since chunk indices renumber — or claims a `produced by` the chunk
+itself disagrees with. It exits 0 when nothing needed changing, so I can run it
+as a check before committing rather than only as a repair.
+
+That's the same lesson as the first moment, and it's the one I'm actually taking
+out of this project: the failures I hit weren't code that looked wrong, they
+were code that looked right and disagreed with the data. In Milestone 1 it was a
+regex that over-matched on link posts and dragged "You are about to leave
+Redlib" into ten of my documents. Every time, the fix started with checking the
+output against the source instead of reading the code and believing it. Same problem
 had already bitten me in Milestone 1, when the harvester's post-body regex
 over-matched on link posts and dragged "You are about to leave Redlib" into ten
 documents — both times the lesson was to check the output against the source
