@@ -31,8 +31,9 @@ is not really in the corpus.
 
 ## Chunking Strategy
 
-**Chunk size:** 800 characters — a ceiling, not a window
-**Overlap:** 120 characters, and only where a segment was too long to keep whole
+- **Chunk size:** 800 characters — a ceiling, not a window
+- **Chunk floor:** 200 characters — anything smaller gets merged into a neighbour
+- **Overlap:** 120 characters, and only where a segment was too long to keep whole
 
 My documents are Reddit threads, and a thread is not prose. It is a stack of
 separate people answering the same question, already separated by markers my
