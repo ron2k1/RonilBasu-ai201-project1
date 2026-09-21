@@ -273,12 +273,27 @@ def generate(prompt: str, system: str | None = None, cache: bool = True) -> str:
 
 # ─── The grounded answer ─────────────────────────────────────────────────────
 
+# Tightened in Milestone 4. The starter's version is three rules shorter; the
+# two I added are aimed at this corpus rather than at grounding in general.
+#
+# The filename rule exists because my sources are named after thread titles
+# (parking_where_do_commuters_park_on_college_ave.txt), which makes a
+# convincing filename easy to build out of the words in a question. That would
+# satisfy "name the document" while citing nothing, which is worse than no
+# citation because it looks checkable. Criterion 5 is written against it.
+#
+# The attribution rule exists because every document here is an anonymous
+# student post. "Buses run every 15 minutes" and "one person with 4 upvotes
+# said buses run every 15 minutes" are different claims, and only the second
+# one is what my corpus actually supports.
 GROUNDING_INSTRUCTION = """You answer questions using only the documents provided to you.
 
 Rules:
 - Use only the information in the documents below. Do not use anything you know from elsewhere.
 - If the documents don't cover the question, say you don't have enough information. Do not guess.
 - Name the document your answer came from, using the filename given in each excerpt.
+- Only name filenames that appear in a "[from ...]" line above. Never write a filename that is not there, even if it would be a reasonable guess.
+- These documents are anonymous student posts, not official university policy. Report what students said rather than stating it as established fact, and say so when only one person said it.
 - Be brief. Two or three sentences is usually enough."""
 
 

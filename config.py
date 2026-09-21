@@ -47,6 +47,11 @@ CHUNK_OVERLAP = 120     # carried back only when a long segment is split
 
 # ─── Retrieval (Milestone 4) ─────────────────────────────────────────────────
 
+# Kept at 5 after measuring rather than by default. Sweeping 3, 5, 8, 12 and 20
+# changed nothing until 12, where one expects-phrase finally appeared at rank 11
+# with a distance of 0.826 — further away than four of my five out-of-scope
+# questions. Paying for seven more chunks on every question to reach one that
+# far away is buying noise, so 5 stays.
 TOP_K = 5               # how many chunks to pull back per question
 
 # The relevance gate. If the best chunk is further away than this, the system
@@ -54,9 +59,22 @@ TOP_K = 5               # how many chunks to pull back per question
 #
 # LOWER IS BETTER: 0.3 is a close match, 0.9 is unrelated.
 #
-# 0.6 is a reasonable starting point, not a right answer. Milestone 4 has you
-# measure your own two groups of distances and put the cutoff in the gap.
-# Most corpora land somewhere between 0.45 and 0.75.
+# Measured, then set. My two groups did not split where I expected them to:
+#
+#   questions my corpus can answer   0.216  0.404  0.438  (0.453 topically)
+#   questions it cannot              0.744  0.778  0.818  0.843  0.859
+#
+# The 0.744 is one of my own five test questions — registration, my thinnest
+# topic at 3 documents. The corpus mentions SPNs exactly once, in passing,
+# inside an answer to a different question, so refusing it is correct behaviour
+# rather than a miss. That makes the real gap 0.453 → 0.744, and its midpoint
+# is 0.599.
+#
+# 0.60 is that midpoint. It happens to be the number the starter shipped with,
+# which I only noticed afterwards — the reasoning is the measurement above, not
+# the default. Going higher (0.76, in the gap between my questions and the
+# out-of-scope ones) would admit the registration question on material that
+# cannot answer it; going lower costs me the bus question at 0.453.
 THRESHOLD = 0.6
 
 
