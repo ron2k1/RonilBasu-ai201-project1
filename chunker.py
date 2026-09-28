@@ -36,6 +36,9 @@ HEADER_PREFIXES = ("THREAD:", "TOPIC:")
 REPLY_MARKER = re.compile(r"^(--- reply \d+ \(-?\d+ votes\) ---)$", re.M)
 PARAGRAPH_BREAK = re.compile(r"\n\s*\n")
 SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
+# A paragraph of the original post that starts "- ", "* ", "• ", "1. " or "1) ".
+# Reply pieces start with their "--- reply" marker, so they never match.
+LIST_ITEM = re.compile(r"^\s*(?:[-*•]|\d+[.)])\s+")
 
 
 @dataclass
@@ -167,18 +170,30 @@ def _split_long(segment: str, cap: int, overlap: int) -> list[str]:
 
 
 def _merge_small(pieces: list[str], floor: int, cap: int) -> list[str]:
-    """Fold anything under `floor` into its neighbour, as long as it still fits."""
+    """
+    Fold anything under `floor` into its neighbour, as long as it still fits,
+    except that a list item never joins a chunk that already holds one.
+
+    The floor was set on replies, where under 200 characters really is a
+    fragment. In a list post a 112-character tip is a whole thought, and
+    folding it in is what put the corpus's only LX sentence in a chunk that
+    was mostly about printers. An intro can still take the first item, and a
+    plain paragraph can still fold into the item it follows.
+    """
     merged: list[str] = []
+    holds_item: list[bool] = []
     for piece in pieces:
-        if not merged:
-            merged.append(piece)
-            continue
-        too_small = len(piece) < floor or len(merged[-1]) < floor
-        fits = len(merged[-1]) + 2 + len(piece) <= cap
-        if too_small and fits:
-            merged[-1] = f"{merged[-1]}\n\n{piece}"
-        else:
-            merged.append(piece)
+        is_item = LIST_ITEM.match(piece) is not None
+        if merged:
+            too_small = len(piece) < floor or len(merged[-1]) < floor
+            fits = len(merged[-1]) + 2 + len(piece) <= cap
+            second_item = is_item and holds_item[-1]
+            if too_small and fits and not second_item:
+                merged[-1] = f"{merged[-1]}\n\n{piece}"
+                holds_item[-1] = holds_item[-1] or is_item
+                continue
+        merged.append(piece)
+        holds_item.append(is_item)
     return merged
 
 
@@ -199,7 +214,8 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
       2. Cut a segment again only if it passes CHUNK_SIZE, and then at a
          sentence end, carrying CHUNK_OVERLAP characters of the previous
          sentence forward.
-      3. Merge anything under CHUNK_MIN into its neighbour.
+      3. Merge anything under CHUNK_MIN into its neighbour, but never two
+         list items into one chunk (added in unit 2).
       4. Prepend the thread title to every chunk, so a chunk retrieved on its
          own still says which thread it came from.
 
