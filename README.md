@@ -705,25 +705,122 @@ new index.
 
 ### Run Log — After
 
-<!-- Same format, same five criteria, three runs each.
-     `python run_eval.py --label after` -->
+`python run_eval.py --label after --variant lists`, run on 2026-09-28 at 02:58
+against the index built with the new rule. Same five questions, same three runs
+with caching off, same five out-of-scope questions. The transcript is
+`results/run_2026-09-28_0258_after.md`, every retrieved chunk is in the `.json`
+beside it, and `python scorer.py results/run_2026-09-28_0258_after.json`
+rebuilds this table. The session reported `12 model calls this session, 11846
+tokens (10710 in, 1136 out)`.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunks contain the answer | 4 of 5 | 4/5 | 4/5 | 4/5 | MET |
+| 1r. Revised: a retrieved chunk, read on its own, answers | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
+| 2. Every answer names a source | every answer produced | 4/4 | 4/4 | 4/4 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. The answer fits inside one chunk | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
+| 5. Every source named was actually retrieved | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+Both run logs side by side:
+
+| Criterion | Target | Before (runs 1, 2, 3) | After (runs 1, 2, 3) | Verdict |
+|---|---|---|---|---|
+| 1. Retrieved chunks contain the answer | 4 of 5 | 3/5, 3/5, 3/5 | 4/5, 4/5, 4/5 | MISSED → MET |
+| 1r. Revised: a retrieved chunk, read on its own, answers | 4 of 5 | 3/5, 3/5, 3/5 | 3/5, 3/5, 3/5 | MISSED → MISSED |
+| 2. Every answer names a source | every answer produced | 4/4, 4/4, 4/4 | 4/4, 4/4, 4/4 | MET → MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5, 5/5, 5/5 | 5/5, 5/5, 5/5 | MET → MET |
+| 4. The answer fits inside one chunk | 4 of 5 | 3/5, 3/5, 3/5 | 3/5, 3/5, 3/5 | MISSED → MISSED |
+| 5. Every source named was actually retrieved | 5 of 5 | 5/5, 5/5, 5/5 | 5/5, 5/5, 5/5 | MET → MET |
+
+The bus question, run 1 of the after transcript, retrieved by
+`store.py::search` from chunks made by `chunker.py::split_documents` and
+written out by `run_eval.py::write_report`. The LX tip is now the nearest chunk
+in the index, and the answer is the same one the before run gave:
+
+```
+### Which bus do I take from College Avenue to Livingston? — run 1
+
+- Best distance: 0.4448 (passed the gate)
+- Sources retrieved: commuting_new_bus_route_just_dropped.txt, cs_little_rutgers_things_i_wish_i_knew_earlier.txt
+- Chunks, nearest first: `cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1` 0.4448, `cs_little_rutgers_things_i_wish_i_knew_earlier.txt#7` 0.4518, `commuting_new_bus_route_just_dropped.txt#0` 0.4533, `commuting_new_bus_route_just_dropped.txt#2` 0.4773, `cs_little_rutgers_things_i_wish_i_knew_earlier.txt#28` 0.4805
+
+Based on the provided documents, there is no mention of which bus to take from College Avenue to Livingston.
+
+[from cs_little_rutgers_things_i_wish_i_knew_earlier.txt, commuting_new_bus_route_just_dropped.txt]
+```
+
+And where the answer-holding chunks rank now, from
+`python tools/answer_rank.py --variant lists`, saved in
+`results/answer_rank_after.txt`:
+
+```
+Which bus do I take from College Avenue to Livingston?
+  expects 'LX': 1 of 910 chunks hold it (top 5 ends at 0.4805)
+  rank   1  0.4448  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1
+            "LX, H, and A buses go around College Ave from Student Center --> Scott Hall --> SAC."
+
+What can I do if the section I need is already closed on WebReg?
+  expects 'SPN': 1 of 910 chunks hold it (top 5 ends at 0.7985)
+  rank  12  0.8259  academics_anonymous_academic_advisor_here_ask_me_your_questions.txt#3
+            "Just know that if you are holding a seat, and SPNs were given for that class, that class has more students than what it should."
+```
 
 **Did it help?**
 
-<!-- Say plainly whether it did, and how you know. If it made things worse,
-     say that — a change that backfired, honestly reported, earns full credit
-     and is more interesting than one that worked. What matters is that you can
-     tell.
+It helped retrieval and it didn't change a single answer, and the second part
+is the one that counts.
 
-     Milestone 4. -->
+Retrieval moved exactly where I aimed it. The chunk holding the corpus's only
+LX sentence went from 18th at 0.6107 to 1st at 0.4448. The bus question's top
+five used to be three chunks from the new-route thread, a reply listing which
+café is on which campus, and one chunk from the list post that was four tips
+glued together: bus stops at Public Safety, the Macs in the ARC computer lab,
+getting from Cook-Douglass to Buell, and walking to Sears. Now it's three bus
+tips from the list post, each on its own (the LX loop, the B-He stop, and that
+walking often beats the bus on Busch and Cook-Douglass), and two chunks from
+the new-route thread. That took criterion
+1 as I originally wrote it from 3 of 5 to 4 of 5 on all three runs, which
+meets its target.
+
+The answer didn't move. The model had the LX sentence at the top of its
+context on all three runs and still said the documents never mention which bus
+goes from College Avenue to Livingston, word for word what it said before the
+fix. It's right. The sentence says the LX loops around College Ave and
+nothing about Livingston, and my grounding instruction tells it not to fill
+that in from what it knows. That's also why the risk I was most worried about,
+the judge counting a bus answer that just says "LX", never happened. The
+revised criterion 1 and criterion 4 stayed at 3 of 5 and are still missed,
+which is what I predicted.
+
+So the criterion I wrote in unit 1 says the fix worked, and the revised one
+says it didn't, and the revised one is right. A student asking this question
+gets the same answer they got before. This is the case I revised criterion 1
+for: the original counted a chunk with "LX" in it as an answer, so it scored
+the fix as a win while the answer stayed the same. What the fix does show is
+that the chunking half of the bus diagnosis was real. Once the printer tips
+were gone, the sentence was the easiest thing in the index to find. What's
+left is the loading half, a sentence that doesn't hold the answer.
+
+Nothing got worse. The WebReg question is still refused at 0.7443. The
+seat-alerts chunk did get closer, from 0.7783 to 0.7626, and moved into third,
+but it's nowhere near 0.6. Criterion 3 held at 5 of 5, and the Rust question,
+the one I said a short chunk might pull in, moved from 0.8588 to 0.8550, which
+is the direction I predicted and far too small to matter. The Busch, P/NC and
+Krispy Pizza questions retrieved the same text at the same distances. Where a
+label changed, like the housing guide's #19 becoming #21 in the Busch top
+five, I checked that the text is identical. The housing guide is a list post,
+so splitting its earlier tips renumbered everything after them.
+
+One thing in the transcript looks like progress and isn't. The per-question
+table at the top of each run log has the P/NC question passing once before and
+twice after. Its retrieval is identical in both runs. That column is `judge`,
+which only checks whether the answer contains "P/NC", so it moves with how the
+model happens to phrase a correct answer. I'm not counting it for the fix.
+
+I'm keeping the change. It costs nothing any criterion measured, and a list
+tip as its own chunk is the right shape for the 10 threads where the merge was
+gluing tips together, whether or not my five questions needed it.
 
 ## What's Still Broken
 
