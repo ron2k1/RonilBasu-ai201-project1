@@ -375,9 +375,9 @@ Every chunk it retrieved on every run is in the `.json` beside it, and
 `python scorer.py results/run_2026-09-28_0237_before.json` rebuilds this table
 from that file alone, with no index and no API key.
 
-I wrote `scorer.py` and committed it before this run existed (`e7bd157`), so the
-rule for what counts as a pass was fixed before there were results for it to
-fit.
+`scorer.py` was written and committed before this run existed (`e7bd157`), so
+the rule for what counts as a pass was fixed before there were results for it
+to fit.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
@@ -390,7 +390,10 @@ fit.
 
 Row 1r is the revision of criterion 1 I made in `criteria.md`, written under the
 original. It came after this run and before any change to the system, and it
-gives the same count as the original. Why I made it is under Verdicts.
+gives the same count as the original. Why I made it is under Verdicts. Row 1r
+and row 4 are scored by the same function, `scorer.py::one_chunk_answers`, so
+they can't come out different. Revised criterion 1 asks for one retrieved chunk
+that answers, which is what criterion 4 already asked for.
 
 Criterion 2 is out of 4 because the gate refused the WebReg question on all
 three runs at 0.744, before the model ever saw it, and criterion 2 is about
@@ -652,9 +655,13 @@ writing the test's answers into the system.
 never joins a chunk that already holds one. Everything else about merging is
 the same. A short intro still takes the first item under it, a plain paragraph
 still folds into the item it follows, two short replies still merge, and the
-800 cap still wins. A list item is a paragraph of the original post starting
-with `- `, `* `, `• ` or a number like `1.`, which never matches a reply
-because replies start with their `--- reply` marker. The tests are in `tests/test_chunker.py`,
+800 cap still wins. A list item is a piece starting with `- `, `* `, `• ` or a
+number like `1.`. A whole reply starts with its `--- reply` marker and never
+counts, but when a long reply gets cut at a sentence end, a later piece of it
+can start with a dash, and six in the corpus do. None of the six was ever
+merged with another list item, and I checked that the old and new chunkers
+differ in exactly the 10 threads where the merge was gluing tips together. The
+tests are in `tests/test_chunker.py`,
 built from the real pieces of the LX thread, and one of them runs the whole
 corpus and fails if any chunk still holds two list items the merge joined.
 
@@ -672,7 +679,11 @@ heat up your food."
 
 I indexed it as a second variant, `python app.py --variant lists index`, so
 the old index is still there to compare against, and ran the after eval with
-`python run_eval.py --label after --variant lists`.
+`python run_eval.py --label after --variant lists`. The old index is the
+`default` one. Indexing `default` at this commit would build it with the new
+rule, so to rebuild the before side of `tools/answer_rank.py` and
+`tools/gate_probe.py` from scratch, check out `03d83b1`, run
+`python app.py index` there, and come back to this commit to run them.
 
 **Why I picked it:** The bus diagnosis says the LX sentence ranked 18th
 because the merge pass buried it under two printer tips, and this is the rule
@@ -856,8 +867,8 @@ meets its target.
 
 The answer didn't move. The model had the LX sentence at the top of its
 context on all three runs and still said the documents never mention which bus
-goes from College Avenue to Livingston, word for word what it said before the
-fix. It's right. The sentence says the LX loops around College Ave and
+goes from College Avenue to Livingston. It's the same sentence it wrote before
+the fix, with a different list of files after it. It's right. The sentence says the LX loops around College Ave and
 nothing about Livingston, and my grounding instruction tells it not to fill
 that in from what it knows. That's also why the risk I was most worried about,
 the judge counting a bus answer that just says "LX", never happened. The
@@ -873,12 +884,13 @@ that the chunking half of the bus diagnosis was real. Once the printer tips
 were gone, the sentence was the easiest thing in the index to find. What's
 left is the loading half, a sentence that doesn't hold the answer.
 
-Nothing got worse. The WebReg question is still refused at 0.7443. The
+Nothing a criterion measures got worse. The WebReg question is still refused
+at 0.7443. The
 seat-alerts chunk did get closer, from 0.7783 to 0.7626, and moved into third,
 but it's nowhere near 0.6. Criterion 3 held at 5 of 5, and the Rust question,
 the one I said a short chunk might pull in, moved from 0.8588 to 0.8550, which
 is the direction I predicted and far too small to matter. The Busch, P/NC and
-Krispy Pizza questions retrieved the same text at the same distances. Where a
+food questions retrieved the same text at the same distances. Where a
 label changed, like the housing guide's #19 becoming #21 in the Busch top
 five, I checked that the text is identical. The housing guide is a list post,
 so splitting its earlier tips renumbered everything after them.
@@ -889,7 +901,7 @@ twice after. Its retrieval is identical in both runs. That column is `judge`,
 which only checks whether the answer contains "P/NC", so it moves with how the
 model happens to phrase a correct answer. I'm not counting it for the fix.
 
-I'm keeping the change. It costs nothing any criterion measured, and a list
+I'm keeping the change. It costs nothing any criterion measures, and a list
 tip as its own chunk is the right shape for the 10 threads where the merge was
 gluing tips together, whether or not my five questions needed it.
 
@@ -957,9 +969,12 @@ output is `results/gate_probe.txt`.
 
 A single cutoff on distance can't fix this. After the fix, the four test
 questions the gate lets through have best chunks from 0.2157 to 0.4448, and
-everything it refused was 0.7443 or further. These near misses land inside the
-first range, and so does my own bus question, whose nearest chunk doesn't
-answer it either. Moving 0.6 in either direction doesn't separate them. The next thing I'd try is a check on whether the best chunk actually
+everything it refused was 0.7443 or further. Three of the five near misses
+land inside that range, and the other two sit just above it at 0.5181 and
+0.5245. The bike-pump tip, at 0.3840, is closer to the gym question than the
+chunks that really do answer the P/NC question (0.4037) and the Busch question
+(0.4377) are to theirs. No cutoff lets those two through and stops the gym
+question. The next thing I'd try is a check on whether the best chunk actually
 answers, like a reranker that scores each question and chunk as a pair, or
 asking the model yes or no before it writes anything. I didn't run these five
 through the model, so I don't know yet whether the grounding rule catches them
@@ -981,7 +996,10 @@ been a second change to `chunker.py`.
 phrases in `questions.py` were meant to stand for "the answer", and on two of
 five questions they don't. "P/NC" is what question 2 is about, so every chunk
 about Pass/No Credit contains it, whether or not it says anything worth
-knowing. And `judge` uses the same phrase to grade the answer, so correct
+knowing. My own chunker makes that worse. It puts the thread title on every
+chunk, and one thread is titled "A message about P/NC from a faculty member",
+so 6 of that thread's 11 chunks have the phrase only in the title. And `judge`
+uses the same phrase to grade the answer, so correct
 answers fail it. In the before run, P/NC runs 1 and 2 both gave the FAQ's
 real advice, which is to see an advisor if the class needs a B, and both
 failed because neither one wrote "P/NC". For the WebReg question "SPN" is
@@ -994,9 +1012,10 @@ phrase.
 **Criterion 4: I'd point it at the way my chunker actually fails.** I wrote
 it to catch chunks cut too small, an answer split from its follow-up at a
 reply marker. None of my five questions has an answer that runs across two
-replies, so criterion 4 could only fail where criterion 1 already had. It gave
-the same count as the revised criterion 1 on all six runs, before and after.
-The failure I found was the opposite direction, chunks glued too big. I'd
+replies, so criterion 4 could only fail where criterion 1 already had. Once I
+revised criterion 1 to ask for one chunk that answers, the two became the same
+test, scored by the same function, so matching on all six runs tells me
+nothing. The failure I found was the opposite direction, chunks glued too big. I'd
 either add a question built for the split case, one whose answer is a reply
 plus the reply correcting it, or spend criterion 4 on chunk purity: the chunk
 holding the answer should be mostly about the answer. That version would have
@@ -1063,8 +1082,9 @@ lengths make the old rule merge.
 it help?" said the before run's list-post chunk was a tip about which bus to
 take at night. It was four tips glued together, and none of them was about
 night buses. After that, every description of a chunk in this write-up was
-checked against the text in the results JSON, and every block of pasted
-output was checked line by line against the files in `results/`.
+checked against the text in the results JSON, and every line of every pasted
+block was checked against the files in `results/`. The blocks are excerpts,
+so lines between the ones shown are left out, but none of them was retyped.
 
 **4. A prediction was wrong, and it stays in.** I predicted the model might
 start saying "LX" once it could see the LX sentence. It never did. Committing
