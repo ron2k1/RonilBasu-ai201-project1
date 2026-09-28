@@ -648,12 +648,60 @@ writing the test's answers into the system.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** One rule in `_merge_small` in `chunker.py`: a list item
+never joins a chunk that already holds one. Everything else about merging is
+the same. A short intro still takes the first item under it, a plain paragraph
+still folds into the item it follows, two short replies still merge, and the
+800 cap still wins. A list item is a paragraph of the original post starting
+with `- `, `* `, `• ` or a number like `1.`, which never matches a reply
+because replies start with their `--- reply` marker. The tests are in `tests/test_chunker.py`,
+built from the real pieces of the LX thread, and one of them runs the whole
+corpus and fails if any chunk still holds two list items the merge joined.
 
-**Why I picked it:**
+It has a cost I could see before running anything. The corpus now comes out as
+910 chunks instead of 853, and 47 of them are under the 200 floor instead of 4.
+The shortest went from 163 characters to 64. Those short ones are single tips
+with their thread title, like "Most campus centers have microwaves so you can
+heat up your food."
 
-<!-- Connect it to a specific diagnosis above in one sentence. If you can't,
-     you picked a fix because it sounded impressive. -->
+I indexed it as a second variant, `python app.py --variant lists index`, so
+the old index is still there to compare against, and ran the after eval with
+`python run_eval.py --label after --variant lists`.
+
+**Why I picked it:** The bus diagnosis says the LX sentence ranked 18th
+because the merge pass buried it under two printer tips, and this is the rule
+that did the burying.
+
+It's also the only fix on the table that isn't aimed at my five questions. The
+root cause of both misses is loading, and adding threads that happen to say
+which bus goes to Livingston would be writing my test's answers into the
+corpus. Lowering the gate would let the WebReg question through, but the best
+chunk it would get is a professor asking for advice on an online course, and
+it would give up the 0.178 margin criterion 3 has. Expanding "LX" and "SPN" in
+the query would help exactly two questions, both of them mine. The merge rule
+touches 27 chunks across 10 threads, and the bus question is only one of them.
+
+**What I expected before running it:** I wrote this down before building the
+new index.
+
+- The bus question's LX chunk will now be one bus tip under a thread title,
+  and I think it moves into the top five. That would take the original
+  criterion 1 from 3 of 5 to 4 of 5.
+- The revised criterion 1 and criterion 4 won't move, because the fix can't
+  change what the sentence says. It says the LX goes around College Ave,
+  never that it goes to Livingston.
+- The model might now say "LX" in its bus answer, because it will be looking
+  at a sentence about the LX. If it does, the judge will mark it right, since
+  the judge only checks for the phrase. That would be the P/NC problem
+  showing up again, not a real fix, and I'd have to say so.
+- The WebReg question is the one I'm least sure of. "Seat alerts for closed
+  sections" is now a chunk of its own, and a short chunk about closed sections
+  could get under 0.6. If it does, the gate lets the question through, and the
+  answer will be seat alerts, not SPN, which my judge will mark wrong.
+- In 17 of the 47 short chunks the thread title is more than half the text,
+  so the embedding is mostly the title. If anything pulls an out-of-scope
+  question under 0.6 it's one of those, so criterion 3 is the one that could
+  get worse.
 
 ### Run Log — After
 
