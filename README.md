@@ -372,8 +372,9 @@ rather than read the code and believe it.
 three runs each with caching off, then the five `OUT_OF_SCOPE` questions through
 the gate once. The full transcript is `results/run_2026-09-28_0237_before.md`.
 Every chunk it retrieved on every run is in the `.json` beside it, and
-`python scorer.py results/run_2026-09-28_0237_before.json` rebuilds this table
-from that file alone, with no index and no API key.
+`python scorer.py results/run_2026-09-28_0237_before.json` rebuilds the counts
+in this table from that file alone, with no index and no API key. The one count
+I don't take as it prints is criterion 2's, and why is under Verdicts.
 
 `scorer.py` was written and committed before this run existed (`e7bd157`), so
 the rule for what counts as a pass was fixed before there were results for it
@@ -381,9 +382,9 @@ to fit.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunks contain the answer | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
+| 1. Retrieved chunks contain the answer, by the `expects` phrase | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
 | 1r. Revised: a retrieved chunk, read on its own, answers | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
-| 2. Every answer names a source | every answer produced | 4/4 | 4/4 | 4/4 | MET |
+| 2. Every answer names a source | all 5 | 4/5 | 4/5 | 4/5 | MISSED |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 4. The answer fits inside one chunk | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
 | 5. Every source named was actually retrieved | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
@@ -395,18 +396,22 @@ and row 4 are scored by the same function, `scorer.py::one_chunk_answers`, so
 they can't come out different. Revised criterion 1 asks for one retrieved chunk
 that answers, which is what criterion 4 already asked for.
 
-Criterion 2 is out of 4 because the gate refused the WebReg question on all
-three runs at 0.744, before the model ever saw it, and criterion 2 is about
-answers the system writes. I explain that call under Verdicts.
+`scorer.py` prints criterion 2 as 4/4, because I wrote it to leave out the
+WebReg question, which the gate refused on all three runs at 0.744 before the
+model ever saw it. The table counts that refusal, which makes it 4/5. Why I
+changed my mind is under Verdicts.
 
 Every count came out the same on all three runs, and the brief says to be
 suspicious of that. These are three real runs. `run_eval.py` passes
-`cache=False`, the session reported `12 model calls this session, 12555 tokens
-(11394 in, 1161 out)` with nothing served from cache, and the answers read
-differently each time: run 3 of the Busch question brings up residence lounges
-and the other two don't. The counts hold still because criteria 1, 3 and 4
-depend only on retrieval, which gives the same chunks every time. The two
-criteria that depend on the model held on all 12 answers it wrote.
+`cache=False`, and the console at the end reported 12 model calls, none of them
+served from cache. That line went to the terminal and isn't saved in
+`results/`. What is saved shows the runs differ: several answers read
+differently from run to run, like run 3 of the Busch question bringing up
+residence lounges when the other two don't. The counts hold still because
+criteria 1, 3 and 4 depend only on retrieval, which gives the same chunks every
+time. Criterion 2's miss is the gate's refusal, which is retrieval too, and on
+all 12 answers the model did write, it named a file and every file it named
+had been retrieved.
 
 What the system actually printed, all from run 1 of
 `results/run_2026-09-28_0237_before.md`:
@@ -493,7 +498,7 @@ were retrieved.
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
 | 1 | Retrieved chunks contain the answer | MISSED | 3 of 5 on all three runs against a target of 4, and the revised version under it in `criteria.md` also gives 3 on all three. |
-| 2 | Every answer names a source | MET | All 12 answers the model wrote named a file. The one thing that named nothing was the gate's refusal, which the model never wrote. |
+| 2 | Every answer names a source | MISSED | 4 of 5 on all three runs against a target of all five. All 12 answers the model wrote named a file, and the WebReg question got the gate's refusal, which names none. |
 | 3 | Gate stops out-of-corpus questions | MET | 5 of 5 against a target of 4, and the closest of them, Mongolia at 0.778, still cleared the cutoff by 0.178. |
 | 4 | The answer fits inside one chunk | MISSED | 3 of 5 on all three runs against a target of 4, missed on the same two questions as criterion 1. |
 | 5 | Every source named was actually retrieved | MET | Every filename in all 12 written answers is one that was retrieved for that question, which the target of 5 of 5 needed on every run. |
@@ -506,25 +511,29 @@ under the original in `criteria.md`. I wanted that settled before the after run
 rather than discovered in it. The original row stays in the run log with the
 revision under it.
 
-Criterion 2 is the call I'd expect someone to argue with, so I argued it myself.
-The case for MISSED is that the template's target says 5 of 5, and a student
-asking about WebReg gets "I don't have enough information about that" with no
-file named. From where they sit, that is the system's answer. The case for MET
-is what I wrote in unit 1: the reason under criterion 2 covers "every answer
-that gets produced at all", and it relies on the gate so the model never
-answers from nothing. The refusal comes from `gate.py`, not the model, and
-there is nothing for it to cite. A filename printed under a refusal would be
-citing a document that supports nothing. So I scored criterion 2 over the
-answers the model wrote, which is 4 of 4 on every run.
+Criterion 2 is the call I changed my mind on. The case for MET is in my unit 1
+reason, which talks about "every answer that gets produced at all" and leans on
+the gate so the model never answers from nothing. The refusal comes from
+`gate.py`, not the model, and there's nothing for it to cite. That's how I
+wrote `scorer.py`, and why it prints 4/4. The case for MISSED is the words of
+the criterion. It says every answer the system produces, and the reason starts
+with "All five". A student asking about WebReg gets "I don't have enough
+information about that" with no file named, and from where they sit that is
+the system's answer. What settled it is criterion 5. There I count the three
+refusals as passes, and a refusal can't count as an answer when it passes and
+drop out when it fails. So a refusal is something the system produced, for
+every criterion, and criterion 2 is 4 of 5 on every run. Scoring it against my
+own scorer after seeing the results only moves it one way here, from MET to
+MISSED.
 
-The pass on criterion 2 I trust least is the bus question. All three runs said
-"there is no mention of which bus to take from College Avenue to Livingston" and
-then listed all three retrieved files. By the letter that names a source. What
-it actually does is cite three documents for the claim that none of them says
-anything. My grounding rule says to name the document the answer came from,
-and it has nothing to say for the case where no document is where the answer
-came from. The verdict stays MET because the criterion asks for a name and got
-one. The problem goes under What's Still Broken.
+Of the passes on criterion 2, the one I trust least is the bus question. All
+three runs said "there is no mention of which bus to take from College Avenue
+to Livingston" and then listed all three retrieved files. By the letter that
+names a source. What it actually does is cite three documents for the claim
+that none of them says anything. My grounding rule says to name the document
+the answer came from, and it has nothing to say for the case where no document
+is where the answer came from. It counts as a pass because the criterion asks
+for a name and got one. The problem goes under What's Still Broken.
 
 Criterion 3 was never close. In unit 1 I set 4 of 5 so the Rust question had
 room to get through, and Rust came back furthest away of all. With the nearest
@@ -533,7 +542,8 @@ from Rutgers to put the gate under any pressure. I come back to that under
 What I'd Do Differently.
 
 Criterion 5 held on 15 answers, but only 12 of them tested anything. The three
-refusals name no file, so they pass without trying. Of the 12 real ones, 8 cite
+refusals name no file, so they pass without trying. They count here for the
+same reason they count against criterion 2. Of the 12 real ones, 8 cite
 with the exact `[from ...]` tag `build_prompt` puts in the prompt, and the other
 4 wrap the same filename in backticks. Either way the model was repeating a
 string it had just been handed. That's why it held, and it means this run
@@ -543,7 +553,8 @@ look like a filename that wasn't retrieved.
 ## Diagnoses
 
 Criteria 1 and 4 both missed, on the same two questions, for the same reasons,
-so this is two diagnoses rather than four. The run log only shows the top five,
+so this is two diagnoses rather than four. Criterion 2's miss is the WebReg
+question again, and it gets a short one of its own after those. The run log only shows the top five,
 which tells me a question missed but not by how much. So I ranked every chunk
 in the index against each question with `tools/answer_rank.py`, which is
 retrieval only and costs no model calls. The full output for all five is in
@@ -631,9 +642,24 @@ question retrieval did bring back something usable, and the gate refused the
 question anyway, because a cosine cutoff on the best chunk can't tell a
 0.7443 chunk that says nothing from a 0.7783 chunk that says something.
 
+### Criterion 2: the WebReg question again, at the gate
+
+The stage is retrieval, at the relevance gate. `gate.py::check` refuses when the
+best chunk is 0.6 or further, the WebReg question's best is 0.7443, so it never
+reaches `generate.py` and the student gets a fixed sentence with no file in it.
+The mechanism is the WebReg diagnosis above. Nothing in the index answers the
+question, so its nearest chunk is far away and the gate does what it was built
+to do. The refusal is the right behavior and it's still a miss, because my
+unit 1 reason for criterion 2 assumed the gate would only ever stop the
+out-of-scope questions, never one of my five. Every way to pass it would be
+worse. Lowering the gate hands the model a chunk that doesn't answer, and
+putting a filename under the refusal cites a document for nothing, which is
+the bus problem under What's Still Broken.
+
 ### The pattern
 
-Both misses are one problem. Each answer is a Rutgers abbreviation, LX or SPN,
+All three missed criteria come down to two questions, and those are one
+problem. Each answer is a Rutgers abbreviation, LX or SPN,
 that appears exactly once in 80 threads. Each time it's an aside inside a chunk
 about something else, in a sentence that doesn't actually state the answer. The
 three questions that passed all have their answer in a chunk whose whole
@@ -727,37 +753,47 @@ against the index built with the new rule. Same five questions, same three runs
 with caching off, same five out-of-scope questions. The transcript is
 `results/run_2026-09-28_0258_after.md`, every retrieved chunk is in the `.json`
 beside it, and `python scorer.py results/run_2026-09-28_0258_after.json`
-rebuilds this table. The session reported `12 model calls this session, 11846
-tokens (10710 in, 1136 out)`.
+rebuilds the counts in this table, with criterion 2 counted the way I explain
+under Verdicts.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunks contain the answer | 4 of 5 | 4/5 | 4/5 | 4/5 | MET |
+| 1. Retrieved chunks contain the answer, by the `expects` phrase | 4 of 5 | 4/5 | 4/5 | 4/5 | MISSED |
 | 1r. Revised: a retrieved chunk, read on its own, answers | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
-| 2. Every answer names a source | every answer produced | 4/4 | 4/4 | 4/4 | MET |
+| 2. Every answer names a source | all 5 | 4/5 | 4/5 | 4/5 | MISSED |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 4. The answer fits inside one chunk | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
 | 5. Every source named was actually retrieved | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+Row 1 is 4 of 5 and still MISSED. It counts the bus question now because the
+top chunk has "LX" in it, and that chunk is the one my own hand check in
+`scorer.py` marks as not answering: it says the LX goes around College Ave and
+never that it goes to Livingston. Criterion 1 says the chunk "contains the
+answer", and read that way it's 3 of 5, the same as row 1r. The phrase count
+going up while the answer stayed put is the exact failure I revised criterion 1
+for, so I'm not counting it as met.
 
 Both run logs side by side:
 
 | Criterion | Target | Before (runs 1, 2, 3) | After (runs 1, 2, 3) | Verdict |
 |---|---|---|---|---|
-| 1. Retrieved chunks contain the answer | 4 of 5 | 3/5, 3/5, 3/5 | 4/5, 4/5, 4/5 | MISSED → MET |
+| 1. Retrieved chunks contain the answer, by the `expects` phrase | 4 of 5 | 3/5, 3/5, 3/5 | 4/5, 4/5, 4/5 | MISSED → MISSED |
 | 1r. Revised: a retrieved chunk, read on its own, answers | 4 of 5 | 3/5, 3/5, 3/5 | 3/5, 3/5, 3/5 | MISSED → MISSED |
-| 2. Every answer names a source | every answer produced | 4/4, 4/4, 4/4 | 4/4, 4/4, 4/4 | MET → MET |
+| 2. Every answer names a source | all 5 | 4/5, 4/5, 4/5 | 4/5, 4/5, 4/5 | MISSED → MISSED |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5, 5/5, 5/5 | 5/5, 5/5, 5/5 | MET → MET |
 | 4. The answer fits inside one chunk | 4 of 5 | 3/5, 3/5, 3/5 | 3/5, 3/5, 3/5 | MISSED → MISSED |
 | 5. Every source named was actually retrieved | 5 of 5 | 5/5, 5/5, 5/5 | 5/5, 5/5, 5/5 | MET → MET |
 
 Every count was the same on all three runs again, and these are three real
-runs too. The session made 12 model calls with nothing served from cache, and
-the answers read differently each time: run 2 of the Krispy Pizza question
-cites only the overrated-spots thread where runs 1 and 3 also cite the senior
-foodie's, and run 2 of the P/NC question is the only one that mentions the May
-22nd deadline. The counts hold still for the same reason as before. Criteria
-1, 3 and 4 depend only on retrieval, and the model held on criteria 2 and 5
-in all 12 answers it wrote.
+runs too. The console reported 12 model calls with nothing served from cache,
+and several answers read differently from run to run: run 2 of the food
+question cites only the overrated-spots thread where runs 1 and 3 also cite
+the senior foodie's, and run 2 of the P/NC question is the only one that
+mentions the May 22nd deadline. The bus answer is the one that never changes,
+the same on all three runs. The counts hold still for the same reason as
+before. Criteria 1, 3 and 4 depend only on retrieval, criterion 2's miss is
+still the gate's refusal, and the model named a retrieved file in all 12
+answers it wrote.
 
 What the system actually printed, all from run 1 of
 `results/run_2026-09-28_0258_after.md`:
@@ -861,9 +897,8 @@ glued together: bus stops at Public Safety, the Macs in the ARC computer lab,
 getting from Cook-Douglass to Buell, and walking to Sears. Now it's three bus
 tips from the list post, each on its own (the LX loop, the B-He stop, and that
 walking often beats the bus on Busch and Cook-Douglass), and two chunks from
-the new-route thread. That took criterion
-1 as I originally wrote it from 3 of 5 to 4 of 5 on all three runs, which
-meets its target.
+the new-route thread. That took row 1, the phrase count, from 3 of 5 to 4 of
+5 on all three runs.
 
 The answer didn't move. The model had the LX sentence at the top of its
 context on all three runs and still said the documents never mention which bus
@@ -875,11 +910,11 @@ the judge counting a bus answer that just says "LX", never happened. The
 revised criterion 1 and criterion 4 stayed at 3 of 5 and are still missed,
 which is what I predicted.
 
-So the criterion I wrote in unit 1 says the fix worked, and the revised one
-says it didn't, and the revised one is right. A student asking this question
-gets the same answer they got before. This is the case I revised criterion 1
-for: the original counted a chunk with "LX" in it as an answer, so it scored
-the fix as a win while the answer stayed the same. What the fix does show is
+So the phrase check says the fix worked, my reading of the chunk says it
+didn't, and the reading is right. A student asking this question gets the same
+answer they got before. This is the case I revised criterion 1 for: the phrase
+check counted a chunk with "LX" in it as an answer, so it scored the fix as a
+win while the answer stayed the same. What the fix does show is
 that the chunking half of the bus diagnosis was real. Once the printer tips
 were gone, the sentence was the easiest thing in the index to find. What's
 left is the loading half, a sentence that doesn't hold the answer.
@@ -944,9 +979,11 @@ document your answer came from", has no exception, so the model names files
 anyway. What I'd change is that second rule: name a document only when the
 answer came from one, so a "they don't cover it" answer reads like the gate's
 refusal.
-I didn't, because the brief allowed one change and I'd already spent it, and
-because criterion 2 would then have to decide whether that counts as an
-answer, which is the same argument I had with myself about the gate's refusal.
+I didn't, because the brief allowed one change and I'd already spent it. It
+would also make the bus question a second miss on criterion 2 in every run,
+since an answer that names no file fails it the same way the refusal does. I'd
+take that trade. A file listed under an answer that says nothing only looks
+like a source.
 
 **The gate lets through Rutgers questions it can't answer.** Criterion 3 is
 met and I don't think it means much. `tools/gate_probe.py` asks five questions
@@ -1040,13 +1077,15 @@ questions tried that. I'd add one that invites it, like asking whether there's
 a thread about where commuters park on College Ave. No thread has that title,
 and one about Rutgers exploiting its commuters with parking rules shares most
 of its words, so the model has both a real file to stretch and a fake one to
-invent. And I'd score criterion 5 only over answers that name at least one
-file.
+invent. And I'd report criterion 5 next to how many answers actually named a
+file, so refusals that name nothing can't pad it.
 
-**Criterion 2 I'd keep, with the refusal rule written in.** Whether the
-gate's refusal counts as an answer was the one call I had to argue in the
-verdict. It should have been settled in the criterion, in unit 1, before I
-knew the WebReg question would be the one refused.
+**Criterion 2: I'd decide in unit 1 whether a refusal counts.** I wrote the
+reason assuming the gate would only ever stop questions from outside my
+corpus, and never said what happens when it stops one of my five. That left
+me picking a denominator after I'd seen which question got refused, and my
+scorer had already picked the kinder one. I'd write the rule into the
+criterion before any run: a refusal is an answer the system gave.
 
 ## How I Used AI (unit 2)
 
@@ -1090,6 +1129,15 @@ so lines between the ones shown are left out, but none of them was retyped.
 start saying "LX" once it could see the LX sentence. It never did. Committing
 the prediction first only means something if it's allowed to be wrong, so it's
 still there under The Improvement, as written.
+
+**5. Two verdicts were kinder than the criteria, and a second read caught
+them.** Once the draft was done, I had a separate review check every claim
+against the committed files. It found that I'd left the gate's refusal out of
+criterion 2 while counting the same refusal as a pass on criterion 5, and that
+I'd called criterion 1 met after the fix on a count my own hand check says is
+wrong. Both are MISSED now, and the reasoning is under Verdicts and the after
+run log. It also caught a sentence saying all five gate near misses landed in
+a range when two of them sit just above it.
 
 Checking these the same way also turned up a mistake from unit 1. I wrote that
 the SPN chunk was further away than four of my five out-of-scope questions,
