@@ -36,8 +36,10 @@ HEADER_PREFIXES = ("THREAD:", "TOPIC:")
 REPLY_MARKER = re.compile(r"^(--- reply \d+ \(-?\d+ votes\) ---)$", re.M)
 PARAGRAPH_BREAK = re.compile(r"\n\s*\n")
 SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
-# A paragraph of the original post that starts "- ", "* ", "• ", "1. " or "1) ".
-# Reply pieces start with their "--- reply" marker, so they never match.
+# A piece that starts "- ", "* ", "• ", "1. " or "1) ". A whole reply starts with
+# its "--- reply" marker and never matches, but a later piece of a long reply
+# that _split_long cut can. Six in this corpus do, and none of them was ever
+# merged with another list item, so the rule below changes nothing for them.
 LIST_ITEM = re.compile(r"^\s*(?:[-*•]|\d+[.)])\s+")
 
 
