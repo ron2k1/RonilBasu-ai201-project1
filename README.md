@@ -824,17 +824,182 @@ gluing tips together, whether or not my five questions needed it.
 
 ## What's Still Broken
 
-<!-- For each criterion still missed after your fix: what you'd do about it,
-     and why you stopped where you did.
+**Revised criterion 1 and criterion 4, still 3 of 5.** Both miss on the bus
+and WebReg questions, and after the fix both misses are purely loading. The
+corpus has no sentence that says which bus goes to Livingston and no sentence
+that tells a student to ask for an SPN.
 
-     "I ran out of time" is fine if it's true. Pretending nothing is left is
-     not.
+Going back to the harvester to see why, the cause is in
+`tools/harvest_rutgers.py`. Each topic is one search sorted `top` of all time,
+and `_pick_posts` keeps the most-commented results first. That picks the most
+argued-over threads, whatever they're about. Three of the four threads filed
+under `buses` aren't about buses at all: they're about the Targum censoring
+coverage of the Hong Kong protests, a student accused of cheating, and vaccine
+information from a bio professor. The registration search used nearly my
+WebReg question's own words and came back with a post of registration dates,
+the scheduling-app launch post, and an argument about the PIRG fee. None of
+the three is about getting into a closed section.
 
-     Milestone 5. -->
+What I'd do is fix the harvester, not the index. Sort by relevance instead of
+comment count, drop a thread whose title and body never use the topic's words,
+and take more threads per topic so a thin one like registration isn't three
+posts. I stopped short of it for two reasons. It changes the corpus, which
+changes every number above, so it would be a new baseline and not an after.
+And I know my five questions now. If I pick threads while knowing them, I'm
+writing the answers into the corpus. Doing it properly means writing a fresh
+set of test questions before the new harvest and measuring against those.
+
+**The bus answer cites documents for saying nothing.** This is the problem I
+flagged under Verdicts, and the fix made it more visible, not less. All six
+bus answers, before and after, say the documents never mention the route and
+then list the files they came from. After the fix the model is citing a thread
+whose top chunk is literally about the LX, in an answer saying the LX isn't
+mentioned. `GROUNDING_INSTRUCTION` in `generate.py` does have a rule for this
+case, "If the documents don't cover the question, say you don't have enough
+information", and the model followed it. The rule right after it, "Name the
+document your answer came from", has no exception, so the model names files
+anyway. What I'd change is that second rule: name a document only when the
+answer came from one, so a "they don't cover it" answer reads like the gate's
+refusal.
+I didn't, because the brief allowed one change and I'd already spent it, and
+because criterion 2 would then have to decide whether that counts as an
+answer, which is the same argument I had with myself about the gate's refusal.
+
+**The gate lets through Rutgers questions it can't answer.** Criterion 3 is
+met and I don't think it means much. `tools/gate_probe.py` asks five questions
+a student here would actually ask that my threads don't cover, and all five
+get under 0.6 on both indexes. The nearest chunk answers none of them:
+
+```
+Which Rutgers gym has a swimming pool?
+  default  0.4779 passes  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#17
+           "--- reply 2 (10 votes) --- If you order from Amazon and don't want to deal with the campus mail system (anything scheduled for delivery on a weekend u"
+  lists    0.3840 passes  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#15
+           "- There are bike repair and air pump stations on every campus, near the Busch Campus Center, Livi Plaza bus stop, Douglass Campus Center, and Au Bon P"
+```
+
+That one is also a cost of my fix. On the old index the gym question's nearest
+chunk was 0.4779 away, and on the new one a one-line tip about bike pumps is
+0.3840. A short tip under a short title sits close to a lot of short questions.
+The lost-ID question moved the same way, from 0.5334 to 0.5181. The full
+output is `results/gate_probe.txt`.
+
+A single cutoff on distance can't fix this. After the fix, the four test
+questions the gate lets through have best chunks from 0.2157 to 0.4448, and
+everything it refused was 0.7443 or further. These near misses land inside the
+first range, and so does my own bus question, whose nearest chunk doesn't
+answer it either. Moving 0.6 in either direction doesn't separate them. The next thing I'd try is a check on whether the best chunk actually
+answers, like a reranker that scores each question and chunk as a pair, or
+asking the model yes or no before it writes anything. I didn't run these five
+through the model, so I don't know yet whether the grounding rule catches them
+the way it caught the bus question. That's the first thing I'd measure. I
+stopped here because criterion 3 as I wrote it can't see the problem, so I'd
+have had no criterion to show a fix working against.
+
+**The fix made 43 more chunks under the floor.** 47 now instead of 4. The
+smallest, at 64 characters, is a list item that is only a link,
+`- https://climateclock.world`, under its thread title. It was never retrieved
+in either run, so nothing measured it, but it's a chunk with nothing in it. A
+list item that is only a URL should fold into its neighbour like any other
+fragment. I left it because it's one chunk out of 910 and fixing it would have
+been a second change to `chunker.py`.
 
 ## What I'd Do Differently
 
-<!-- Knowing what you know now — which of your five criteria would you write
-     differently, and why?
+**Criterion 1: I'd write the answer down, not the topic.** The `expects`
+phrases in `questions.py` were meant to stand for "the answer", and on two of
+five questions they don't. "P/NC" is what question 2 is about, so every chunk
+about Pass/No Credit contains it, whether or not it says anything worth
+knowing. And `judge` uses the same phrase to grade the answer, so correct
+answers fail it. In the before run, P/NC runs 1 and 2 both gave the FAQ's
+real advice, which is to see an advisor if the class needs a B, and both
+failed because neither one wrote "P/NC". For the WebReg question "SPN" is
+one real answer out of at least two, and the corpus's other one, seat alerts
+for closed sections, could never count. So I'd write criterion 1 the way I
+revised it, as a reading of whether the chunk answers, from the start, and
+for each question I'd write down every answer I'd accept instead of one
+phrase.
 
-     Milestone 5. -->
+**Criterion 4: I'd point it at the way my chunker actually fails.** I wrote
+it to catch chunks cut too small, an answer split from its follow-up at a
+reply marker. None of my five questions has an answer that runs across two
+replies, so criterion 4 could only fail where criterion 1 already had. It gave
+the same count as the revised criterion 1 on all six runs, before and after.
+The failure I found was the opposite direction, chunks glued too big. I'd
+either add a question built for the split case, one whose answer is a reply
+plus the reply correcting it, or spend criterion 4 on chunk purity: the chunk
+holding the answer should be mostly about the answer. That version would have
+flagged the bus chunk before any eval, since 307 of its 536 characters under
+the title were about printing.
+
+**Criterion 3: I'd ask it questions that could actually get through.** I
+picked five out-of-scope questions from other worlds, set 4 of 5 so the Rust
+one had room to slip past, and all five cleared the cutoff by at least 0.178.
+That measured whether the gate can tell Rutgers from Mongolia, which was never
+in doubt. The question that matters is whether it can tell a Rutgers question
+my threads answer from one they don't. The five near misses in
+`results/gate_probe.txt` would have made criterion 3 fail on the first run,
+which is what it should have done.
+
+**Criterion 5: I'd give the model a reason to make a filename up.** It held
+on every answer because the model repeated filenames it had just been handed,
+and three of the fifteen answers were refusals that passed without naming
+anything. The reason I gave for this criterion in unit 1 was that my filenames
+read like the words of a question, so a model could invent one. None of my
+questions tried that. I'd add one that invites it, like asking whether there's
+a thread about where commuters park on College Ave. No thread has that title,
+and one about Rutgers exploiting its commuters with parking rules shares most
+of its words, so the model has both a real file to stretch and a fake one to
+invent. And I'd score criterion 5 only over answers that name at least one
+file.
+
+**Criterion 2 I'd keep, with the refusal rule written in.** Whether the
+gate's refusal counts as an answer was the one call I had to argue in the
+verdict. It should have been settled in the criterion, in unit 1, before I
+knew the WebReg question would be the one refused.
+
+## How I Used AI (unit 2)
+
+I leaned on Claude Code harder in unit 2 than in unit 1. It wrote `scorer.py`
+and its tests, the changes to `run_eval.py`, `tools/answer_rank.py` and
+`tools/gate_probe.py`, and the change to `_merge_small` with its tests. It ran
+both evals, and it drafted the unit 2 sections of this README from the results.
+Two things were set up so the order of events can be checked rather than
+taken on trust: the scorer was committed before the before run (`e7bd157`),
+and the prediction was committed before the new index was built (`8483747`).
+
+The moments worth writing down are the same kind as unit 1. Each time
+something was wrong, it read fine, and a measurement is what caught it.
+
+**1. A count in the diagnosis was too high, and it was already pushed.** The
+first count of chunks where the merge glued list items together was 30 across
+12 threads. It worked by splitting finished chunks on blank lines, which also
+counted three single replies that contain their own bulleted list. That's one
+person's list, and the merge had nothing to do with it. Writing the
+whole-corpus test forced the question of which pieces the merge actually
+joined, and tracking that gives 27 across 10. The wrong number had gone out in
+`147d3c4`. The correction is `03d83b1`, and its message says why.
+
+**2. A test for the fix passed before the fix existed.** The first version of
+the test that a list item never joins a chunk already holding one passed on
+the old code. The intro plus the first tip was already 393 characters, over
+the floor, so the old rule wouldn't have merged the next tip either. A test
+that passes without the fix says nothing about the fix. Running the tests red
+before writing the code is what showed it, and the test now uses pieces whose
+lengths make the old rule merge.
+
+**3. The first draft described chunks from memory.** The first draft of "Did
+it help?" said the before run's list-post chunk was a tip about which bus to
+take at night. It was four tips glued together, and none of them was about
+night buses. After that, every description of a chunk in this write-up was
+checked against the text in the results JSON, and every block of pasted
+output was checked line by line against the files in `results/`.
+
+**4. A prediction was wrong, and it stays in.** I predicted the model might
+start saying "LX" once it could see the LX sentence. It never did. Committing
+the prediction first only means something if it's allowed to be wrong, so it's
+still there under The Improvement, as written.
+
+Checking these the same way also turned up a mistake from unit 1. I wrote that
+the SPN chunk was further away than four of my five out-of-scope questions,
+and it's two. That's corrected under Diagnoses, with unit 1 left as it was.
