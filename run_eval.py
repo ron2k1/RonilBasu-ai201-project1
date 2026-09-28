@@ -34,6 +34,7 @@ you a scorer; you'd learn nothing from it.
 
 import argparse
 import datetime as dt
+import json
 import sys
 from pathlib import Path
 
@@ -41,13 +42,18 @@ import config
 import questions as qs
 
 
-def load_scorer():
-    """Use scorer.py if the student has built it. Otherwise run unscored."""
+def load_scorer_module():
+    """scorer.py if the student has built it, otherwise None."""
     try:
         import scorer  # noqa: PLC0415
     except ImportError:
         return None
-    judge = getattr(scorer, "judge", None)
+    return scorer
+
+
+def load_scorer():
+    """Use scorer.py if the student has built it. Otherwise run unscored."""
+    judge = getattr(load_scorer_module(), "judge", None)
     return judge if callable(judge) else None
 
 
@@ -121,11 +127,23 @@ def main():
             transcript.append(
                 {
                     "question": question,
+                    "expects": expects,
                     "run": run,
                     "answer": answer,
                     "sources": sorted({r.source for r in results}),
                     "best_distance": decision.best_distance,
                     "gate_passed": decision.passed,
+                    # The chunks themselves, so scorer.py can re-check every
+                    # criterion from the committed file without re-running.
+                    "retrieved": [
+                        {
+                            "label": r.label,
+                            "source": r.source,
+                            "distance": r.distance,
+                            "text": r.text,
+                        }
+                        for r in results
+                    ],
                 }
             )
 
@@ -219,6 +237,40 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
             "> the scorer first and re-run.",
         ]
 
+    # Everything this run saw, chunk text included, in one file scorer.py can
+    # re-read. The markdown is for people; this is what the counts come from.
+    data = {
+        "label": args.label,
+        "corpus": corpus,
+        "variant": args.variant,
+        "top_k": top_k,
+        "threshold": threshold,
+        "questions": [
+            {
+                "question": row["question"],
+                "expects": row["expects"],
+                "runs": [e for e in transcript if e["question"] == row["question"]],
+            }
+            for row in rows
+        ],
+        "out_of_scope": gate_rows,
+    }
+    path.with_suffix(".json").write_text(
+        json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+
+    criteria_markdown = getattr(load_scorer_module(), "criteria_markdown", None)
+    if criteria_markdown is not None:
+        lines += [
+            "",
+            "## Per criterion",
+            "",
+            f"Produced by `scorer.py::criteria_rows` from `{path.with_suffix('.json').name}`.",
+            "Re-check with `python scorer.py` on that file. The verdict is mine, not the script's.",
+            "",
+            criteria_markdown(data),
+        ]
+
     if gate_rows:
         refused = sum(r["refused"] for r in gate_rows)
         lines += [
@@ -254,6 +306,8 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
             f"- Best distance: {entry['best_distance']:.4f} "
             f"({'passed' if entry['gate_passed'] else 'refused by'} the gate)",
             f"- Sources retrieved: {', '.join(entry['sources']) or 'none'}",
+            "- Chunks, nearest first: "
+            + ", ".join(f"`{r['label']}` {r['distance']:.4f}" for r in entry["retrieved"]),
             "",
             "```",
             entry["answer"],
