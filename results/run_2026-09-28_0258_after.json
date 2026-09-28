@@ -1,0 +1,735 @@
+{
+  "label": "after",
+  "corpus": "rutgers",
+  "variant": "lists",
+  "top_k": 5,
+  "threshold": 0.6,
+  "questions": [
+    {
+      "question": "Where can I study on Busch campus late at night?",
+      "expects": "SERC",
+      "runs": [
+        {
+          "question": "Where can I study on Busch campus late at night?",
+          "expects": "SERC",
+          "run": 1,
+          "answer": "According to a student post in `campus_why_no_24_hour_library.txt`, ARC and SERC on Busch are both open 24 hours, so you can find an open classroom there. The same student suggested going to the second floor of SERC for more privacy, specifically near the stairwell at the end of the TA office hallway.",
+          "sources": [
+            "campus_why_no_24_hour_library.txt",
+            "food_general_things_new_students_should_know.txt",
+            "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt"
+          ],
+          "best_distance": 0.43774014711380005,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "campus_why_no_24_hour_library.txt#2",
+              "source": "campus_why_no_24_hour_library.txt",
+              "distance": 0.43774014711380005,
+              "text": "THREAD: why no 24 hour library\n\n--- reply 3 (29 votes) ---\nIf you’re on Busch, ARC and SERC are both open 24 hours, so you should be able to find an open classroom. If you want more privacy, go to the second floor of SERC. Go through the door leading to the TA office hallway. Back in the day, I moved a table to the end of that hallway near the stairwell. That was my secret spot and nobody goes there.."
+            },
+            {
+              "label": "campus_why_no_24_hour_library.txt#0",
+              "source": "campus_why_no_24_hour_library.txt",
+              "distance": 0.4724598526954651,
+              "text": "THREAD: why no 24 hour library\n\ni wish there was a 24 hour library somewhere on campus. yes i can study all i want in the residence lounges but its not as motivating cause id rather just be in my room. technically you can go in the buildings after hours but then id be on edge of someone coming and asking why i was there.\n\nidk man im a night owl so by the time i get into a good flow i have to leave the library which sucks"
+            },
+            {
+              "label": "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt#21",
+              "source": "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt",
+              "distance": 0.4790939688682556,
+              "text": "THREAD: Ultimate Guide to On-Campus Housing for Continuing Students\nTOPIC: Housing\n\n--- reply 5 (4 votes) ---\nIt depends on what you apply for.\n\nFor Busch Suites it’s nearly impossible to get in unless you have 6 sophomores (no juniors, freshmen or seniors) since reverse seniority points are required for suites (and freshmen can’t get suites.)\n\nOther dorms such as the BAMM complex are reserved solely for freshmen and their upperclassmen RAs\n\nFor BEST you need to apply separately\n\nIdk about other things but it really depends on the type of dorm you want more than the campus (though some campuses, like CA, are more popular than Douglass, for example.)\n\nI don’t know how easy it is to get into generic dorms on busch outside of BAMM but if you have a decent housing number you’ll be fine."
+            },
+            {
+              "label": "food_general_things_new_students_should_know.txt#3",
+              "source": "food_general_things_new_students_should_know.txt",
+              "distance": 0.4876609444618225,
+              "text": "THREAD: General Things New Students Should Know\n\n--- reply 7 (7 votes) ---\nWoodys - Busch (it’s a bit further down the path by the ARC building near the library I think)\n\nKilmers - Livingston (the first stop where the livi apts are)\n\nCafe West - College Ave (At the Academic Building)\n\nDouglass Cafe - Douglass at the Student Center (I think.)"
+            },
+            {
+              "label": "food_general_things_new_students_should_know.txt#2",
+              "source": "food_general_things_new_students_should_know.txt",
+              "distance": 0.5013431310653687,
+              "text": "THREAD: General Things New Students Should Know\n\n--- reply 4 (14 votes) ---\nHonestly it's hard to whittle down the campuses to a select few majors. Many majors span every/almost every campus. Could say Busch & Cook/Doug house more of the sciences and CA/Livi are home to more of the humanities/arts, but even that isn't totally right I feel\n\n--- reply 5 (11 votes) ---\nForgot Cook Cafe in the Cook student center. Also they’re adding DC Bagels (another takeout place) in the Douglass student center in place of the Dunkin there.\n\n--- reply 6 (8 votes) ---\nthe rumor i heard on why it wasn’t open last year was bc someone forgot to buy the subscription service 😭"
+            }
+          ]
+        },
+        {
+          "question": "Where can I study on Busch campus late at night?",
+          "expects": "SERC",
+          "run": 2,
+          "answer": "According to campus_why_no_24_hour_library.txt, a student suggested that ARC and SERC on Busch are both open 24 hours, so you can find an open classroom there. For more privacy, the student recommended the second floor of SERC by the TA office hallway near the stairwell. Additionally, another student mentioned that you can technically go into buildings after hours, though they noted you might feel on edge about someone asking why you are there [from campus_why_no_24_hour_library.txt].",
+          "sources": [
+            "campus_why_no_24_hour_library.txt",
+            "food_general_things_new_students_should_know.txt",
+            "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt"
+          ],
+          "best_distance": 0.43774014711380005,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "campus_why_no_24_hour_library.txt#2",
+              "source": "campus_why_no_24_hour_library.txt",
+              "distance": 0.43774014711380005,
+              "text": "THREAD: why no 24 hour library\n\n--- reply 3 (29 votes) ---\nIf you’re on Busch, ARC and SERC are both open 24 hours, so you should be able to find an open classroom. If you want more privacy, go to the second floor of SERC. Go through the door leading to the TA office hallway. Back in the day, I moved a table to the end of that hallway near the stairwell. That was my secret spot and nobody goes there.."
+            },
+            {
+              "label": "campus_why_no_24_hour_library.txt#0",
+              "source": "campus_why_no_24_hour_library.txt",
+              "distance": 0.4724598526954651,
+              "text": "THREAD: why no 24 hour library\n\ni wish there was a 24 hour library somewhere on campus. yes i can study all i want in the residence lounges but its not as motivating cause id rather just be in my room. technically you can go in the buildings after hours but then id be on edge of someone coming and asking why i was there.\n\nidk man im a night owl so by the time i get into a good flow i have to leave the library which sucks"
+            },
+            {
+              "label": "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt#21",
+              "source": "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt",
+              "distance": 0.4790939688682556,
+              "text": "THREAD: Ultimate Guide to On-Campus Housing for Continuing Students\nTOPIC: Housing\n\n--- reply 5 (4 votes) ---\nIt depends on what you apply for.\n\nFor Busch Suites it’s nearly impossible to get in unless you have 6 sophomores (no juniors, freshmen or seniors) since reverse seniority points are required for suites (and freshmen can’t get suites.)\n\nOther dorms such as the BAMM complex are reserved solely for freshmen and their upperclassmen RAs\n\nFor BEST you need to apply separately\n\nIdk about other things but it really depends on the type of dorm you want more than the campus (though some campuses, like CA, are more popular than Douglass, for example.)\n\nI don’t know how easy it is to get into generic dorms on busch outside of BAMM but if you have a decent housing number you’ll be fine."
+            },
+            {
+              "label": "food_general_things_new_students_should_know.txt#3",
+              "source": "food_general_things_new_students_should_know.txt",
+              "distance": 0.4876609444618225,
+              "text": "THREAD: General Things New Students Should Know\n\n--- reply 7 (7 votes) ---\nWoodys - Busch (it’s a bit further down the path by the ARC building near the library I think)\n\nKilmers - Livingston (the first stop where the livi apts are)\n\nCafe West - College Ave (At the Academic Building)\n\nDouglass Cafe - Douglass at the Student Center (I think.)"
+            },
+            {
+              "label": "food_general_things_new_students_should_know.txt#2",
+              "source": "food_general_things_new_students_should_know.txt",
+              "distance": 0.5013431310653687,
+              "text": "THREAD: General Things New Students Should Know\n\n--- reply 4 (14 votes) ---\nHonestly it's hard to whittle down the campuses to a select few majors. Many majors span every/almost every campus. Could say Busch & Cook/Doug house more of the sciences and CA/Livi are home to more of the humanities/arts, but even that isn't totally right I feel\n\n--- reply 5 (11 votes) ---\nForgot Cook Cafe in the Cook student center. Also they’re adding DC Bagels (another takeout place) in the Douglass student center in place of the Dunkin there.\n\n--- reply 6 (8 votes) ---\nthe rumor i heard on why it wasn’t open last year was bc someone forgot to buy the subscription service 😭"
+            }
+          ]
+        },
+        {
+          "question": "Where can I study on Busch campus late at night?",
+          "expects": "SERC",
+          "run": 3,
+          "answer": "According to `campus_why_no_24_hour_library.txt`, both ARC and SERC are open 24 hours on Busch, and you can find an open classroom there. One student also suggested studying on the second floor of SERC near the TA office hallway [from campus_why_no_24_hour_library.txt].",
+          "sources": [
+            "campus_why_no_24_hour_library.txt",
+            "food_general_things_new_students_should_know.txt",
+            "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt"
+          ],
+          "best_distance": 0.43774014711380005,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "campus_why_no_24_hour_library.txt#2",
+              "source": "campus_why_no_24_hour_library.txt",
+              "distance": 0.43774014711380005,
+              "text": "THREAD: why no 24 hour library\n\n--- reply 3 (29 votes) ---\nIf you’re on Busch, ARC and SERC are both open 24 hours, so you should be able to find an open classroom. If you want more privacy, go to the second floor of SERC. Go through the door leading to the TA office hallway. Back in the day, I moved a table to the end of that hallway near the stairwell. That was my secret spot and nobody goes there.."
+            },
+            {
+              "label": "campus_why_no_24_hour_library.txt#0",
+              "source": "campus_why_no_24_hour_library.txt",
+              "distance": 0.4724598526954651,
+              "text": "THREAD: why no 24 hour library\n\ni wish there was a 24 hour library somewhere on campus. yes i can study all i want in the residence lounges but its not as motivating cause id rather just be in my room. technically you can go in the buildings after hours but then id be on edge of someone coming and asking why i was there.\n\nidk man im a night owl so by the time i get into a good flow i have to leave the library which sucks"
+            },
+            {
+              "label": "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt#21",
+              "source": "housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt",
+              "distance": 0.4790939688682556,
+              "text": "THREAD: Ultimate Guide to On-Campus Housing for Continuing Students\nTOPIC: Housing\n\n--- reply 5 (4 votes) ---\nIt depends on what you apply for.\n\nFor Busch Suites it’s nearly impossible to get in unless you have 6 sophomores (no juniors, freshmen or seniors) since reverse seniority points are required for suites (and freshmen can’t get suites.)\n\nOther dorms such as the BAMM complex are reserved solely for freshmen and their upperclassmen RAs\n\nFor BEST you need to apply separately\n\nIdk about other things but it really depends on the type of dorm you want more than the campus (though some campuses, like CA, are more popular than Douglass, for example.)\n\nI don’t know how easy it is to get into generic dorms on busch outside of BAMM but if you have a decent housing number you’ll be fine."
+            },
+            {
+              "label": "food_general_things_new_students_should_know.txt#3",
+              "source": "food_general_things_new_students_should_know.txt",
+              "distance": 0.4876609444618225,
+              "text": "THREAD: General Things New Students Should Know\n\n--- reply 7 (7 votes) ---\nWoodys - Busch (it’s a bit further down the path by the ARC building near the library I think)\n\nKilmers - Livingston (the first stop where the livi apts are)\n\nCafe West - College Ave (At the Academic Building)\n\nDouglass Cafe - Douglass at the Student Center (I think.)"
+            },
+            {
+              "label": "food_general_things_new_students_should_know.txt#2",
+              "source": "food_general_things_new_students_should_know.txt",
+              "distance": 0.5013431310653687,
+              "text": "THREAD: General Things New Students Should Know\n\n--- reply 4 (14 votes) ---\nHonestly it's hard to whittle down the campuses to a select few majors. Many majors span every/almost every campus. Could say Busch & Cook/Doug house more of the sciences and CA/Livi are home to more of the humanities/arts, but even that isn't totally right I feel\n\n--- reply 5 (11 votes) ---\nForgot Cook Cafe in the Cook student center. Also they’re adding DC Bagels (another takeout place) in the Douglass student center in place of the Dunkin there.\n\n--- reply 6 (8 votes) ---\nthe rumor i heard on why it wasn’t open last year was bc someone forgot to buy the subscription service 😭"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "What should I think about before converting a class to Pass/No Credit?",
+      "expects": "P/NC",
+      "runs": [
+        {
+          "question": "What should I think about before converting a class to Pass/No Credit?",
+          "expects": "P/NC",
+          "run": 1,
+          "answer": "According to a student post in academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt, you should consider that P/NC classes will count toward majors and prerequisites that only need a C, but you should contact an advisor if a class requires a B (such as Math300 CS or financial accounting), as the rules get murky. The author also recommends consulting an advisor prior to making your decision.",
+          "sources": [
+            "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+            "data_did_i_cook.txt"
+          ],
+          "best_distance": 0.40369194746017456,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#0",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.40369194746017456,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nDisclaimer: Everything said here can change, however at the moment this is how things be rolling\n\nFirst and foremost: you can choose which classes to convert your grade to pass/no credit. You can do all. You can do some. You can do none.\n\nSecond: you can choose up until May 22nd to convert your letter grade to a P or NC. Yes you can fail shit and then save your GPA after finding out you failed at least as the policy stands right now\n\nThird: a P or NC grade will not change GPA. Hypothetically if you P/NC every single class you’re taking, your gpa will neither increase nor decrease from what it stands at the end of Fall 2019"
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#2",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.43222320079803467,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nProfessors will not know if you aren’t taking a letter grade in their class. The professor is required to submit a letter grade. The registrar will convert the grade if you have requested it. The professor will not know that it got converted\n\nDrop for a W deadline is now 4/10\n\nThe form to request P/NC is not out yet. Be patient"
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#3",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.45540666580200195,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nThat is all. Understand this policy is much much more favorable for us than other schools. Many have set a deadline to chose around early-mid April. So try to be accepting of this rather than pushing for more (like that universal pass everyone gets a pass bullshit)."
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#1",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.46009397506713867,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nHere’s the most important one for r/Rutgers: P/NC CLASSES WILL COUNT TOWARD MAJORS, PREREQUISITES, WHATEVER ELSE that only needs a C to happen. If you need a B, (Math300 CS, financial accounting) contact an advisor. The waters get murky with the B required rules. My source on this (the first part) is Dr. G himself. Consulting an advisor prior to making the decision is recommended\n\nAdditional notes:"
+            },
+            {
+              "label": "data_did_i_cook.txt#1",
+              "source": "data_did_i_cook.txt",
+              "distance": 0.4683210253715515,
+              "text": "THREAD: Did I cook?\n\n--- reply 2 (2 votes) ---\nHELL YEA\nfellow 18 credit-er here: it’s not AS bad as people say as long as you take good courses! I took 3 4-credit classes and 2 3-credit ones, so still the usual 5. even while working full time, I got 4 A’s and 1 89 (still upset but w/e). so hell yea I applaud you for working hard and getting the results for it!! those weren’t easy classes either, so you definitely deserve the kudos!"
+            }
+          ]
+        },
+        {
+          "question": "What should I think about before converting a class to Pass/No Credit?",
+          "expects": "P/NC",
+          "run": 2,
+          "answer": "According to a student post in `academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt`, if a class requires a grade higher than a C (such as a B for Math300 CS or financial accounting), you should contact an advisor because the rules get murky, and consulting an advisor beforehand is recommended. Additionally, you can choose which classes to convert (all, some, or none) up until May 22nd.",
+          "sources": [
+            "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+            "data_did_i_cook.txt"
+          ],
+          "best_distance": 0.40369194746017456,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#0",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.40369194746017456,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nDisclaimer: Everything said here can change, however at the moment this is how things be rolling\n\nFirst and foremost: you can choose which classes to convert your grade to pass/no credit. You can do all. You can do some. You can do none.\n\nSecond: you can choose up until May 22nd to convert your letter grade to a P or NC. Yes you can fail shit and then save your GPA after finding out you failed at least as the policy stands right now\n\nThird: a P or NC grade will not change GPA. Hypothetically if you P/NC every single class you’re taking, your gpa will neither increase nor decrease from what it stands at the end of Fall 2019"
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#2",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.43222320079803467,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nProfessors will not know if you aren’t taking a letter grade in their class. The professor is required to submit a letter grade. The registrar will convert the grade if you have requested it. The professor will not know that it got converted\n\nDrop for a W deadline is now 4/10\n\nThe form to request P/NC is not out yet. Be patient"
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#3",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.45540666580200195,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nThat is all. Understand this policy is much much more favorable for us than other schools. Many have set a deadline to chose around early-mid April. So try to be accepting of this rather than pushing for more (like that universal pass everyone gets a pass bullshit)."
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#1",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.46009397506713867,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nHere’s the most important one for r/Rutgers: P/NC CLASSES WILL COUNT TOWARD MAJORS, PREREQUISITES, WHATEVER ELSE that only needs a C to happen. If you need a B, (Math300 CS, financial accounting) contact an advisor. The waters get murky with the B required rules. My source on this (the first part) is Dr. G himself. Consulting an advisor prior to making the decision is recommended\n\nAdditional notes:"
+            },
+            {
+              "label": "data_did_i_cook.txt#1",
+              "source": "data_did_i_cook.txt",
+              "distance": 0.4683210253715515,
+              "text": "THREAD: Did I cook?\n\n--- reply 2 (2 votes) ---\nHELL YEA\nfellow 18 credit-er here: it’s not AS bad as people say as long as you take good courses! I took 3 4-credit classes and 2 3-credit ones, so still the usual 5. even while working full time, I got 4 A’s and 1 89 (still upset but w/e). so hell yea I applaud you for working hard and getting the results for it!! those weren’t easy classes either, so you definitely deserve the kudos!"
+            }
+          ]
+        },
+        {
+          "question": "What should I think about before converting a class to Pass/No Credit?",
+          "expects": "P/NC",
+          "run": 3,
+          "answer": "According to the student post in `academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt`, you should consider whether a class requires a grade higher than a C, such as a B, because P/NC classes only automatically count toward requirements that need a C, and you will need to contact an advisor if a B is required. The author also recommends consulting an advisor prior to making your decision.",
+          "sources": [
+            "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+            "data_did_i_cook.txt"
+          ],
+          "best_distance": 0.40369194746017456,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#0",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.40369194746017456,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nDisclaimer: Everything said here can change, however at the moment this is how things be rolling\n\nFirst and foremost: you can choose which classes to convert your grade to pass/no credit. You can do all. You can do some. You can do none.\n\nSecond: you can choose up until May 22nd to convert your letter grade to a P or NC. Yes you can fail shit and then save your GPA after finding out you failed at least as the policy stands right now\n\nThird: a P or NC grade will not change GPA. Hypothetically if you P/NC every single class you’re taking, your gpa will neither increase nor decrease from what it stands at the end of Fall 2019"
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#2",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.43222320079803467,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nProfessors will not know if you aren’t taking a letter grade in their class. The professor is required to submit a letter grade. The registrar will convert the grade if you have requested it. The professor will not know that it got converted\n\nDrop for a W deadline is now 4/10\n\nThe form to request P/NC is not out yet. Be patient"
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#3",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.45540666580200195,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nThat is all. Understand this policy is much much more favorable for us than other schools. Many have set a deadline to chose around early-mid April. So try to be accepting of this rather than pushing for more (like that universal pass everyone gets a pass bullshit)."
+            },
+            {
+              "label": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#1",
+              "source": "academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt",
+              "distance": 0.46009397506713867,
+              "text": "THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up\n\nHere’s the most important one for r/Rutgers: P/NC CLASSES WILL COUNT TOWARD MAJORS, PREREQUISITES, WHATEVER ELSE that only needs a C to happen. If you need a B, (Math300 CS, financial accounting) contact an advisor. The waters get murky with the B required rules. My source on this (the first part) is Dr. G himself. Consulting an advisor prior to making the decision is recommended\n\nAdditional notes:"
+            },
+            {
+              "label": "data_did_i_cook.txt#1",
+              "source": "data_did_i_cook.txt",
+              "distance": 0.4683210253715515,
+              "text": "THREAD: Did I cook?\n\n--- reply 2 (2 votes) ---\nHELL YEA\nfellow 18 credit-er here: it’s not AS bad as people say as long as you take good courses! I took 3 4-credit classes and 2 3-credit ones, so still the usual 5. even while working full time, I got 4 A’s and 1 89 (still upset but w/e). so hell yea I applaud you for working hard and getting the results for it!! those weren’t easy classes either, so you definitely deserve the kudos!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "Which bus do I take from College Avenue to Livingston?",
+      "expects": "LX",
+      "runs": [
+        {
+          "question": "Which bus do I take from College Avenue to Livingston?",
+          "expects": "LX",
+          "run": 1,
+          "answer": "Based on the provided documents, there is no mention of which bus to take from College Avenue to Livingston. \n\n[from cs_little_rutgers_things_i_wish_i_knew_earlier.txt, commuting_new_bus_route_just_dropped.txt]",
+          "sources": [
+            "commuting_new_bus_route_just_dropped.txt",
+            "cs_little_rutgers_things_i_wish_i_knew_earlier.txt"
+          ],
+          "best_distance": 0.44476592540740967,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.44476592540740967,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- F and EE buses go around College Ave from SAC --> Student Center --> Scott Hall. LX, H, and A buses go around College Ave from Student Center --> Scott Hall --> SAC. You can take a bus from Scott Hall to SAC and vice versa."
+            },
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#7",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.4517849087715149,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- Some B buses marked \"B-He\" stop at the Busch-Livingston Health Center near the Rutgers Business School building. These run around every hour."
+            },
+            {
+              "label": "commuting_new_bus_route_just_dropped.txt#0",
+              "source": "commuting_new_bus_route_just_dropped.txt",
+              "distance": 0.4533447027206421,
+              "text": "THREAD: new bus route just dropped!!!\nTOPIC: Official School Update\n\n--- reply 1 (131 votes) ---\nBasically replaced plaza with JMA and add stops for student athletes and Busch commuters.\n\nI wish RUDOT could redo the F route… Cook Doug never get the love 💔\n\n--- reply 2 (45 votes) ---\nC/D desperately needs a commuter route tbh. Fuck the jocks, they should effing walk\n\n--- reply 3 (38 votes) ---\nYeah you’re probably right about athletics influence. Like why else would the Rodkin Center appear as a stop lol. I had to look up what that was btw, had no idea about it\n\n--- reply 4 (28 votes) ---\nAlso the Busch-Livingston Health Center doesn’t have a bus stop anymore. Unless they’re keeping the BHe alive within the B bus group"
+            },
+            {
+              "label": "commuting_new_bus_route_just_dropped.txt#2",
+              "source": "commuting_new_bus_route_just_dropped.txt",
+              "distance": 0.4772579073905945,
+              "text": "THREAD: new bus route just dropped!!!\nTOPIC: Official School Update\n\n--- reply 8 (16 votes) ---\nOh this is great. A dedicated bus between Livi and Stadium West Lot. Too bad for Livi commuters, the Yellow Lot is basically just as far from the Jersey Mike Arena as it is from the Plaza stop"
+            },
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#28",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.4805141091346741,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- In many cases on Busch and Cook-Douglass, it's faster to walk than to take a bus somewhere."
+            }
+          ]
+        },
+        {
+          "question": "Which bus do I take from College Avenue to Livingston?",
+          "expects": "LX",
+          "run": 2,
+          "answer": "Based on the provided documents, there is no mention of which bus to take from College Avenue to Livingston. \n\n[from cs_little_rutgers_things_i_wish_i_knew_earlier.txt, commuting_new_bus_route_just_dropped.txt]",
+          "sources": [
+            "commuting_new_bus_route_just_dropped.txt",
+            "cs_little_rutgers_things_i_wish_i_knew_earlier.txt"
+          ],
+          "best_distance": 0.44476592540740967,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.44476592540740967,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- F and EE buses go around College Ave from SAC --> Student Center --> Scott Hall. LX, H, and A buses go around College Ave from Student Center --> Scott Hall --> SAC. You can take a bus from Scott Hall to SAC and vice versa."
+            },
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#7",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.4517849087715149,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- Some B buses marked \"B-He\" stop at the Busch-Livingston Health Center near the Rutgers Business School building. These run around every hour."
+            },
+            {
+              "label": "commuting_new_bus_route_just_dropped.txt#0",
+              "source": "commuting_new_bus_route_just_dropped.txt",
+              "distance": 0.4533447027206421,
+              "text": "THREAD: new bus route just dropped!!!\nTOPIC: Official School Update\n\n--- reply 1 (131 votes) ---\nBasically replaced plaza with JMA and add stops for student athletes and Busch commuters.\n\nI wish RUDOT could redo the F route… Cook Doug never get the love 💔\n\n--- reply 2 (45 votes) ---\nC/D desperately needs a commuter route tbh. Fuck the jocks, they should effing walk\n\n--- reply 3 (38 votes) ---\nYeah you’re probably right about athletics influence. Like why else would the Rodkin Center appear as a stop lol. I had to look up what that was btw, had no idea about it\n\n--- reply 4 (28 votes) ---\nAlso the Busch-Livingston Health Center doesn’t have a bus stop anymore. Unless they’re keeping the BHe alive within the B bus group"
+            },
+            {
+              "label": "commuting_new_bus_route_just_dropped.txt#2",
+              "source": "commuting_new_bus_route_just_dropped.txt",
+              "distance": 0.4772579073905945,
+              "text": "THREAD: new bus route just dropped!!!\nTOPIC: Official School Update\n\n--- reply 8 (16 votes) ---\nOh this is great. A dedicated bus between Livi and Stadium West Lot. Too bad for Livi commuters, the Yellow Lot is basically just as far from the Jersey Mike Arena as it is from the Plaza stop"
+            },
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#28",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.4805141091346741,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- In many cases on Busch and Cook-Douglass, it's faster to walk than to take a bus somewhere."
+            }
+          ]
+        },
+        {
+          "question": "Which bus do I take from College Avenue to Livingston?",
+          "expects": "LX",
+          "run": 3,
+          "answer": "Based on the provided documents, there is no mention of which bus to take from College Avenue to Livingston. \n\n[from cs_little_rutgers_things_i_wish_i_knew_earlier.txt, commuting_new_bus_route_just_dropped.txt]",
+          "sources": [
+            "commuting_new_bus_route_just_dropped.txt",
+            "cs_little_rutgers_things_i_wish_i_knew_earlier.txt"
+          ],
+          "best_distance": 0.44476592540740967,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.44476592540740967,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- F and EE buses go around College Ave from SAC --> Student Center --> Scott Hall. LX, H, and A buses go around College Ave from Student Center --> Scott Hall --> SAC. You can take a bus from Scott Hall to SAC and vice versa."
+            },
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#7",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.4517849087715149,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- Some B buses marked \"B-He\" stop at the Busch-Livingston Health Center near the Rutgers Business School building. These run around every hour."
+            },
+            {
+              "label": "commuting_new_bus_route_just_dropped.txt#0",
+              "source": "commuting_new_bus_route_just_dropped.txt",
+              "distance": 0.4533447027206421,
+              "text": "THREAD: new bus route just dropped!!!\nTOPIC: Official School Update\n\n--- reply 1 (131 votes) ---\nBasically replaced plaza with JMA and add stops for student athletes and Busch commuters.\n\nI wish RUDOT could redo the F route… Cook Doug never get the love 💔\n\n--- reply 2 (45 votes) ---\nC/D desperately needs a commuter route tbh. Fuck the jocks, they should effing walk\n\n--- reply 3 (38 votes) ---\nYeah you’re probably right about athletics influence. Like why else would the Rodkin Center appear as a stop lol. I had to look up what that was btw, had no idea about it\n\n--- reply 4 (28 votes) ---\nAlso the Busch-Livingston Health Center doesn’t have a bus stop anymore. Unless they’re keeping the BHe alive within the B bus group"
+            },
+            {
+              "label": "commuting_new_bus_route_just_dropped.txt#2",
+              "source": "commuting_new_bus_route_just_dropped.txt",
+              "distance": 0.4772579073905945,
+              "text": "THREAD: new bus route just dropped!!!\nTOPIC: Official School Update\n\n--- reply 8 (16 votes) ---\nOh this is great. A dedicated bus between Livi and Stadium West Lot. Too bad for Livi commuters, the Yellow Lot is basically just as far from the Jersey Mike Arena as it is from the Plaza stop"
+            },
+            {
+              "label": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt#28",
+              "source": "cs_little_rutgers_things_i_wish_i_knew_earlier.txt",
+              "distance": 0.4805141091346741,
+              "text": "THREAD: Little Rutgers things I wish I knew earlier.\n\n- In many cases on Busch and Cook-Douglass, it's faster to walk than to take a bus somewhere."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "What can I do if the section I need is already closed on WebReg?",
+      "expects": "SPN",
+      "runs": [
+        {
+          "question": "What can I do if the section I need is already closed on WebReg?",
+          "expects": "SPN",
+          "run": 1,
+          "answer": "I don't have enough information about that.",
+          "sources": [
+            "academics_help_am_i_gonna_graduate.txt",
+            "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+            "registration_fall_2023_class_registration.txt",
+            "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt"
+          ],
+          "best_distance": 0.7442585229873657,
+          "gate_passed": false,
+          "retrieved": [
+            {
+              "label": "commuting_professor_needing_student_advice_with_online_course_starts.txt#11",
+              "source": "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+              "distance": 0.7442585229873657,
+              "text": "THREAD: Professor Needing Student Advice with Online Course (Starts Tomorrow)\n\n--- reply 3 (30 votes) ---\nHi Professor, I'd just like to say as a student I really appreciate you going the extra mile to make our lives easier. We appreciate professors like you very much. Here's a list of suggestions I can think of off the top of my head:\n\n​\n\n- Please, please, please record your lectures and upload them somewhere they won't expire (youtube, etc). I understand that students should be accountable for attendance but I found it extremely helpful when I wanted to go back over a topic covered in lecture and I could just go back and rewatch the lesson. - I've been hearing that some friends of mine aren't being added to course websites for summer classes they registered for in a timely manner."
+            },
+            {
+              "label": "registration_fall_2023_class_registration.txt#0",
+              "source": "registration_fall_2023_class_registration.txt",
+              "distance": 0.7448232173919678,
+              "text": "THREAD: Fall 2023 Class Registration\nTOPIC: Academics\n\nThe first time in years I will not be taking part in registration🫡\n\nThe Fall 2023 schedule will be available on the schedule of classes/CSP on March 27th. Registration for students with at least 90 credits (and all grad students) will begin on April 17th at 9am on Webreg. The remainder of the registration schedule is posted below\n\nDO NOT INCLUDE CREDITS YOU ARE TAKING THIS SEMESTER WHEN LOOKING TO SEE WHEN YOU CAN REGISTER FOR CLASSES!\n\nSchedule of Classes\n\nCourse Schedule Planner\n\nWebreg\n\nDegree Navigator\n\n--- reply 1 (6 votes) ---\nI can't even plan out my day and I'm supposed to plan out my future class schedule :(\n\n--- reply 2 (5 votes) ---\nThe ones you completed. Just exclude everything this semester and count the rest"
+            },
+            {
+              "label": "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt#4",
+              "source": "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt",
+              "distance": 0.7625579833984375,
+              "text": "THREAD: I got tired of using six different Rutgers tools to plan a semester, so I built AtlasRU!!\nTOPIC: Schedule\n\n- Seat alerts for closed sections"
+            },
+            {
+              "label": "academics_help_am_i_gonna_graduate.txt#1",
+              "source": "academics_help_am_i_gonna_graduate.txt",
+              "distance": 0.7864912152290344,
+              "text": "THREAD: help, am i gonna graduate 😭\n\nI emailed my major advisor & person in charge of Orgo classes asking what can be done & asked them given that I've put so much effort into passing w/ 4 attempts & this is the only course preventing me from graduating, is it at all possible for me to be given a C for this sem since it's my last & I came so close, or is there anything extra I can do to make up the remaining 4%. My major advisor replied she can't change my grade in a course & then directly deferred to the chem dept. about what to do but this other person still hasn't answered my email I sent 2 wks ago which is extremely concerning"
+            },
+            {
+              "label": "commuting_professor_needing_student_advice_with_online_course_starts.txt#12",
+              "source": "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+              "distance": 0.7985262274742126,
+              "text": "THREAD: Professor Needing Student Advice with Online Course (Starts Tomorrow)\n\n- I've been hearing that some friends of mine aren't being added to course websites for summer classes they registered for in a timely manner. There's a good chance a few students might miss the first lecture or two, so being caught up would be a great help (this goes hand in hand with my first point). It's going to be syllabus week but you still don't want to start off behind. - Odds are there's probably a video or outline somewhere on the internet on the topics covered which could prove more effective than a lecture for some students."
+            }
+          ]
+        },
+        {
+          "question": "What can I do if the section I need is already closed on WebReg?",
+          "expects": "SPN",
+          "run": 2,
+          "answer": "I don't have enough information about that.",
+          "sources": [
+            "academics_help_am_i_gonna_graduate.txt",
+            "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+            "registration_fall_2023_class_registration.txt",
+            "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt"
+          ],
+          "best_distance": 0.7442585229873657,
+          "gate_passed": false,
+          "retrieved": [
+            {
+              "label": "commuting_professor_needing_student_advice_with_online_course_starts.txt#11",
+              "source": "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+              "distance": 0.7442585229873657,
+              "text": "THREAD: Professor Needing Student Advice with Online Course (Starts Tomorrow)\n\n--- reply 3 (30 votes) ---\nHi Professor, I'd just like to say as a student I really appreciate you going the extra mile to make our lives easier. We appreciate professors like you very much. Here's a list of suggestions I can think of off the top of my head:\n\n​\n\n- Please, please, please record your lectures and upload them somewhere they won't expire (youtube, etc). I understand that students should be accountable for attendance but I found it extremely helpful when I wanted to go back over a topic covered in lecture and I could just go back and rewatch the lesson. - I've been hearing that some friends of mine aren't being added to course websites for summer classes they registered for in a timely manner."
+            },
+            {
+              "label": "registration_fall_2023_class_registration.txt#0",
+              "source": "registration_fall_2023_class_registration.txt",
+              "distance": 0.7448232173919678,
+              "text": "THREAD: Fall 2023 Class Registration\nTOPIC: Academics\n\nThe first time in years I will not be taking part in registration🫡\n\nThe Fall 2023 schedule will be available on the schedule of classes/CSP on March 27th. Registration for students with at least 90 credits (and all grad students) will begin on April 17th at 9am on Webreg. The remainder of the registration schedule is posted below\n\nDO NOT INCLUDE CREDITS YOU ARE TAKING THIS SEMESTER WHEN LOOKING TO SEE WHEN YOU CAN REGISTER FOR CLASSES!\n\nSchedule of Classes\n\nCourse Schedule Planner\n\nWebreg\n\nDegree Navigator\n\n--- reply 1 (6 votes) ---\nI can't even plan out my day and I'm supposed to plan out my future class schedule :(\n\n--- reply 2 (5 votes) ---\nThe ones you completed. Just exclude everything this semester and count the rest"
+            },
+            {
+              "label": "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt#4",
+              "source": "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt",
+              "distance": 0.7625579833984375,
+              "text": "THREAD: I got tired of using six different Rutgers tools to plan a semester, so I built AtlasRU!!\nTOPIC: Schedule\n\n- Seat alerts for closed sections"
+            },
+            {
+              "label": "academics_help_am_i_gonna_graduate.txt#1",
+              "source": "academics_help_am_i_gonna_graduate.txt",
+              "distance": 0.7864912152290344,
+              "text": "THREAD: help, am i gonna graduate 😭\n\nI emailed my major advisor & person in charge of Orgo classes asking what can be done & asked them given that I've put so much effort into passing w/ 4 attempts & this is the only course preventing me from graduating, is it at all possible for me to be given a C for this sem since it's my last & I came so close, or is there anything extra I can do to make up the remaining 4%. My major advisor replied she can't change my grade in a course & then directly deferred to the chem dept. about what to do but this other person still hasn't answered my email I sent 2 wks ago which is extremely concerning"
+            },
+            {
+              "label": "commuting_professor_needing_student_advice_with_online_course_starts.txt#12",
+              "source": "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+              "distance": 0.7985262274742126,
+              "text": "THREAD: Professor Needing Student Advice with Online Course (Starts Tomorrow)\n\n- I've been hearing that some friends of mine aren't being added to course websites for summer classes they registered for in a timely manner. There's a good chance a few students might miss the first lecture or two, so being caught up would be a great help (this goes hand in hand with my first point). It's going to be syllabus week but you still don't want to start off behind. - Odds are there's probably a video or outline somewhere on the internet on the topics covered which could prove more effective than a lecture for some students."
+            }
+          ]
+        },
+        {
+          "question": "What can I do if the section I need is already closed on WebReg?",
+          "expects": "SPN",
+          "run": 3,
+          "answer": "I don't have enough information about that.",
+          "sources": [
+            "academics_help_am_i_gonna_graduate.txt",
+            "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+            "registration_fall_2023_class_registration.txt",
+            "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt"
+          ],
+          "best_distance": 0.7442585229873657,
+          "gate_passed": false,
+          "retrieved": [
+            {
+              "label": "commuting_professor_needing_student_advice_with_online_course_starts.txt#11",
+              "source": "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+              "distance": 0.7442585229873657,
+              "text": "THREAD: Professor Needing Student Advice with Online Course (Starts Tomorrow)\n\n--- reply 3 (30 votes) ---\nHi Professor, I'd just like to say as a student I really appreciate you going the extra mile to make our lives easier. We appreciate professors like you very much. Here's a list of suggestions I can think of off the top of my head:\n\n​\n\n- Please, please, please record your lectures and upload them somewhere they won't expire (youtube, etc). I understand that students should be accountable for attendance but I found it extremely helpful when I wanted to go back over a topic covered in lecture and I could just go back and rewatch the lesson. - I've been hearing that some friends of mine aren't being added to course websites for summer classes they registered for in a timely manner."
+            },
+            {
+              "label": "registration_fall_2023_class_registration.txt#0",
+              "source": "registration_fall_2023_class_registration.txt",
+              "distance": 0.7448232173919678,
+              "text": "THREAD: Fall 2023 Class Registration\nTOPIC: Academics\n\nThe first time in years I will not be taking part in registration🫡\n\nThe Fall 2023 schedule will be available on the schedule of classes/CSP on March 27th. Registration for students with at least 90 credits (and all grad students) will begin on April 17th at 9am on Webreg. The remainder of the registration schedule is posted below\n\nDO NOT INCLUDE CREDITS YOU ARE TAKING THIS SEMESTER WHEN LOOKING TO SEE WHEN YOU CAN REGISTER FOR CLASSES!\n\nSchedule of Classes\n\nCourse Schedule Planner\n\nWebreg\n\nDegree Navigator\n\n--- reply 1 (6 votes) ---\nI can't even plan out my day and I'm supposed to plan out my future class schedule :(\n\n--- reply 2 (5 votes) ---\nThe ones you completed. Just exclude everything this semester and count the rest"
+            },
+            {
+              "label": "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt#4",
+              "source": "registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt",
+              "distance": 0.7625579833984375,
+              "text": "THREAD: I got tired of using six different Rutgers tools to plan a semester, so I built AtlasRU!!\nTOPIC: Schedule\n\n- Seat alerts for closed sections"
+            },
+            {
+              "label": "academics_help_am_i_gonna_graduate.txt#1",
+              "source": "academics_help_am_i_gonna_graduate.txt",
+              "distance": 0.7864912152290344,
+              "text": "THREAD: help, am i gonna graduate 😭\n\nI emailed my major advisor & person in charge of Orgo classes asking what can be done & asked them given that I've put so much effort into passing w/ 4 attempts & this is the only course preventing me from graduating, is it at all possible for me to be given a C for this sem since it's my last & I came so close, or is there anything extra I can do to make up the remaining 4%. My major advisor replied she can't change my grade in a course & then directly deferred to the chem dept. about what to do but this other person still hasn't answered my email I sent 2 wks ago which is extremely concerning"
+            },
+            {
+              "label": "commuting_professor_needing_student_advice_with_online_course_starts.txt#12",
+              "source": "commuting_professor_needing_student_advice_with_online_course_starts.txt",
+              "distance": 0.7985262274742126,
+              "text": "THREAD: Professor Needing Student Advice with Online Course (Starts Tomorrow)\n\n- I've been hearing that some friends of mine aren't being added to course websites for summer classes they registered for in a timely manner. There's a good chance a few students might miss the first lecture or two, so being caught up would be a great help (this goes hand in hand with my first point). It's going to be syllabus week but you still don't want to start off behind. - Odds are there's probably a video or outline somewhere on the internet on the topics covered which could prove more effective than a lecture for some students."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "Which food places near campus do students think are overrated?",
+      "expects": "Krispy Pizza",
+      "runs": [
+        {
+          "question": "Which food places near campus do students think are overrated?",
+          "expects": "Krispy Pizza",
+          "run": 1,
+          "answer": "Based on the student posts, RU Hungry and Krispy Pizza are mentioned as overrated food spots, with students noting that places like RU Hungry and Hansel mostly get their hype from being eaten late at night while drunk (`food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt`). Additionally, one student mentioned feeling that some places get more hype than they deserve or have gone downhill (`dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt`).",
+          "sources": [
+            "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt",
+            "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt"
+          ],
+          "best_distance": 0.21567535400390625,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#9",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.21567535400390625,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\n--- reply 2 (130 votes) ---\nPlaces like Hansel and RU hungry are top tier when eaten absolutely trashed, those places absolutely hit different at 2am after wobbling there from the bars. I'd say that's where most of their hype comes from, not the sober hours as a nice lunch.\n\n--- reply 3 (43 votes) ---\nAs an employee at the NB Gong Cha, hearing you compliment us like that hits different 😌"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#1",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.2256985902786255,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nRU Hungry: The absolute KING of overrated cuisine. It's been on TV, but half the pizzerias on Easton make cheaper, fresher, and tastier fat sandwiches. Neubies used to be my go to but they permanently closed :(. Instead, I recommend Gio's! Also if you have a car, go to Hoagie Haven in Princeton for an \"Ivy League Fat Sandwich\" that you can even enjoy sober!"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#2",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.24588251113891602,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nKrispy Pizza: What does everyone see in this place? The pizza is flavorless and tastes like cardboard, I'd rather eat at a chain like Domino's. I urge y'all to take the time to walk to easton and go to Daniel's for some absolutely elite Margherita or Vodka slices. PJ's is decent too, and Gio's is an absolute unit when you're trashed on a Saturday night."
+            },
+            {
+              "label": "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt#13",
+              "source": "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt",
+              "distance": 0.24865543842315674,
+              "text": "THREAD: The Best Food Spots On/Near Campus From a Senior Foodie\nTOPIC: Quality Post\n\n--- reply 5 (9 votes) ---\nWould be cool to see places you think are overrated; I feel like some places get a lot more hype than they deserve, or are just popular because they used to be good but have gone downhill since\n\n--- reply 6 (9 votes) ---\nFor bubble tea I'd def recommend Utepia! Its a tiny cafe and they make the best boba I've tried at Rutgers!\n\n--- reply 7 (8 votes) ---\nDefinitely have a few in mind! Not sure if people would dig it on here. Dont wanna start a war 😂"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#0",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.25660037994384766,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nHey y'all shoutout u/inochimaru for such a wonderful and extensive list of great food spots at Rutgers. I've feeling really combative lately and thought why not spread some hate for some places that I think make absolutely mid food!\n\nDislcaimer: The best way to figure out whether my list is facts is if you try these places. Support your small businesses during COVID-19!"
+            }
+          ]
+        },
+        {
+          "question": "Which food places near campus do students think are overrated?",
+          "expects": "Krispy Pizza",
+          "run": 2,
+          "answer": "Based on the student posts, RU Hungry is called the \"absolute KING of overrated cuisine,\" though one student notes it and Hansel are top tier when eaten late at night after the bars (food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt). Additionally, Krispy Pizza is described as overrated, with a student stating the pizza is flavorless and tastes like cardboard (food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt).",
+          "sources": [
+            "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt",
+            "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt"
+          ],
+          "best_distance": 0.21567535400390625,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#9",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.21567535400390625,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\n--- reply 2 (130 votes) ---\nPlaces like Hansel and RU hungry are top tier when eaten absolutely trashed, those places absolutely hit different at 2am after wobbling there from the bars. I'd say that's where most of their hype comes from, not the sober hours as a nice lunch.\n\n--- reply 3 (43 votes) ---\nAs an employee at the NB Gong Cha, hearing you compliment us like that hits different 😌"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#1",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.2256985902786255,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nRU Hungry: The absolute KING of overrated cuisine. It's been on TV, but half the pizzerias on Easton make cheaper, fresher, and tastier fat sandwiches. Neubies used to be my go to but they permanently closed :(. Instead, I recommend Gio's! Also if you have a car, go to Hoagie Haven in Princeton for an \"Ivy League Fat Sandwich\" that you can even enjoy sober!"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#2",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.24588251113891602,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nKrispy Pizza: What does everyone see in this place? The pizza is flavorless and tastes like cardboard, I'd rather eat at a chain like Domino's. I urge y'all to take the time to walk to easton and go to Daniel's for some absolutely elite Margherita or Vodka slices. PJ's is decent too, and Gio's is an absolute unit when you're trashed on a Saturday night."
+            },
+            {
+              "label": "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt#13",
+              "source": "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt",
+              "distance": 0.24865543842315674,
+              "text": "THREAD: The Best Food Spots On/Near Campus From a Senior Foodie\nTOPIC: Quality Post\n\n--- reply 5 (9 votes) ---\nWould be cool to see places you think are overrated; I feel like some places get a lot more hype than they deserve, or are just popular because they used to be good but have gone downhill since\n\n--- reply 6 (9 votes) ---\nFor bubble tea I'd def recommend Utepia! Its a tiny cafe and they make the best boba I've tried at Rutgers!\n\n--- reply 7 (8 votes) ---\nDefinitely have a few in mind! Not sure if people would dig it on here. Dont wanna start a war 😂"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#0",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.25660037994384766,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nHey y'all shoutout u/inochimaru for such a wonderful and extensive list of great food spots at Rutgers. I've feeling really combative lately and thought why not spread some hate for some places that I think make absolutely mid food!\n\nDislcaimer: The best way to figure out whether my list is facts is if you try these places. Support your small businesses during COVID-19!"
+            }
+          ]
+        },
+        {
+          "question": "Which food places near campus do students think are overrated?",
+          "expects": "Krispy Pizza",
+          "run": 3,
+          "answer": "Based on the provided documents, a student poster considers RU Hungry to be the absolute king of overrated cuisine, and also mentions Krispy Pizza and Hansel as places whose hype mostly comes from being eaten late at night while drunk rather than during sober hours (food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt). Additionally, another student in a reply expressed interest in hearing about overrated spots because they feel some places get more hype than they deserve or have gone downhill (dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt).",
+          "sources": [
+            "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt",
+            "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt"
+          ],
+          "best_distance": 0.21567535400390625,
+          "gate_passed": true,
+          "retrieved": [
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#9",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.21567535400390625,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\n--- reply 2 (130 votes) ---\nPlaces like Hansel and RU hungry are top tier when eaten absolutely trashed, those places absolutely hit different at 2am after wobbling there from the bars. I'd say that's where most of their hype comes from, not the sober hours as a nice lunch.\n\n--- reply 3 (43 votes) ---\nAs an employee at the NB Gong Cha, hearing you compliment us like that hits different 😌"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#1",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.2256985902786255,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nRU Hungry: The absolute KING of overrated cuisine. It's been on TV, but half the pizzerias on Easton make cheaper, fresher, and tastier fat sandwiches. Neubies used to be my go to but they permanently closed :(. Instead, I recommend Gio's! Also if you have a car, go to Hoagie Haven in Princeton for an \"Ivy League Fat Sandwich\" that you can even enjoy sober!"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#2",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.24588251113891602,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nKrispy Pizza: What does everyone see in this place? The pizza is flavorless and tastes like cardboard, I'd rather eat at a chain like Domino's. I urge y'all to take the time to walk to easton and go to Daniel's for some absolutely elite Margherita or Vodka slices. PJ's is decent too, and Gio's is an absolute unit when you're trashed on a Saturday night."
+            },
+            {
+              "label": "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt#13",
+              "source": "dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt",
+              "distance": 0.24865543842315674,
+              "text": "THREAD: The Best Food Spots On/Near Campus From a Senior Foodie\nTOPIC: Quality Post\n\n--- reply 5 (9 votes) ---\nWould be cool to see places you think are overrated; I feel like some places get a lot more hype than they deserve, or are just popular because they used to be good but have gone downhill since\n\n--- reply 6 (9 votes) ---\nFor bubble tea I'd def recommend Utepia! Its a tiny cafe and they make the best boba I've tried at Rutgers!\n\n--- reply 7 (8 votes) ---\nDefinitely have a few in mind! Not sure if people would dig it on here. Dont wanna start a war 😂"
+            },
+            {
+              "label": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#0",
+              "source": "food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt",
+              "distance": 0.25660037994384766,
+              "text": "THREAD: The MOST Overrated Food Spots On/Near Campus by a (Very Cynical) Senior Foodie :)\n\nHey y'all shoutout u/inochimaru for such a wonderful and extensive list of great food spots at Rutgers. I've feeling really combative lately and thought why not spread some hate for some places that I think make absolutely mid food!\n\nDislcaimer: The best way to figure out whether my list is facts is if you try these places. Support your small businesses during COVID-19!"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "out_of_scope": [
+    {
+      "question": "What is the capital of Mongolia?",
+      "refused": true,
+      "best_distance": 0.7777587175369263
+    },
+    {
+      "question": "How do I change the oil in a diesel engine?",
+      "refused": true,
+      "best_distance": 0.8409655094146729
+    },
+    {
+      "question": "Who won the 1994 World Cup?",
+      "refused": true,
+      "best_distance": 0.8429056406021118
+    },
+    {
+      "question": "What is the recommended dosage of ibuprofen for a headache?",
+      "refused": true,
+      "best_distance": 0.8175277709960938
+    },
+    {
+      "question": "How do I write a for loop in Rust?",
+      "refused": true,
+      "best_distance": 0.8550387620925903
+    }
+  ]
+}
