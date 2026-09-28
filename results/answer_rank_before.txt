@@ -1,0 +1,41 @@
+
+Where can I study on Busch campus late at night?
+  expects 'SERC': 2 of 853 chunks hold it (top 5 ends at 0.5013)
+  rank   1  0.4377  campus_why_no_24_hour_library.txt#2
+            "If you’re on Busch, ARC and SERC are both open 24 hours, so you should be able to find an open classroom."
+  rank 345  0.8065  life_rutgers_on_9_11.txt#15
+            "I was in a class in SERC and when it got out, it was eerily quiet."
+
+What should I think about before converting a class to Pass/No Credit?
+  expects 'P/NC': 15 of 853 chunks hold it (top 5 ends at 0.4683)
+  rank   1  0.4037  academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#0
+            "Hypothetically if you P/NC every single class you’re taking, your gpa will neither increase nor decrease from what it stands at the end of Fall 2019"
+  rank   2  0.4322  academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#2
+            "The form to request P/NC is not out yet."
+  rank   4  0.4601  academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#1
+            "Here’s the most important one for r/Rutgers: P/NC CLASSES WILL COUNT TOWARD MAJORS, PREREQUISITES, WHATEVER ELSE that only needs a C to happen."
+  rank   7  0.4845  academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#4
+            "The usual rule for P/NC is that they cannot be used to satisfy requirements for your major."
+  rank  11  0.5293  academics_a_message_about_p_nc_from_a_faculty_member_please_read_thi.txt#0
+            "THREAD: A message about P/NC from a faculty member."
+
+Which bus do I take from College Avenue to Livingston?
+  expects 'LX': 1 of 853 chunks hold it (top 5 ends at 0.5436)
+  rank  18  0.6107  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1
+            "LX, H, and A buses go around College Ave from Student Center --> Scott Hall --> SAC."
+
+What can I do if the section I need is already closed on WebReg?
+  expects 'SPN': 1 of 853 chunks hold it (top 5 ends at 0.7985)
+  rank  11  0.8259  academics_anonymous_academic_advisor_here_ask_me_your_questions.txt#3
+            "Just know that if you are holding a seat, and SPNs were given for that class, that class has more students than what it should."
+
+Which food places near campus do students think are overrated?
+  expects 'Krispy Pizza': 4 of 853 chunks hold it (top 5 ends at 0.2566)
+  rank   3  0.2459  food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#2
+            "Krispy Pizza: What does everyone see in this place?"
+  rank   7  0.2943  food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#8
+            "The fact that you would rather eat at dominos than krispy pizza shows that you have no taste in pizza."
+  rank  11  0.3400  food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt#11
+            "Deadass, Krispy Pizza is overrated and overpriced af."
+  rank  13  0.3608  dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt#8
+            "Krispy pizza is super conveneintly located spot, this is my go to for a quick filling lunch."
