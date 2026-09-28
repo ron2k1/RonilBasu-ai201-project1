@@ -658,6 +658,12 @@ because replies start with their `--- reply` marker. The tests are in `tests/tes
 built from the real pieces of the LX thread, and one of them runs the whole
 corpus and fails if any chunk still holds two list items the merge joined.
 
+That rule is the only change to the pipeline in this unit. Everything else
+that's new in the repo measures the pipeline and changes no answer:
+`scorer.py` and its tests, the JSON file and chunk list `run_eval.py` now
+writes next to each report, and `tools/answer_rank.py` and
+`tools/gate_probe.py`, which only call retrieval.
+
 It has a cost I could see before running anything. The corpus now comes out as
 910 chunks instead of 853, and 47 of them are under the 200 floor instead of 4.
 The shortest went from 163 characters to 64. Those short ones are single tips
@@ -733,22 +739,87 @@ Both run logs side by side:
 | 4. The answer fits inside one chunk | 4 of 5 | 3/5, 3/5, 3/5 | 3/5, 3/5, 3/5 | MISSED → MISSED |
 | 5. Every source named was actually retrieved | 5 of 5 | 5/5, 5/5, 5/5 | 5/5, 5/5, 5/5 | MET → MET |
 
-The bus question, run 1 of the after transcript, retrieved by
-`store.py::search` from chunks made by `chunker.py::split_documents` and
-written out by `run_eval.py::write_report`. The LX tip is now the nearest chunk
-in the index, and the answer is the same one the before run gave:
+Every count was the same on all three runs again, and these are three real
+runs too. The session made 12 model calls with nothing served from cache, and
+the answers read differently each time: run 2 of the Krispy Pizza question
+cites only the overrated-spots thread where runs 1 and 3 also cite the senior
+foodie's, and run 2 of the P/NC question is the only one that mentions the May
+22nd deadline. The counts hold still for the same reason as before. Criteria
+1, 3 and 4 depend only on retrieval, and the model held on criteria 2 and 5
+in all 12 answers it wrote.
+
+What the system actually printed, all from run 1 of
+`results/run_2026-09-28_0258_after.md`:
+
+**Criterion 1.** Retrieval by `store.py::search` over chunks from
+`chunker.py::split_documents`, called from `run_eval.py::run_once` and written
+out by `run_eval.py::write_report`. The question the fix moved and the one it
+didn't:
 
 ```
 ### Which bus do I take from College Avenue to Livingston? — run 1
-
 - Best distance: 0.4448 (passed the gate)
-- Sources retrieved: commuting_new_bus_route_just_dropped.txt, cs_little_rutgers_things_i_wish_i_knew_earlier.txt
 - Chunks, nearest first: `cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1` 0.4448, `cs_little_rutgers_things_i_wish_i_knew_earlier.txt#7` 0.4518, `commuting_new_bus_route_just_dropped.txt#0` 0.4533, `commuting_new_bus_route_just_dropped.txt#2` 0.4773, `cs_little_rutgers_things_i_wish_i_knew_earlier.txt#28` 0.4805
 
+### What can I do if the section I need is already closed on WebReg? — run 1
+- Best distance: 0.7443 (refused by the gate)
+- Chunks, nearest first: `commuting_professor_needing_student_advice_with_online_course_starts.txt#11` 0.7443, `registration_fall_2023_class_registration.txt#0` 0.7448, `registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt#4` 0.7626, `academics_help_am_i_gonna_graduate.txt#1` 0.7865, `commuting_professor_needing_student_advice_with_online_course_starts.txt#12` 0.7985
+```
+
+`cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1` is the bus tip on its
+own, and it contains "LX". None of the five WebReg chunks contains "SPN".
+
+**Criterion 2.** Answers by `generate.py::answer_from_chunks`, refusal by
+`gate.py::check`. The bus answer is the same sentence as before the fix:
+
+```
+### Where can I study on Busch campus late at night? — run 1
+According to a student post in `campus_why_no_24_hour_library.txt`, ARC and SERC on Busch are both open 24 hours, so you can find an open classroom there. The same student suggested going to the second floor of SERC for more privacy, specifically near the stairwell at the end of the TA office hallway.
+
+### Which bus do I take from College Avenue to Livingston? — run 1
 Based on the provided documents, there is no mention of which bus to take from College Avenue to Livingston.
 
 [from cs_little_rutgers_things_i_wish_i_knew_earlier.txt, commuting_new_bus_route_just_dropped.txt]
+
+### What can I do if the section I need is already closed on WebReg? — run 1
+I don't have enough information about that.
 ```
+
+**Criterion 3.** `run_eval.py::check_out_of_scope`, cutoff 0.6. Only the Rust
+question moved, from 0.859 to 0.855:
+
+```
+| Out-of-scope question | Best distance | Gate |
+|---|---|---|
+| What is the capital of Mongolia? | 0.778 | refused |
+| How do I change the oil in a diesel engine? | 0.841 | refused |
+| Who won the 1994 World Cup? | 0.843 | refused |
+| What is the recommended dosage of ibuprofen for a headache? | 0.818 | refused |
+| How do I write a for loop in Rust? | 0.855 | refused |
+```
+
+**Criterion 4.** Chunks by `chunker.py::split_documents`, checked by
+`scorer.py::one_chunk_answers`. This is the bus question's nearest chunk after
+the fix. It contains "LX", which is why criterion 1 counts it, and it never
+says the LX goes to Livingston, which is why criterion 4 doesn't:
+
+```
+THREAD: Little Rutgers things I wish I knew earlier.
+
+- F and EE buses go around College Ave from SAC --> Student Center --> Scott Hall. LX, H, and A buses go around College Ave from Student Center --> Scott Hall --> SAC. You can take a bus from Scott Hall to SAC and vice versa.
+```
+
+**Criterion 5.** The answer from `generate.py::answer_from_chunks`, the sources
+from `store.py::search`:
+
+```
+### Which food places near campus do students think are overrated? — run 1
+- Sources retrieved: dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt, food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt
+
+Based on the student posts, RU Hungry and Krispy Pizza are mentioned as overrated food spots, with students noting that places like RU Hungry and Hansel mostly get their hype from being eaten late at night while drunk (`food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt`). Additionally, one student mentioned feeling that some places get more hype than they deserve or have gone downhill (`dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt`).
+```
+
+Two files named, and both of them were retrieved.
 
 And where the answer-holding chunks rank now, from
 `python tools/answer_rank.py --variant lists`, saved in
