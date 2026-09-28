@@ -63,6 +63,17 @@ class RealPieces(unittest.TestCase):
             [68, 323, 225, 112, 195],
         )
 
+    def test_pieces_are_cut_from_the_thread_itself(self):
+        doc = next(
+            d for d in load_documents(config.CORPUS)
+            if d.source == "cs_little_rutgers_things_i_wish_i_knew_earlier.txt"
+        )
+        _header, segments = chunker._header_and_segments(doc.text)
+        pieces = (INTRO, RU_EXPRESS, BUS, PRINT_DRIVER, PRINT_RELEASE,
+                  BUS_DRIVERS, EDIT, REPLY_6, REPLY_7)
+        missing = [p[:40] for p in pieces if p not in segments]
+        self.assertEqual(missing, [])
+
 
 class ListItemsStayApart(unittest.TestCase):
     def test_bus_tip_is_not_glued_to_the_printer_tips(self):
@@ -91,7 +102,11 @@ class OtherMergesUnchanged(unittest.TestCase):
         self.assertEqual(merge(REPLY_6, REPLY_7), [f"{REPLY_6}\n\n{REPLY_7}"])
 
     def test_cap_still_wins(self):
-        self.assertEqual(merge(RU_EXPRESS, "x" * 450), [RU_EXPRESS, "x" * 450])
+        # The edit note is under the floor and isn't a list item, so only the
+        # cap can stop it joining the tip: 73 + 2 + 323 is past a cap of 350.
+        self.assertEqual(
+            chunker._merge_small([EDIT, RU_EXPRESS], FLOOR, 350), [EDIT, RU_EXPRESS]
+        )
 
 
 def merge_groups(pieces, merged):
