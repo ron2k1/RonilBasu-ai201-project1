@@ -967,6 +967,14 @@ And I know my five questions now. If I pick threads while knowing them, I'm
 writing the answers into the corpus. Doing it properly means writing a fresh
 set of test questions before the new harvest and measuring against those.
 
+**Criterion 2, still 4 of 5.** The miss is the gate refusing the WebReg
+question, so it has the same fix as criteria 1 and 4: a corpus that answers
+the question, which the harvester fix above would give it. I wouldn't fix it at
+the gate. Lowering the cutoff far enough to let 0.7443 through hands the model
+a professor's post about an online course, and putting a filename under the
+refusal cites a thread that says nothing. I stopped for the same two reasons
+as above.
+
 **The bus answer cites documents for saying nothing.** This is the problem I
 flagged under Verdicts, and the fix made it more visible, not less. All six
 bus answers, before and after, say the documents never mention the route and
