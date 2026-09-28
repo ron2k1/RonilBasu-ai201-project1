@@ -122,6 +122,10 @@ class Criterion1And4(unittest.TestCase):
         self.assertTrue(scorer.retrieved_has_answer("SERC", [BUS_CHUNK, SERC_CHUNK]))
         self.assertFalse(scorer.retrieved_has_answer("LX", [BUS_CHUNK]))
 
+    def test_revised_c1_needs_a_reading_not_just_the_phrase(self):
+        self.assertTrue(scorer.retrieved_answers("SERC", [BUS_CHUNK, SERC_CHUNK]))
+        self.assertFalse(scorer.retrieved_answers("LX", [BUS_CHUNK, LX_CHUNK]))
+
     def test_c4_hand_checked_yes(self):
         ok, unjudged = scorer.one_chunk_answers("SERC", [SERC_CHUNK])
         self.assertTrue(ok)
@@ -158,6 +162,7 @@ class Table(unittest.TestCase):
     def test_counts_per_criterion(self):
         rows = {row[0][:2]: row[2] for row in scorer.criteria_rows(self.run_data())}
         self.assertEqual(rows["1."], ["1/3"] * 3)
+        self.assertEqual(rows["1r"], ["1/3"] * 3)
         self.assertEqual(rows["2."], ["1/2"] * 3)      # the refusal is not scored
         self.assertEqual(rows["3."], ["2/3"] * 3)
         self.assertEqual(rows["4."], ["1/3"] * 3)

@@ -92,6 +92,9 @@ NAMES = {
     5: "5. Every source named was actually retrieved",
 }
 
+# The original stays in the table, the revision goes underneath it.
+REVISED_1 = "1r. Revised: a retrieved chunk, read on its own, answers"
+
 
 def _field(result, name):
     """Retrieved chunks arrive as store.Result objects live, or dicts from JSON."""
@@ -138,6 +141,16 @@ def citations_were_retrieved(answer, results) -> bool:
 def retrieved_has_answer(expects, results) -> bool:
     """Criterion 1. Some retrieved chunk contains the expects phrase."""
     return any(contains_expected(_field(r, "text"), expects) for r in results)
+
+
+def retrieved_answers(expects, results) -> bool:
+    """Criterion 1 as revised in unit 2: the phrase, in a chunk I read as answering.
+
+    The phrase alone was the wrong stand-in for "the answer" on two of my five
+    questions (see the revision in criteria.md). On my five questions this is
+    the same check as criterion 4, which is a finding, not an accident.
+    """
+    return one_chunk_answers(expects, results)[0]
 
 
 def _hand_check(result):
@@ -187,6 +200,7 @@ def criteria_rows(data) -> list[tuple[str, str, list[str]]]:
 
     return [
         (NAMES[1], TARGETS[1], count(lambda e: retrieved_has_answer(e["expects"], e["retrieved"]))),
+        (REVISED_1, TARGETS[1], count(lambda e: retrieved_answers(e["expects"], e["retrieved"]))),
         (NAMES[2], TARGETS[2], [c2(run) for run in runs]),
         (NAMES[3], TARGETS[3], [c3] * n_runs),
         (NAMES[4], TARGETS[4], count(lambda e: one_chunk_answers(e["expects"], e["retrieved"])[0])),

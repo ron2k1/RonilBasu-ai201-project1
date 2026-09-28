@@ -31,6 +31,24 @@ room for exactly that question and no other; 5 of 5 would mean my thinnest topic
 has to work as well as my thickest, which I do not believe, and 3 of 5 would let
 a second failure through without me having to explain it.
 
+> **Revised in unit 2:** For at least 4 of my 5 test questions, a retrieved
+> chunk contains the question's `expects` phrase inside a passage that, read on
+> its own, answers the question. The phrase turning up somewhere in the chunk
+> is not enough by itself.
+>
+> **Why revised:** When I built the scorer I used the `expects` phrase as the
+> stand-in for "the answer", since that is what I wrote those phrases for in
+> unit 1. Reading the corpus showed that stand-in failing in both directions on
+> my own questions. "P/NC" is the topic of question 2 rather than its answer,
+> so any chunk about Pass/No Credit would pass whether or not it said anything
+> worth thinking about. And the only "LX" in all 80 threads sits in "LX, H, and
+> A buses go around College Ave", which never says the LX goes to Livingston. A
+> chunk holding that sentence would pass the phrase check and still not answer
+> question 3. On the before run the phrase check and my reading agree, 3 of 5
+> both ways, so this revision changes no number I already had. It only stops
+> the check from counting a chunk that doesn't answer. The original target
+> stays at 4 of 5.
+
 ---
 
 ## 2. Every answer names a source
