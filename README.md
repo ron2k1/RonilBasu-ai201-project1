@@ -539,23 +539,111 @@ look like a filename that wasn't retrieved.
 
 ## Diagnoses
 
-<!-- For each miss: which stage caused it, and how. The stage alone isn't
-     enough — you need the mechanism.
+Criteria 1 and 4 both missed, on the same two questions, for the same reasons,
+so this is two diagnoses rather than four. The run log only shows the top five,
+which tells me a question missed but not by how much. So I ranked every chunk
+in the index against each question with `tools/answer_rank.py`, which is
+retrieval only and costs no model calls. The full output for all five is in
+`results/answer_rank_before.txt`. These are the two that missed:
 
-     Not a diagnosis: "Question 3 didn't work."
-     A diagnosis:     "Question 3 asks about laundry costs. The answer is in
-                       one sentence that got split across two chunks, so
-                       neither chunk on its own contains it."
+```
+Which bus do I take from College Avenue to Livingston?
+  expects 'LX': 1 of 853 chunks hold it (top 5 ends at 0.5436)
+  rank  18  0.6107  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#1
+            "LX, H, and A buses go around College Ave from Student Center --> Scott Hall --> SAC."
 
-     The five stages: loading → chunking → embedding → retrieval → generation.
+What can I do if the section I need is already closed on WebReg?
+  expects 'SPN': 1 of 853 chunks hold it (top 5 ends at 0.7985)
+  rank  11  0.8259  academics_anonymous_academic_advisor_here_ask_me_your_questions.txt#3
+            "Just know that if you are holding a seat, and SPNs were given for that class, that class has more students than what it should."
+```
 
-     Look for a pattern. If three misses all ask about numbers, that's one
-     problem, not three.
+The check the brief suggests for when you're stuck settles the first half of
+both. Print the chunks that came back, and if the answer isn't in any of them,
+the problem is before generation. It isn't in any of them. Generation did its
+job on both questions. Three runs out of three, the model said the documents
+never mention which bus to take from College Avenue to Livingston, instead of
+reaching for the LX from its own knowledge. The gate refused the WebReg
+question before the model ever saw it.
 
-     Missed nothing? Say so, then say honestly whether your targets were set
-     low, and which one you'd tighten and to what.
+### The bus question: loading first, then chunking
 
-     Milestone 3. -->
+The root is loading, meaning what my harvester collected. "LX" appears in
+exactly one sentence of the 80 threads: "LX, H, and A buses go around College
+Ave from Student Center --> Scott Hall --> SAC." That sentence is about which
+buses loop around College Ave. It never says the LX goes to Livingston, and
+nothing else in the corpus names the route. The three bus chunks that did come
+back are from one thread about a new route between Livingston and the stadium
+lot, and none of them names the LX either. There is no chunk in the index that
+a perfect retriever could hand the model for this question.
+
+Chunking made it worse. That sentence sits in a list post, "Little Rutgers
+things I wish I knew earlier", where every tip is its own paragraph. The bus tip
+is 225 characters, so it clears my 200 floor on its own. The two tips after it
+don't: printing from your laptop is 112 and print release stations is 195, and
+`_merge_small` in `chunker.py` folds anything under the floor into the chunk in
+front of it. So chunk #1 is one bus tip followed by two printer tips, and more
+than half of what the embedding model reads in it is about printers. It lands
+18th at 0.6107, when the fifth slot closes at 0.5436.
+
+This is the opposite of what I predicted when I wrote criterion 4. I expected
+my chunker to fail by cutting too small, with one person's answer split from a
+follow-up at a reply marker. That didn't happen on any of my five questions.
+The chunking fault the test actually found is the merge pass gluing unrelated
+things together, and it isn't a one-off: 30 chunks in the index hold two or
+more list items glued this way, out of 12 of the 80 threads. The floor was
+calibrated on Reddit replies, where anything under 200 characters really is a
+fragment. In a list post a 112-character tip is a complete thought.
+
+### The WebReg question: loading first, then embedding
+
+The root is loading again, in the same shape. "SPN" appears once in 80 threads,
+in an advisor's reply to someone asking whether dropping a class gives their
+seat away. It mentions SPNs to explain why the class stays closed, and never
+says a student can ask for one, which is the answer to my question. My
+registration topic is three threads and none of them covers it.
+
+Embedding is why the one mention can't be found. The question says section,
+closed and WebReg. The chunk says seat, science course, SPNs and closed.
+"Closed" is the only word they share, and SPN is a Rutgers abbreviation the
+embedding model has no meaning for, so it does nothing to pull the chunk toward
+a registration question. It ranks 11th at 0.8259.
+
+In unit 1 I wrote that this chunk is further from the question than four of my
+five out-of-scope questions are. Checking it properly now, it's two. 0.8259 is
+past Mongolia (0.778) and ibuprofen (0.818) and closer than the other three
+(0.841, 0.843, 0.859). The same sentence is in the comment above `TOP_K` in
+`config.py`. I'm leaving both as they were written and correcting it here.
+
+Reading the WebReg question's top five turned up something my scoring can't
+see. The third chunk, at 0.7783, is a student's launch post for a scheduling
+app. Its feature list includes "a course sniper" and "Seat alerts for closed
+sections", which is a real, if weak, answer to "what can I do if the section is
+closed". My `expects` phrase is "SPN", so neither version of criterion 1 counts
+it. I'm not changing the phrase now that I've seen it, because picking the
+answer after seeing what retrieval returned is exactly what writing `expects`
+in unit 1 was supposed to prevent. It does change the diagnosis. For this
+question retrieval did bring back something usable, and the gate refused the
+question anyway, because a cosine cutoff on the best chunk can't tell a
+0.7443 chunk that says nothing from a 0.7783 chunk that says something.
+
+### The pattern
+
+Both misses are one problem. Each answer is a Rutgers abbreviation, LX or SPN,
+that appears exactly once in 80 threads. Each time it's an aside inside a chunk
+about something else, in a sentence that doesn't actually state the answer. The
+three questions that passed all have their answer in a chunk whose whole
+subject is the question: a thread about 24-hour study spots, a Pass/No Credit
+FAQ, a list of overrated food. Students on r/rutgers don't write out the things
+every Rutgers student already knows, like which bus goes to Livingston, so my
+harvester collected threads that mention them in passing and never explain them.
+The embedding model can't make up the difference, because it has never seen LX
+or SPN and can only find those chunks through the words around them. Those
+words are about printers and dropping classes.
+
+The part of that I can change inside this unit is chunking. The corpus stays
+the corpus; adding threads that happen to answer my five questions would be
+writing the test's answers into the system.
 
 ## The Improvement
 
