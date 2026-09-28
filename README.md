@@ -368,27 +368,117 @@ rather than read the code and believe it.
 
 ## Run Log — Before
 
-<!-- Your five criteria, three runs each. `python run_eval.py --label before`
-     runs the questions, puts the OUT_OF_SCOPE ones through the gate, and
-     writes it all into results/ for you. Targets come from criteria.md; the
-     verdict column is your call.
+`python run_eval.py --label before`, run on 2026-09-28 at 02:37. Five questions,
+three runs each with caching off, then the five `OUT_OF_SCOPE` questions through
+the gate once. The full transcript is `results/run_2026-09-28_0237_before.md`.
+Every chunk it retrieved on every run is in the `.json` beside it, and
+`python scorer.py results/run_2026-09-28_0237_before.json` rebuilds this table
+from that file alone, with no index and no API key.
 
-     Criterion 3 is measured in one deterministic pass rather than three, so
-     the same number goes in all three run columns. That's correct, not lazy.
-
-     Milestone 1. -->
+I wrote `scorer.py` and committed it before this run existed (`e7bd157`), so the
+rule for what counts as a pass was fixed before there were results for it to
+fit.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunks contain the answer | 4 of 5 | 3/5 | 3/5 | 3/5 |  |
+| 2. Every answer names a source | every answer produced | 4/4 | 4/4 | 4/4 |  |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 |  |
+| 4. The answer fits inside one chunk | 4 of 5 | 3/5 | 3/5 | 3/5 |  |
+| 5. Every source named was actually retrieved | 5 of 5 | 5/5 | 5/5 | 5/5 |  |
 
-<!-- Underneath, paste the REAL output for each criterion from one of your
-     runs — the actual text your system produced, not a description of it.
-     Name the file and function that produced it. -->
+Criterion 2 is out of 4 because the gate refused the WebReg question on all
+three runs at 0.744, before the model ever saw it, and criterion 2 is about
+answers the system writes. I explain that call under Verdicts.
+
+Every count came out the same on all three runs, and the brief says to be
+suspicious of that. These are three real runs. `run_eval.py` passes
+`cache=False`, the session reported `12 model calls this session, 12555 tokens
+(11394 in, 1161 out)` with nothing served from cache, and the answers read
+differently each time: run 3 of the Busch question brings up residence lounges
+and the other two don't. The counts hold still because criteria 1, 3 and 4
+depend only on retrieval, which gives the same chunks every time. The two
+criteria that depend on the model held on all 12 answers it wrote.
+
+What the system actually printed, all from run 1 of
+`results/run_2026-09-28_0237_before.md`:
+
+**Criterion 1.** Retrieval by `store.py::search`, called from
+`run_eval.py::run_once` and written out by `run_eval.py::write_report`. One hit
+and the two misses:
+
+```
+### Where can I study on Busch campus late at night? — run 1
+- Best distance: 0.4377 (passed the gate)
+- Chunks, nearest first: `campus_why_no_24_hour_library.txt#2` 0.4377, `campus_why_no_24_hour_library.txt#0` 0.4725, `housing_ultimate_guide_to_on_campus_housing_for_continuing_student.txt#19` 0.4791, `food_general_things_new_students_should_know.txt#3` 0.4877, `food_general_things_new_students_should_know.txt#2` 0.5013
+
+### Which bus do I take from College Avenue to Livingston? — run 1
+- Best distance: 0.4533 (passed the gate)
+- Chunks, nearest first: `commuting_new_bus_route_just_dropped.txt#0` 0.4533, `commuting_new_bus_route_just_dropped.txt#2` 0.4773, `food_general_things_new_students_should_know.txt#3` 0.4947, `commuting_new_bus_route_just_dropped.txt#1` 0.5275, `cs_little_rutgers_things_i_wish_i_knew_earlier.txt#8` 0.5436
+
+### What can I do if the section I need is already closed on WebReg? — run 1
+- Best distance: 0.7443 (refused by the gate)
+- Chunks, nearest first: `commuting_professor_needing_student_advice_with_online_course_starts.txt#5` 0.7443, `registration_fall_2023_class_registration.txt#0` 0.7448, `registration_i_got_tired_of_using_six_different_rutgers_tools_to_plan_a.txt#0` 0.7783, `academics_help_am_i_gonna_graduate.txt#1` 0.7865, `commuting_professor_needing_student_advice_with_online_course_starts.txt#6` 0.7985
+```
+
+`campus_why_no_24_hour_library.txt#2` is Sample Chunk 2 from unit 1, the one
+that names SERC. None of the five bus chunks contains "LX" and none of the five
+WebReg chunks contains "SPN".
+
+**Criterion 2.** Answers by `generate.py::answer_from_chunks`, refusal by
+`gate.py::check`:
+
+```
+### Where can I study on Busch campus late at night? — run 1
+According to a student post on Busch, both the ARC and SERC are open 24 hours, and you can find an open classroom there, such as the second floor of SERC [from campus_why_no_24_hour_library.txt].
+
+### Which bus do I take from College Avenue to Livingston? — run 1
+Based on the provided documents, there is no mention of which bus to take from College Avenue to Livingston. 
+
+[from commuting_new_bus_route_just_dropped.txt, from food_general_things_new_students_should_know.txt, from cs_little_rutgers_things_i_wish_i_knew_earlier.txt]
+
+### What can I do if the section I need is already closed on WebReg? — run 1
+I don't have enough information about that.
+```
+
+**Criterion 3.** `run_eval.py::check_out_of_scope`, cutoff 0.6:
+
+```
+| Out-of-scope question | Best distance | Gate |
+|---|---|---|
+| What is the capital of Mongolia? | 0.778 | refused |
+| How do I change the oil in a diesel engine? | 0.841 | refused |
+| Who won the 1994 World Cup? | 0.843 | refused |
+| What is the recommended dosage of ibuprofen for a headache? | 0.818 | refused |
+| How do I write a for loop in Rust? | 0.859 | refused |
+```
+
+**Criterion 4.** Chunks by `chunker.py::split_documents`, checked by
+`scorer.py::one_chunk_answers`. This is
+`academics_pass_no_credit_faq_as_it_stands_right_now_way_before_the_p.txt#1`,
+fourth nearest for the Pass/No Credit question, and it is the one chunk all
+three of that question's answers were built from:
+
+```
+THREAD: Pass/No Credit FAQ as it stands right now way before the Provost puts it up
+
+Here’s the most important one for r/Rutgers: P/NC CLASSES WILL COUNT TOWARD MAJORS, PREREQUISITES, WHATEVER ELSE that only needs a C to happen. If you need a B, (Math300 CS, financial accounting) contact an advisor. The waters get murky with the B required rules. My source on this (the first part) is Dr. G himself. Consulting an advisor prior to making the decision is recommended
+
+Additional notes:
+```
+
+**Criterion 5.** The answer from `generate.py::answer_from_chunks`, the sources
+from `store.py::search`:
+
+```
+### Which food places near campus do students think are overrated? — run 1
+- Sources retrieved: dining_the_best_food_spots_on_near_campus_from_a_senior_foodie.txt, food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt
+
+Based on the student posts, RU Hungry is described as the "absolute KING of overrated cuisine" and is mostly hyped for late-night eating after the bars rather than for lunch [from food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt]. Additionally, Krispy Pizza is called overrated because a student feels its pizza is flavorless and tastes like cardboard [from food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt]. Another student also mentions that places like Hansel get much of their hype from being eaten at 2 AM when trashed rather than during sober hours [from food_the_most_overrated_food_spots_on_near_campus_by_a_very_cyn.txt].
+```
+
+Three citations, all to the same file, and that file is one of the two that
+were retrieved.
 
 ## Verdicts
 
