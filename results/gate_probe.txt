@@ -1,0 +1,31 @@
+cutoff 0.6, indexes: default, lists
+
+What time does the Busch dining hall close on weekends?
+  default  0.5245 passes  food_general_things_new_students_should_know.txt#1
+           "--- reply 1 (87 votes) --- Gaming Center is no more. I will not stand for misinformation on the demise of the beloved gaming center on Busch.  --- rep"
+  lists    0.5245 passes  food_general_things_new_students_should_know.txt#1
+           "--- reply 1 (87 votes) --- Gaming Center is no more. I will not stand for misinformation on the demise of the beloved gaming center on Busch.  --- rep"
+
+How do I replace a lost Rutgers ID card?
+  default  0.5334 passes  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#11
+           "- Everything you save onto a Rutgers computer is saved to that computer for 24 hours or the next time you log in to that computer. If you screw up and"
+  lists    0.5181 passes  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#31
+           "- Not really a Rutgers thing, but if you go to a food place a lot (Subway, Wendy's, etc), you can buy discounted gift cards online and use those to pa"
+
+When is the deadline to apply for graduation at Rutgers?
+  default  0.3971 passes  life_this_was_embarrassing.txt#5
+           "--- reply 6 (40 votes) --- They wanted to save money with this, respond with saving your own money when they ask for a donation.  That line should be "
+  lists    0.3971 passes  life_this_was_embarrassing.txt#5
+           "--- reply 6 (40 votes) --- They wanted to save money with this, respond with saving your own money when they ask for a donation.  That line should be "
+
+Which Rutgers gym has a swimming pool?
+  default  0.4779 passes  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#17
+           "--- reply 2 (10 votes) --- If you order from Amazon and don't want to deal with the campus mail system (anything scheduled for delivery on a weekend u"
+  lists    0.3840 passes  cs_little_rutgers_things_i_wish_i_knew_earlier.txt#15
+           "- There are bike repair and air pump stations on every campus, near the Busch Campus Center, Livi Plaza bus stop, Douglass Campus Center, and Au Bon P"
+
+How do I get a parking permit refund at Rutgers?
+  default  0.4173 passes  parking_parked_somewhere_for_less_than_30_seconds_got_out_of_my_ca.txt#2
+           "​  Basically, they ticketed me without my knowledge (because they don't print paper tickets, and I did not have a rutgers e-mail) then when I became a"
+  lists    0.4173 passes  parking_parked_somewhere_for_less_than_30_seconds_got_out_of_my_ca.txt#2
+           "​  Basically, they ticketed me without my knowledge (because they don't print paper tickets, and I did not have a rutgers e-mail) then when I became a"
