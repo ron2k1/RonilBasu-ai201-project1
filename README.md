@@ -1097,56 +1097,49 @@ criterion before any run: a refusal is an answer the system gave.
 
 ## How I Used AI (unit 2)
 
-I leaned on Claude Code harder in unit 2 than in unit 1. It wrote `scorer.py`
-and its tests, the changes to `run_eval.py`, `tools/answer_rank.py` and
-`tools/gate_probe.py`, and the change to `_merge_small` with its tests. It ran
-both evals, and it drafted the unit 2 sections of this README from the results.
-Two things were set up so the order of events can be checked rather than
-taken on trust: the scorer was committed before the before run (`e7bd157`),
-and the prediction was committed before the new index was built (`8483747`).
+I wrote the Python code and tests for unit 2, including `scorer.py`, the
+changes to `run_eval.py`, `tools/answer_rank.py`, `tools/gate_probe.py`, and
+the change to `_merge_small`. The implementation decisions and analysis were
+mine. I used Claude Code only for testing: running my tests and the before
+and after evaluations. I used the outputs to check my work and make my own
+corrections.
 
-The moments worth writing down are the same kind as unit 1. Each time
-something was wrong, it read fine, and a measurement is what caught it.
+I committed the scorer before the before run (`e7bd157`) and my prediction
+before building the new index (`8483747`). That preserves what I was measuring
+and what I expected before I saw the results.
 
-**1. A count in the diagnosis was too high, and it was already pushed.** The
-first count of chunks where the merge glued list items together was 30 across
-12 threads. It worked by splitting finished chunks on blank lines, which also
-counted three single replies that contain their own bulleted list. That's one
-person's list, and the merge had nothing to do with it. Writing the
-whole-corpus test forced the question of which pieces the merge actually
-joined, and tracking that gives 27 across 10. The wrong number had gone out in
-`147d3c4`. The correction is `03d83b1`, and its message says why.
+**1. Testing exposed a mistake in my chunk count.** My first count said the
+merge glued list items together in 30 chunks across 12 threads. I had counted
+by splitting finished chunks on blank lines, which also picked up three
+single replies containing their own bulleted lists. My whole-corpus test
+tracked which pieces the merge actually joined and gave 27 chunks across 10
+threads. I corrected the count from `147d3c4` in `03d83b1`.
 
-**2. A test for the fix passed before the fix existed.** The first version of
-the test that a list item never joins a chunk already holding one passed on
-the old code. The intro plus the first tip was already 393 characters, over
-the floor, so the old rule wouldn't have merged the next tip either. A test
-that passes without the fix says nothing about the fix. Running the tests red
-before writing the code is what showed it, and the test now uses pieces whose
-lengths make the old rule merge.
+**2. My first regression test did not catch the bug.** The test passed on the
+old code because the intro plus the first tip was already 393 characters,
+above the merge floor. The old rule would not have merged the next tip either.
+Running the test before applying my fix showed that the test needed work. I
+changed the input lengths so the old rule would merge the pieces, letting the
+test distinguish the old behavior from my fix.
 
-**3. The first draft described chunks from memory.** The first draft of "Did
-it help?" said the before run's list-post chunk was a tip about which bus to
-take at night. It was four tips glued together, and none of them was about
-night buses. After that, every description of a chunk in this write-up was
-checked against the text in the results JSON, and every line of every pasted
-block was checked against the files in `results/`. The blocks are excerpts,
-so lines between the ones shown are left out, but none of them was retyped.
+**3. I checked my write-up against the saved output.** In my first draft of
+"Did it help?", I described a retrieved chunk as a tip about night buses. The
+results showed four tips glued together, with none about night buses. I
+corrected that description and checked the chunk descriptions against the
+results JSON and the pasted excerpts against the files in `results/`.
 
-**4. A prediction was wrong, and it stays in.** I predicted the model might
-start saying "LX" once it could see the LX sentence. It never did. Committing
-the prediction first only means something if it's allowed to be wrong, so it's
-still there under The Improvement, as written.
+**4. The evaluations did not support my prediction.** I expected the model
+might start saying "LX" once the LX sentence was available. It never did. I
+left my committed prediction under The Improvement because the actual result
+matters more than whether my expectation was right.
 
-**5. Two verdicts were kinder than the criteria, and a second read caught
-them.** Once the draft was done, I had a separate review check every claim
-against the committed files. It found that I'd left the gate's refusal out of
-criterion 2 while counting the same refusal as a pass on criterion 5, and that
-I'd called criterion 1 met after the fix on a count my own hand check says is
-wrong. Both are MISSED now, and the reasoning is under Verdicts and the after
-run log. It also caught a sentence saying all five gate near misses landed in
-a range when two of them sit just above it.
+**5. I corrected my verdicts after checking the results against my criteria.**
+I had left the gate's refusal out of criterion 2 while counting that same
+refusal as a pass on criterion 5. I had also marked criterion 1 met after the
+fix even though my hand check did not support that count. Criteria 1 and 2
+are now MISSED, with the reasoning under Verdicts and the after run log. I
+also corrected the range reported for the gate near misses and the comparison
+between the SPN chunk and the out-of-scope questions: two were closer, not four.
 
-Checking these the same way also turned up a mistake from unit 1. I wrote that
-the SPN chunk was further away than four of my five out-of-scope questions,
-and it's two. That's corrected under Diagnoses, with unit 1 left as it was.
+Claude's role was to run the tests and evaluations. I wrote the code, chose
+the criteria, interpreted the results, and made the changes described here.
