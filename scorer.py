@@ -147,8 +147,9 @@ def retrieved_answers(expects, results) -> bool:
     """Criterion 1 as revised in unit 2: the phrase, in a chunk I read as answering.
 
     The phrase alone was the wrong stand-in for "the answer" on two of my five
-    questions (see the revision in criteria.md). On my five questions this is
-    the same check as criterion 4, which is a finding, not an accident.
+    questions (see the revision in criteria.md). It is the same function as
+    criterion 4, so the two rows can never disagree: one chunk that answers is
+    what criterion 4 already asked for.
     """
     return one_chunk_answers(expects, results)[0]
 
