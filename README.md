@@ -381,11 +381,16 @@ fit.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunks contain the answer | 4 of 5 | 3/5 | 3/5 | 3/5 |  |
-| 2. Every answer names a source | every answer produced | 4/4 | 4/4 | 4/4 |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 |  |
-| 4. The answer fits inside one chunk | 4 of 5 | 3/5 | 3/5 | 3/5 |  |
-| 5. Every source named was actually retrieved | 5 of 5 | 5/5 | 5/5 | 5/5 |  |
+| 1. Retrieved chunks contain the answer | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
+| 1r. Revised: a retrieved chunk, read on its own, answers | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
+| 2. Every answer names a source | every answer produced | 4/4 | 4/4 | 4/4 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. The answer fits inside one chunk | 4 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
+| 5. Every source named was actually retrieved | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+Row 1r is the revision of criterion 1 I made in `criteria.md`, written under the
+original. It came after this run and before any change to the system, and it
+gives the same count as the original. Why I made it is under Verdicts.
 
 Criterion 2 is out of 4 because the gate refused the WebReg question on all
 three runs at 0.744, before the model ever saw it, and criterion 2 is about
@@ -482,22 +487,55 @@ were retrieved.
 
 ## Verdicts
 
-<!-- MET or MISSED for each of the five, against the target you wrote last
-     unit — not a new one. Plus a sentence on how you decided. That sentence
-     matters most where it was close.
-
-     If your target said 4 of 5 and your runs came out 4, 3, 4, that's a MISS.
-     The target has to hold, not show up occasionally.
-
-     Milestone 2. -->
-
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunks contain the answer | MISSED | 3 of 5 on all three runs against a target of 4, and the revised version under it in `criteria.md` also gives 3 on all three. |
+| 2 | Every answer names a source | MET | All 12 answers the model wrote named a file. The one thing that named nothing was the gate's refusal, which the model never wrote. |
+| 3 | Gate stops out-of-corpus questions | MET | 5 of 5 against a target of 4, and the closest of them, Mongolia at 0.778, still cleared the cutoff by 0.178. |
+| 4 | The answer fits inside one chunk | MISSED | 3 of 5 on all three runs against a target of 4, missed on the same two questions as criterion 1. |
+| 5 | Every source named was actually retrieved | MET | Every filename in all 12 written answers is one that was retrieved for that question, which the target of 5 of 5 needed on every run. |
+
+I revised criterion 1 without lowering it. The count is 3 under both versions,
+so the revision rescued nothing. I made it because the phrase check in my
+scorer and the words of the criterion ("contains the answer") come apart on two
+of my five questions, in opposite directions, and the reasons are written out
+under the original in `criteria.md`. I wanted that settled before the after run
+rather than discovered in it. The original row stays in the run log with the
+revision under it.
+
+Criterion 2 is the call I'd expect someone to argue with, so I argued it myself.
+The case for MISSED is that the template's target says 5 of 5, and a student
+asking about WebReg gets "I don't have enough information about that" with no
+file named. From where they sit, that is the system's answer. The case for MET
+is what I wrote in unit 1: the reason under criterion 2 covers "every answer
+that gets produced at all", and it relies on the gate so the model never
+answers from nothing. The refusal comes from `gate.py`, not the model, and
+there is nothing for it to cite. A filename printed under a refusal would be
+citing a document that supports nothing. So I scored criterion 2 over the
+answers the model wrote, which is 4 of 4 on every run.
+
+The pass on criterion 2 I trust least is the bus question. All three runs said
+"there is no mention of which bus to take from College Avenue to Livingston" and
+then listed all three retrieved files. By the letter that names a source. What
+it actually does is cite three documents for the claim that none of them says
+anything. My grounding rule says to name the document the answer came from,
+and it has nothing to say for the case where no document is where the answer
+came from. The verdict stays MET because the criterion asks for a name and got
+one. The problem goes under What's Still Broken.
+
+Criterion 3 was never close. In unit 1 I set 4 of 5 so the Rust question had
+room to get through, and Rust came back furthest away of all. With the nearest
+out-of-scope question at 0.778 against a cutoff of 0.6, these five are too far
+from Rutgers to put the gate under any pressure. I come back to that under
+What I'd Do Differently.
+
+Criterion 5 held on 15 answers, but only 12 of them tested anything. The three
+refusals name no file, so they pass without trying. Of the 12 real ones, 8 cite
+with the exact `[from ...]` tag `build_prompt` puts in the prompt, and the other
+4 wrap the same filename in backticks. Either way the model was repeating a
+string it had just been handed. That's why it held, and it means this run
+never tried the case I wrote the criterion for, which is a question whose words
+look like a filename that wasn't retrieved.
 
 ## Diagnoses
 
