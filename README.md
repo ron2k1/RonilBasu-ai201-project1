@@ -590,10 +590,11 @@ This is the opposite of what I predicted when I wrote criterion 4. I expected
 my chunker to fail by cutting too small, with one person's answer split from a
 follow-up at a reply marker. That didn't happen on any of my five questions.
 The chunking fault the test actually found is the merge pass gluing unrelated
-things together, and it isn't a one-off: 30 chunks in the index hold two or
-more list items glued this way, out of 12 of the 80 threads. The floor was
-calibrated on Reddit replies, where anything under 200 characters really is a
-fragment. In a list post a 112-character tip is a complete thought.
+things together, and it isn't a one-off: 27 chunks in the index are two or
+more list items the merge pass glued together, across 10 of the 80 threads.
+The floor was calibrated on Reddit replies, where anything under 200
+characters really is a fragment. In a list post a 112-character tip is a
+complete thought.
 
 ### The WebReg question: loading first, then embedding
 
